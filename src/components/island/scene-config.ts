@@ -122,23 +122,6 @@ export const SCENE_ASSETS: readonly SceneAsset[] = [
     { x: 1120, y: 806 },
     "experience",
   ),
-  {
-    ...asset(
-      "ASSET-09",
-      "asset-09-lighting-atmospheric-fx-v2.png",
-      90,
-      { x: 0, y: 0, scale: 1 },
-      { x: 768, y: 512 },
-    ),
-    // Await the replacement source, but keep unvalidated effects invisible.
-    opacity: 0,
-    validation: {
-      staticComposition: "disabled",
-      parallax: false,
-      interaction: false,
-      ambient: false,
-    },
-  },
 ];
 
 export const SCENE_MOTION = { camera: false, fxBaseline: 0 } as const;

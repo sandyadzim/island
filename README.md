@@ -73,6 +73,15 @@ npm run preview
 
 ## Ocean animation
 
+The sailboat now has an eight-second CSS ambient cycle around its hull pivot,
+with ±0.75 logical stage px of bobbing and ±0.15° of rocking. Its static
+registration is unchanged. The shared control is labeled **Pause motion** and
+pauses both water and boat, including when hidden/offscreen. Reduced motion
+removes the boat animation and restores its neutral transform. Desktop motion
+extremes, mobile layout, shared pause/resume, and reduced motion were checked in
+Ego Lite. The missing, invisible ASSET-09 entry was removed from the active
+configuration so it no longer blocks readiness; eight existing images now load.
+
 The user authorized water motion separately on 7 October 2026. This supersedes
 the earlier static-only gate for the ocean; other asset motion remains disabled.
 `src/scripts/ocean-water.ts` refracts the existing ASSET-00 texture with overlapping

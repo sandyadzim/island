@@ -83,6 +83,7 @@ export function initOceanWater(root: HTMLElement): () => void {
     reduce.removeEventListener('change', sync);
     canvas!.removeAttribute('data-water-visible');
     canvas!.removeAttribute('data-water-state');
+    root.removeAttribute('data-marine-motion');
     toggle!.hidden = true;
     gl!.deleteTexture(texture);
     gl!.deleteBuffer(buffer);
@@ -137,9 +138,10 @@ export function initOceanWater(root: HTMLElement): () => void {
     if (disposed) return;
     const running = enabled && !reduce.matches && !document.hidden && onScreen;
     toggle!.disabled = reduce.matches;
-    toggle!.textContent = reduce.matches ? 'Water motion off' : enabled ? 'Pause water' : 'Resume water';
+    toggle!.textContent = reduce.matches ? 'Motion off' : enabled ? 'Pause motion' : 'Resume motion';
     toggle!.title = reduce.matches ? 'Reduced motion is enabled in your system settings' : '';
     canvas!.dataset.waterState = running ? 'running' : 'paused';
+    root.dataset.marineMotion = reduce.matches ? 'reduced' : running ? 'running' : 'paused';
     canvas!.toggleAttribute('data-water-visible', !reduce.matches);
     if (frame !== undefined) cancelAnimationFrame(frame);
     frame = undefined;

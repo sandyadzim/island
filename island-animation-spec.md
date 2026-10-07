@@ -1,5 +1,13 @@
 # Island Animation Specification
 
+## Authorized sailboat extension — 7 October 2026
+
+The user authorized ASSET-07 ambient motion after the ocean animation. The
+eight-second CSS cycle now uses the specified ±0.75 stage px bob and ±0.15°
+rotation around the registered hull pivot. It shares the water renderer's
+pause/visibility state and resets under reduced motion. All other landmarks
+remain stationary. The absent, invisible ASSET-09 source is no longer mounted.
+
 ## Authorized ocean extension — 7 October 2026
 
 The user explicitly approved animating the ocean after a WebGL shader was
