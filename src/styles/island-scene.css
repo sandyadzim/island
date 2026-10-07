@@ -1,0 +1,147 @@
+.island-scene {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+}
+
+.island-viewport {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  isolation: isolate;
+  background: #071a30;
+}
+
+/* The ocean fills the screen independently of the calibrated island stage. */
+.island-environment {
+  position: absolute;
+  inset: 0;
+}
+
+.island-environment .island-registration {
+  transform: none;
+}
+.island-environment img {
+  object-fit: cover;
+}
+
+.island-frame {
+  position: absolute;
+  z-index: 1;
+  right: var(--shell-gutter);
+  top: calc(
+    var(--header-space) + (100% - var(--header-space) - var(--menu-space)) / 2
+  );
+  width: min(
+    76vw,
+    calc((100svh - var(--header-space) - var(--menu-space)) * 1536 / 1056)
+  );
+  max-width: 1536px;
+  aspect-ratio: var(--viewport-ratio);
+  transform: translateY(-50%);
+}
+
+.island-responsive-scale,
+.island-camera,
+.island-layer,
+.island-registration,
+.island-parallax,
+.island-ambient,
+.island-interaction {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform-origin: 0 0;
+}
+
+/* The fallback and enhanced stage use the same logical registration space. */
+.island-responsive-scale {
+  top: var(--stage-top);
+  bottom: auto;
+  height: var(--stage-height);
+}
+
+.island-registration {
+  transform: translate(var(--registration-x), var(--registration-y))
+    scale(var(--registration-scale));
+}
+
+.island-interaction {
+  transform-origin: var(--pivot-x) var(--pivot-y);
+}
+.island-layer {
+  pointer-events: none;
+  mix-blend-mode: normal;
+}
+.island-layer img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  pointer-events: none;
+  user-select: none;
+}
+
+[data-scene-enhanced] .island-responsive-scale {
+  width: 1536px;
+  height: 1024px;
+  transform: scale(var(--scene-scale));
+}
+
+[data-scene-state="loading"] .island-responsive-scale,
+[data-scene-state="error"] .island-responsive-scale,
+[data-scene-state="loading"] .island-environment,
+[data-scene-state="error"] .island-environment {
+  visibility: hidden;
+}
+
+.scene-caption {
+  position: absolute;
+  z-index: 3;
+  left: var(--shell-gutter);
+  bottom: 1rem;
+  max-width: min(65ch, calc(100% - 2 * var(--shell-gutter)));
+  color: var(--color-text);
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.scene-status:not(:empty) {
+  padding: 0.75rem 1rem;
+  background: var(--color-page);
+}
+
+/* Fit the desktop island beside the card space without altering registration. */
+@media (min-width: 901px) and (min-height: 601px) {
+  .island-frame {
+    right: 1vw;
+    width: min(65vw, calc(88svh * 1536 / 1056));
+  }
+}
+
+@media (max-width: 900px) {
+  .island-frame {
+    top: var(--header-space);
+    right: 50%;
+    width: min(
+      100vw,
+      calc((100svh - var(--header-space) - var(--menu-space)) * 1536 / 1056)
+    );
+    transform: translateX(50%);
+  }
+}
+
+@media (max-height: 600px) and (min-aspect-ratio: 4/3) {
+  .island-frame {
+    top: calc(
+      var(--header-space) + (100% - var(--header-space) - var(--menu-space)) / 2
+    );
+    right: var(--shell-gutter);
+    width: min(
+      72vw,
+      calc((100svh - var(--header-space) - var(--menu-space)) * 1536 / 1056)
+    );
+    transform: translateY(-50%);
+  }
+}

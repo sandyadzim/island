@@ -1,0 +1,45 @@
+---
+import IslandLayer from './IslandLayer.astro';
+import { SCENE_ASSETS, SCENE_HEADROOM, STAGE } from './scene-config';
+import '../../styles/island-scene.css';
+---
+<figure
+  class="island-scene"
+  data-island-scene
+  data-scene-state="static"
+  style={`--viewport-ratio:${STAGE.width} / ${STAGE.height + SCENE_HEADROOM};--stage-top:${SCENE_HEADROOM / (STAGE.height + SCENE_HEADROOM) * 100}%;--stage-height:${STAGE.height / (STAGE.height + SCENE_HEADROOM) * 100}%`}
+>
+  <div class="island-viewport" aria-hidden="true">
+    <div class="island-environment">
+      {SCENE_ASSETS.filter((asset) => asset.id === 'ASSET-00').map((asset) => <IslandLayer asset={asset} />)}
+    </div>
+    <div class="island-frame" data-scene-viewport>
+      <div class="island-responsive-scale">
+        <div class="island-camera">
+          {SCENE_ASSETS.filter((asset) => asset.id !== 'ASSET-00').map((asset) => <IslandLayer asset={asset} />)}
+        </div>
+      </div>
+    </div>
+  </div>
+  <figcaption class="scene-caption">
+    <p class="sr-only">An island at dusk.</p>
+    <p class="scene-status" data-scene-status role="status" aria-live="polite" aria-atomic="true"></p>
+  </figcaption>
+</figure>
+
+<script>
+  import { initIslandScene } from '../../scripts/island-controller';
+
+  let disposers: Array<() => void> = [];
+  function initialize() {
+    disposers = Array.from(document.querySelectorAll<HTMLElement>('[data-island-scene]'), initIslandScene);
+  }
+  initialize();
+  window.addEventListener('pagehide', () => {
+    disposers.forEach((dispose) => dispose());
+    disposers = [];
+  });
+  window.addEventListener('pageshow', (event) => {
+    if (event.persisted) initialize();
+  });
+</script>

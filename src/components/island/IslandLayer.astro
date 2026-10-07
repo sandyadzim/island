@@ -1,0 +1,34 @@
+---
+import type { SceneAsset } from "./scene-config";
+import { STAGE } from "./scene-config";
+import { registrationStyle } from "../../utils/scene-geometry";
+interface Props {
+  asset: SceneAsset;
+}
+const { asset } = Astro.props;
+---
+
+<div
+  class="island-layer"
+  data-asset-id={asset.id}
+  data-destination={asset.destination}
+  style={`z-index:${asset.zIndex};opacity:${asset.opacity};${registrationStyle(asset.registration, asset.pivot)}`}
+>
+  <div class="island-registration">
+    <div class="island-parallax">
+      <div class="island-ambient">
+        <div class="island-interaction">
+          <img
+            src={asset.url}
+            width={STAGE.width}
+            height={STAGE.height}
+            alt=""
+            loading="eager"
+            decoding="async"
+            draggable="false"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
