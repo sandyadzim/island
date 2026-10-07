@@ -14,7 +14,7 @@ export function initIslandScene(root: HTMLElement): () => void {
 
   const status = root.querySelector<HTMLElement>('[data-scene-status]');
   const viewport = root.querySelector<HTMLElement>('[data-scene-viewport]');
-  const images = Array.from(root.querySelectorAll<HTMLImageElement>('.island-layer img'));
+  const images = Array.from(root.querySelectorAll<HTMLImageElement>('.island-interaction > img'));
   const abort = new AbortController();
   let disposed = false;
   let resizeObserver: ResizeObserver | undefined;

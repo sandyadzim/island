@@ -6,6 +6,10 @@ interface Props {
   asset: SceneAsset;
 }
 const { asset } = Astro.props;
+// Chimney openings measured in the original full-canvas illustrations.
+const smokeSource = asset.id === 'ASSET-02'
+  ? { x: 804, y: 257, phase: 0.5 }
+  : asset.id === 'ASSET-03' ? { x: 527, y: 282, phase: 0 } : undefined;
 ---
 
 <div
@@ -27,6 +31,27 @@ const { asset } = Astro.props;
             decoding="async"
             draggable="false"
           />
+          {smokeSource && (
+            <div
+              class="workshop-smoke"
+              aria-hidden="true"
+              style={`left:${smokeSource.x / STAGE.width * 100}%;top:${smokeSource.y / STAGE.height * 100}%`}
+            >
+              {Array.from({ length: 8 }, (_, index) => (
+                <span class="workshop-smoke-puff" style={`animation-delay:${-(index + smokeSource.phase)}s`}>
+                  <img
+                    class="workshop-smoke-art"
+                    src="/assets/island/workshop-smoke-puff.png"
+                    alt=""
+                    width="1448"
+                    height="1086"
+                    decoding="async"
+                    draggable="false"
+                  />
+                </span>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>

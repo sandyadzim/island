@@ -73,6 +73,20 @@ npm run preview
 
 ## Ocean animation
 
+The workshop chimney also emits eight staggered illustrated smoke puffs.
+The creator's house reuses the same sprite and animation, anchored at source
+point (804, 257), with a half-second phase offset from the workshop. Both chimney
+origins were checked in desktop close-ups and mobile layouts.
+Their anchor is (527, 282) in ASSET-03 source coordinates, inside the same
+registration/interaction wrappers as the workshop image. Each puff rises,
+drifts slightly right, expands, and fades over eight seconds. A transparent
+faceted smoke sprite replaces the earlier CSS gradients to match the low-poly
+artwork; the workshop image and building transforms are preserved. See
+[smoke-asset-production.md](smoke-asset-production.md) for its generation prompt.
+Smoke shares Pause motion, visibility suspension,
+and reduced-motion behavior. Desktop close-up and mobile alignment were checked
+in Ego Lite; computed mobile placement matches the scaled chimney coordinates.
+
 The sailboat now has an eight-second CSS ambient cycle around its hull pivot,
 with ±0.75 logical stage px of bobbing and ±0.15° of rocking. Its static
 registration is unchanged. The shared control is labeled **Pause motion** and

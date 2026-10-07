@@ -135,10 +135,55 @@
   75% { transform: translateY(calc(0.75px / var(--registration-scale))) rotate(0.15deg); }
 }
 
+/* Emitters inherit their house transforms, using source-image chimney points
+   in IslandLayer. Only the decorative puffs move, never the buildings. */
+.workshop-smoke {
+  position: absolute;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.workshop-smoke-puff {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 48px;
+  height: 40px;
+  opacity: 0;
+  transform-origin: 50% 100%;
+}
+
+.island-layer .workshop-smoke-art { object-fit: contain; }
+.workshop-smoke-puff:nth-child(3n) .workshop-smoke-art { transform: scaleX(-1) rotate(-12deg); }
+.workshop-smoke-puff:nth-child(3n + 1) .workshop-smoke-art { transform: rotate(8deg); }
+
+[data-marine-motion="running"] .workshop-smoke-puff,
+[data-marine-motion="paused"] .workshop-smoke-puff {
+  animation-name: chimney-smoke;
+  animation-duration: 8s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+[data-marine-motion="paused"] .workshop-smoke-puff { animation-play-state: paused; }
+
+@keyframes chimney-smoke {
+  0% { transform: translate(-50%, -100%) scale(0.35); opacity: 0; }
+  10% { transform: translate(calc(-50% + 1px), calc(-100% - 7px)) scale(0.55); opacity: 0.6; }
+  35% { transform: translate(calc(-50% + 5px), calc(-100% - 40px)) scale(1); opacity: 0.48; }
+  65% { transform: translate(calc(-50% + 20px), calc(-100% - 94px)) scale(1.8); opacity: 0.24; }
+  100% { transform: translate(calc(-50% + 42px), calc(-100% - 160px)) scale(2.6); opacity: 0; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   [data-marine-motion] [data-asset-id="ASSET-07"] .island-ambient {
     animation: none;
     transform: none;
+  }
+  [data-marine-motion] .workshop-smoke-puff {
+    animation: none;
+    opacity: 0;
   }
 }
 
