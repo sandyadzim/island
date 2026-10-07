@@ -2,6 +2,7 @@
 import type { SceneAsset } from "./scene-config";
 import { STAGE } from "./scene-config";
 import { registrationStyle } from "../../utils/scene-geometry";
+import { SCENE_LIGHTS } from './scene-lights';
 interface Props {
   asset: SceneAsset;
 }
@@ -31,6 +32,13 @@ const smokeSource = asset.id === 'ASSET-02'
             decoding="async"
             draggable="false"
           />
+          {(SCENE_LIGHTS[asset.id] ?? []).map(([x, y, width, height], index) => (
+            <span
+              class="scene-light-glow"
+              aria-hidden="true"
+              style={`left:${x / STAGE.width * 100}%;top:${y / STAGE.height * 100}%;width:${width / STAGE.width * 100}%;height:${height / STAGE.height * 100}%;--light-duration:${7.3 + (index * 7 + Number(asset.id.slice(-2))) % 11 * 0.47}s;--light-delay:${-((index * 1.73 + Number(asset.id.slice(-2)) * 2.19) % 13)}s;--light-direction:${index % 2 ? 'reverse' : 'normal'}`}
+            ></span>
+          ))}
           {smokeSource && (
             <div
               class="workshop-smoke"

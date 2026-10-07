@@ -1,5 +1,17 @@
 # Island Animation Specification
 
+## Authorized lantern and house-light extension — 7 October 2026
+
+The user authorized subtle warm flicker for existing lanterns and house lights.
+Source-space glow centers/footprints are recorded in `scene-lights.ts`; overlays
+inherit static asset registration and depth. This overrides earlier restrictions
+on independent illumination for these mapped sources. Only glow opacity varies
+between 0.12 and 0.75 with 3.50–5.76 second cycles, independent phases, and a
+1.8× glow footprint, following manual intensity calibration. The temporary
+comparison toggle has been removed.
+No full-building brightness, flashing, new bitmap, positional motion, or flicker
+timer is introduced. Shared pause/visibility gates and reduced motion apply.
+
 ## Creator house smoke extension — 7 October 2026
 
 The user authorized the same illustrated chimney smoke on ASSET-02. Its emitter

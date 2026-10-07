@@ -55,6 +55,7 @@
 
 .water-motion-toggle:disabled { cursor: default; color: var(--color-muted); }
 
+
 @media (prefers-reduced-motion: reduce) {
   .ocean-water[data-water-visible] { visibility: hidden; }
 }
@@ -176,12 +177,43 @@
   100% { transform: translate(calc(-50% + 42px), calc(-100% - 160px)) scale(2.6); opacity: 0; }
 }
 
+/* Source-aligned glows: opacity only, with independent cycles.
+   Screen blending preserves the painted light cores and window frame detail. */
+.scene-light-glow {
+  position: absolute;
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(1.8);
+  opacity: 0;
+  mix-blend-mode: screen;
+  background: radial-gradient(ellipse,
+    rgb(255 221 156 / 65%) 0%,
+    rgb(255 191 89 / 45%) 22%,
+    rgb(245 140 42 / 18%) 48%,
+    rgb(245 140 42 / 0%) 72%);
+}
+
+[data-marine-motion="running"] .scene-light-glow,
+[data-marine-motion="paused"] .scene-light-glow {
+  animation: lantern-shimmer calc(var(--light-duration) * 0.48) ease-in-out var(--light-delay) infinite var(--light-direction);
+}
+
+[data-marine-motion="paused"] .scene-light-glow { animation-play-state: paused; }
+
+@keyframes lantern-shimmer {
+  0%, 100% { opacity: 0.12; }
+  50% { opacity: 0.75; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   [data-marine-motion] [data-asset-id="ASSET-07"] .island-ambient {
     animation: none;
     transform: none;
   }
   [data-marine-motion] .workshop-smoke-puff {
+    animation: none;
+    opacity: 0;
+  }
+  [data-marine-motion] .scene-light-glow {
     animation: none;
     opacity: 0;
   }

@@ -73,6 +73,17 @@ npm run preview
 
 ## Ocean animation
 
+Lanterns and illuminated windows now have 53 small, source-aligned amber glow
+overlays, configured in `src/components/island/scene-lights.ts`. They inherit
+their image registration and layer order; base glows remain behind foreground
+buildings. After manual review, the glows use a 1.8× footprint, 0.12–0.75 opacity,
+different phases/directions, and 3.50–5.76 second cycles. The temporary comparison
+toggle has been removed. Original image brightness
+and building geometry stay fixed. Shared Pause motion freezes the glows, and
+reduced motion removes them, preserving the painted lights. Desktop/mobile
+alignment, independent opacity changes, pause, and reduced motion were checked
+in Ego Lite. Astro check/build pass. No new image or dependency is needed.
+
 The workshop chimney also emits eight staggered illustrated smoke puffs.
 The creator's house reuses the same sprite and animation, anchored at source
 point (804, 257), with a half-second phase offset from the workshop. Both chimney
