@@ -1,0 +1,30 @@
+---
+import { SCENE_ASSETS, STAGE } from './scene-config';
+import { registerPoint } from '../../utils/scene-geometry';
+const lighthouse = SCENE_ASSETS.find((asset) => asset.id === 'ASSET-06')!;
+const lamp = registerPoint({ x: 1174, y: 361 }, lighthouse.registration);
+---
+
+<div
+  class="lighthouse-beam-origin"
+  style={`left:${lamp.x / STAGE.width * 100}%;top:${lamp.y / STAGE.height * 100}%`}
+  aria-hidden="true"
+>
+  {[0, 1].map((index) => (
+  <svg class="lighthouse-beam-sweep" data-lighthouse-beam={index === 0 ? 'front' : 'back'} viewBox="0 -150 1400 300" width="1400" height="300" overflow="visible">
+    {index === 0 && <defs>
+      <linearGradient id="lighthouse-beam-fade" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1400" y2="0">
+        <stop offset="0" stop-color="#fff2cd" stop-opacity="0.75" />
+        <stop offset="0.12" stop-color="#ffe3a6" stop-opacity="0.5" />
+        <stop offset="0.5" stop-color="#ffe2aa" stop-opacity="0.3" />
+        <stop offset="0.78" stop-color="#ffe2aa" stop-opacity="0.12" />
+        <stop offset="1" stop-color="#ffe2aa" stop-opacity="0" />
+      </linearGradient>
+      <filter id="lighthouse-beam-soften" x="-10%" y="-30%" width="120%" height="160%" color-interpolation-filters="sRGB">
+        <feGaussianBlur stdDeviation="11" />
+      </filter>
+    </defs>}
+    <path d="M 0 0 L 1400 -150 L 1400 150 Z" fill="url(#lighthouse-beam-fade)" filter="url(#lighthouse-beam-soften)" />
+  </svg>
+  ))}
+</div>

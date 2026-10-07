@@ -73,6 +73,20 @@ npm run preview
 
 ## Ocean animation
 
+The lighthouse has two opposing, tapered SVG beams anchored to source lamp point
+(1174, 361), registered into the shared island stage. A 32-second rotation
+projects a small 360 × 220 stage-px elliptical sweep around the lighthouse and
+dock, widening toward the viewer. After visual refinement, both beams stay
+visible: the rear beam is narrower and slightly dimmer. After manual review of
+house occlusion, lower gradient/beam opacity and more edge softness replace the
+solid treatment so the building silhouette's cutoff is less conspicuous.
+It sits above nearby terrain and behind all buildings, keeping the source
+occluded by the tower. SVG gradient/edge softness are static;
+only transform and opacity update on the existing capped water-rendering clock.
+Pause, hidden/offscreen suspension, reduced motion, and renderer cleanup apply.
+Desktop/mobile origin alignment and motion controls were verified in Ego Lite.
+No new bitmap or dependency is needed.
+
 Lanterns and illuminated windows now have 53 small, source-aligned amber glow
 overlays, configured in `src/components/island/scene-lights.ts`. They inherit
 their image registration and layer order; base glows remain behind foreground

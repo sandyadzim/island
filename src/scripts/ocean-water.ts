@@ -53,6 +53,7 @@ export function initOceanWater(root: HTMLElement): () => void {
   const canvas = root.querySelector<HTMLCanvasElement>('[data-ocean-water]');
   const image = root.querySelector<HTMLImageElement>('[data-asset-id="ASSET-00"] img');
   const toggle = root.querySelector<HTMLButtonElement>('[data-water-motion-toggle]');
+  const beams = Array.from(root.querySelectorAll<SVGSVGElement>('[data-lighthouse-beam]'));
   if (!canvas || !image || !toggle) return () => {};
   const gl = canvas.getContext('webgl', { alpha: false, antialias: false, depth: false, powerPreference: 'low-power' });
   if (!gl) return () => {};
@@ -84,6 +85,10 @@ export function initOceanWater(root: HTMLElement): () => void {
     canvas!.removeAttribute('data-water-visible');
     canvas!.removeAttribute('data-water-state');
     root.removeAttribute('data-marine-motion');
+    beams.forEach((beam) => {
+      beam.style.removeProperty('transform');
+      beam.style.removeProperty('opacity');
+    });
     toggle!.hidden = true;
     gl!.deleteTexture(texture);
     gl!.deleteBuffer(buffer);
@@ -107,6 +112,20 @@ export function initOceanWater(root: HTMLElement): () => void {
   function draw() {
     gl!.uniform1f(time, elapsed);
     gl!.drawArrays(gl!.TRIANGLES, 0, 6);
+    beams.forEach((beam, index) => {
+      // A circle projected onto the local ground plane becomes an ellipse. Projecting
+      // its endpoint keeps the sweep continuous and the lamp origin stationary.
+      const phase = elapsed * Math.PI * 2 / 32 + index * Math.PI;
+      const depth = Math.sin(phase);
+      const x = -Math.cos(phase) * 360;
+      const y = depth * 220;
+      const length = Math.hypot(x, y);
+      const angle = Math.atan2(y, x) * 180 / Math.PI;
+      const front = Math.max(0, depth);
+      beam.style.transform = `rotate(${angle}deg) scale(${length / 1400}, ${0.2 + front * 0.15})`;
+      // Rear light stays visible, slightly narrower and dimmer than the front.
+      beam.style.opacity = String(0.32 + front * 0.14);
+    });
   }
 
   function measure() {

@@ -118,6 +118,30 @@
   user-select: none;
 }
 
+/* Above terrain (z=10), behind every building (z=20+). The apex is the lamp's
+   registered source point, not the center of its transparent image canvas. */
+.lighthouse-beam-origin {
+  position: absolute;
+  z-index: 15;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+[data-marine-motion="running"] .lighthouse-beam-origin,
+[data-marine-motion="paused"] .lighthouse-beam-origin { visibility: visible; }
+
+.lighthouse-beam-sweep {
+  position: absolute;
+  left: 0;
+  top: -150px;
+  width: 1400px;
+  height: 300px;
+  transform-origin: 0 150px;
+  opacity: 0;
+}
+
 /* Ambient wrapper owns boat motion; registration and interaction stay separate.
    Compensate for the asset's 0.28 registration scale to bob ±0.75 stage px. */
 [data-marine-motion="running"] [data-asset-id="ASSET-07"] .island-ambient,
@@ -205,6 +229,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  [data-marine-motion] .lighthouse-beam-origin { visibility: hidden; }
   [data-marine-motion] [data-asset-id="ASSET-07"] .island-ambient {
     animation: none;
     transform: none;

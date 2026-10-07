@@ -1,5 +1,20 @@
 # Island Animation Specification
 
+## Authorized lighthouse beam extension — 7 October 2026
+
+The user authorized a rotating lighthouse beam and subsequently requested two
+opposing beams. Following review of the visible house cutoff, the beams now
+use a softer translucent treatment (0.32–0.46 opacity and 11 source-px edge blur)
+in place of the solid treatment. This overrides the earlier
+no-beam restriction for ASSET-06. The SVG emitter uses source lamp point
+(1174, 361) after registration. After the user's scope refinement, its endpoint
+follows a small projected 360 × 220 stage-px ellipse in a 32-second loop; the far
+half stays visible, narrower and dimmer. The two beams are phase-offset by π
+and render above nearby terrain (z=15) but behind all buildings (z=20+),
+without moving the lighthouse. Its transform and
+opacity share the water's rendering clock and pause/visibility gates; reduced
+motion hides it. No image asset is added.
+
 ## Authorized lantern and house-light extension — 7 October 2026
 
 The user authorized subtle warm flicker for existing lanterns and house lights.
