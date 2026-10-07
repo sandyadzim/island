@@ -10,6 +10,14 @@ The island is a navigation experience alongside accessible text navigation and s
 
 ## Current scope amendments — 7 October 2026
 
+The user subsequently authorized ocean animation. An independent WebGL canvas
+now refracts the existing ASSET-00 background, below the fixed island layers,
+with source-space masks for sky and embedded rocks. It includes a persistent
+pause control, live reduced-motion handling, hidden/offscreen suspension, and
+static-image fallback. This overrides the earlier static-only requirement for
+water; navigation, landmark motion, and ASSET-09 remain deferred. See the
+README ocean-animation section for implementation and validation limits.
+
 Phase 1 is complete. Its original delivery was the ten-layer, centered 3:2 scene with a minimal semantic shell. Subsequent user instructions supersede those rendering requirements:
 
 - Render eight assets, ASSET-00 through ASSET-07. Preserve all ten original and public PNGs. ASSET-08 and ASSET-09 are removed from markup, requests, and readiness checks; replacement FX is deferred to a separate request.

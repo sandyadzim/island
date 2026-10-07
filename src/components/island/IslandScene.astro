@@ -12,6 +12,7 @@ import '../../styles/island-scene.css';
   <div class="island-viewport" aria-hidden="true">
     <div class="island-environment">
       {SCENE_ASSETS.filter((asset) => asset.id === 'ASSET-00').map((asset) => <IslandLayer asset={asset} />)}
+      <canvas class="ocean-water" data-ocean-water></canvas>
     </div>
     <div class="island-frame" data-scene-viewport>
       <div class="island-responsive-scale">
@@ -25,6 +26,7 @@ import '../../styles/island-scene.css';
     <p class="sr-only">An island at dusk.</p>
     <p class="scene-status" data-scene-status role="status" aria-live="polite" aria-atomic="true"></p>
   </figcaption>
+  <button class="water-motion-toggle" data-water-motion-toggle type="button" hidden>Pause water</button>
 </figure>
 
 <script>

@@ -1,6 +1,6 @@
 # Island Portfolio
 
-A static Astro scene currently displaying eight of the supplied PNG layers, with a ninth
+A layered Astro scene currently displaying eight of the supplied PNG layers, with a ninth
 replacement FX source mounted invisibly.
 Phase 1 delivered the responsive scene, image readiness/error handling, and a
 minimal semantic page shell. The full-screen layout is a separately requested
@@ -38,8 +38,10 @@ npm run preview
   from rendering. All ten original/public asset files remain preserved.
 - **Post-Phase-1 layout extension — complete:** full-screen backdrop and empty
   named layout slots. This does not complete Phase 2 navigation or Phase 3 UI.
+- **Ocean animation — complete:** an independent WebGL water renderer uses the
+  existing background, with a pause control and reduced-motion support.
 - **Later phases — pending:** real controls, navigation/history, section content,
-  panels, motion preferences, motion validation, and performance profiling.
+  panels, other scene motion, and device performance profiling.
 
 ## Current scene contract
 
@@ -67,7 +69,28 @@ npm run preview
   readiness work, disconnects resizing, clears timers/frames, and restores the
   CSS-only scene. Page hide/show handles the browser back-forward cache.
 - GSAP is installed for later phases but is neither imported nor bundled here.
-  Navigation, panels, portfolio content, and all motion are deferred.
+  Navigation, panels, portfolio content, and landmark motion are deferred.
+
+## Ocean animation
+
+The user authorized water motion separately on 7 October 2026. This supersedes
+the earlier static-only gate for the ocean; other asset motion remains disabled.
+`src/scripts/ocean-water.ts` refracts the existing ASSET-00 texture with overlapping
+waves, increasing displacement toward the foreground. Source-space exclusion
+zones protect the embedded rocks, and the horizon/sky remain static. These are
+soft approximate masks, not a separately painted segmentation asset.
+
+The canvas shares the background's centered cover fitting and sits below the
+island layers. No new artwork, image edits, dependencies, or island transforms
+were needed. Rendering is capped at 30 fps and 1600 × 1200, with pixel density
+capped at 1.5. Work pauses when hidden or offscreen. The visible Pause water
+control remembers the user's choice; system reduced motion always takes priority.
+Unsupported WebGL, setup failure, and context loss retain the original image.
+
+Validation: Astro check/build and all 11 existing tests pass. Ego Lite checks
+confirmed animated ocean pixels, static sampled sky/rock interiors, pause/resume,
+live reduced-motion changes, a 390 × 844 viewport, and context-loss fallback.
+Ordinary mobile-device frame-rate profiling remains unverified.
 
 See [phase-1-calibration.md](phase-1-calibration.md) for registration measurements,
 visual limitations, and validation results. The technical specification records
@@ -81,5 +104,5 @@ The user separately authorized replacement FX generation after Phase 1.
 1536 × 1024 transparent candidate. It is now mounted as ASSET-09 at z-index 90, identity registration, and opacity
 zero, with static validation disabled. Nine sources are requested and decoded;
 eight are visible. Generation still shows registration drift and broad glow, so
-exact-fit acceptance has not passed. The original FX file is preserved and all
+exact-fit acceptance has not passed. The original FX file is preserved and FX
 motion remains disabled. See [the generation and validation record](output/asset-09/README.md).

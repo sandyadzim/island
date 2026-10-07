@@ -1,0 +1,202 @@
+/** Water-only refraction of the original painting; no changes to island transforms. */
+const VERTEX = `
+attribute vec2 a_position;
+varying vec2 v_uv;
+void main() {
+  v_uv = vec2(a_position.x * .5 + .5, .5 - a_position.y * .5);
+  gl_Position = vec4(a_position, 0., 1.);
+}`;
+
+const FRAGMENT = `
+precision highp float;
+uniform sampler2D u_image;
+uniform vec2 u_cover;
+uniform vec2 u_texel;
+uniform float u_time;
+varying vec2 v_uv;
+
+// Soft exclusion zones measured in the original 1536 × 1024 painting.
+// They protect the silhouettes and shoreline of the embedded rocks.
+float rock(vec2 uv, vec2 center, vec2 radius) {
+  return smoothstep(.9, 1.15, length((uv - center) / radius));
+}
+
+void main() {
+  vec2 uv = (v_uv - .5) * u_cover + .5;
+  float water = smoothstep(.195, .26, uv.y);
+  water *= rock(uv, vec2(.184, .269), vec2(.068, .048));
+  water *= rock(uv, vec2(.363, .217), vec2(.03, .025));
+  water *= rock(uv, vec2(.137, .215), vec2(.029, .018));
+  water *= rock(uv, vec2(.948, .319), vec2(.036, .027));
+  float depth = smoothstep(.19, 1., uv.y);
+  float t = u_time;
+  // Three overlapping waves avoid a uniform sliding or rubber-sheet effect.
+  float swell = sin(uv.y * 115. - t * .85 + sin(uv.x * 19. + t * .27));
+  float ripple = sin(uv.y * 238. + uv.x * 31. + t * 1.15);
+  float cross = sin(uv.x * 86. - uv.y * 45. + t * .65);
+  vec2 offset = vec2(
+    swell * (2. + depth * 3.5) + ripple * 1.3,
+    cross * (.5 + depth * 1.2) + ripple * .45
+  ) * u_texel * water * smoothstep(0., 2., t);
+  // Fade displacement at the texture boundary so cover never exposes an edge.
+  offset *= smoothstep(0., .015, min(min(uv.x, 1. - uv.x), min(uv.y, 1. - uv.y)));
+  vec4 color = texture2D(u_image, clamp(uv + offset, u_texel * .5, 1. - u_texel * .5));
+  // Modulate existing highlights rather than painting new lights over the art.
+  float highlight = smoothstep(.12, .48, max(color.r, color.g));
+  color.rgb *= 1. + water * highlight * .035 * ripple * smoothstep(0., 2., t);
+  gl_FragColor = color;
+}`;
+
+const STORAGE_KEY = 'island-water-motion';
+
+export function initOceanWater(root: HTMLElement): () => void {
+  const canvas = root.querySelector<HTMLCanvasElement>('[data-ocean-water]');
+  const image = root.querySelector<HTMLImageElement>('[data-asset-id="ASSET-00"] img');
+  const toggle = root.querySelector<HTMLButtonElement>('[data-water-motion-toggle]');
+  if (!canvas || !image || !toggle) return () => {};
+  const gl = canvas.getContext('webgl', { alpha: false, antialias: false, depth: false, powerPreference: 'low-power' });
+  if (!gl) return () => {};
+
+  const shaders: WebGLShader[] = [];
+  const program = gl.createProgram();
+  const buffer = gl.createBuffer();
+  const texture = gl.createTexture();
+  const events = new AbortController();
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+  let resize: ResizeObserver | undefined;
+  let intersection: IntersectionObserver | undefined;
+  let frame: number | undefined;
+  let disposed = false;
+  let onScreen = true;
+  let enabled = true;
+  let elapsed = 0;
+  let lastTime = 0;
+  let lastDraw = 0;
+
+  function cleanup() {
+    if (disposed) return;
+    disposed = true;
+    if (frame !== undefined) cancelAnimationFrame(frame);
+    events.abort();
+    resize?.disconnect();
+    intersection?.disconnect();
+    reduce.removeEventListener('change', sync);
+    canvas!.removeAttribute('data-water-visible');
+    canvas!.removeAttribute('data-water-state');
+    toggle!.hidden = true;
+    gl!.deleteTexture(texture);
+    gl!.deleteBuffer(buffer);
+    gl!.deleteProgram(program);
+    shaders.forEach((shader) => gl!.deleteShader(shader));
+  }
+
+  function compile(type: number, source: string) {
+    const shader = gl!.createShader(type);
+    if (!shader) throw new Error('Water shader unavailable');
+    shaders.push(shader);
+    gl!.shaderSource(shader, source);
+    gl!.compileShader(shader);
+    if (!gl!.getShaderParameter(shader, gl!.COMPILE_STATUS)) throw new Error('Water shader failed');
+    return shader;
+  }
+
+  let time: WebGLUniformLocation | null;
+  let cover: WebGLUniformLocation | null;
+
+  function draw() {
+    gl!.uniform1f(time, elapsed);
+    gl!.drawArrays(gl!.TRIANGLES, 0, 6);
+  }
+
+  function measure() {
+    if (disposed) return;
+    const { width, height } = canvas!.getBoundingClientRect();
+    if (!width || !height) return;
+    // Cap fill rate on Retina displays and render at most 30 frames per second.
+    const scale = Math.min(devicePixelRatio || 1, 1.5, 1600 / width, 1200 / height);
+    canvas!.width = Math.max(1, Math.round(width * scale));
+    canvas!.height = Math.max(1, Math.round(height * scale));
+    gl!.viewport(0, 0, canvas!.width, canvas!.height);
+    const fitted = Math.max(width / image!.naturalWidth, height / image!.naturalHeight);
+    gl!.uniform2f(cover, width / (image!.naturalWidth * fitted), height / (image!.naturalHeight * fitted));
+    draw();
+  }
+
+  function tick(now: number) {
+    if (disposed) return;
+    elapsed += Math.min((now - lastTime) / 1000, .1);
+    lastTime = now;
+    if (now - lastDraw >= 1000 / 30) {
+      draw();
+      lastDraw = now;
+    }
+    frame = requestAnimationFrame(tick);
+  }
+
+  function sync() {
+    if (disposed) return;
+    const running = enabled && !reduce.matches && !document.hidden && onScreen;
+    toggle!.disabled = reduce.matches;
+    toggle!.textContent = reduce.matches ? 'Water motion off' : enabled ? 'Pause water' : 'Resume water';
+    toggle!.title = reduce.matches ? 'Reduced motion is enabled in your system settings' : '';
+    canvas!.dataset.waterState = running ? 'running' : 'paused';
+    canvas!.toggleAttribute('data-water-visible', !reduce.matches);
+    if (frame !== undefined) cancelAnimationFrame(frame);
+    frame = undefined;
+    if (running) {
+      lastTime = performance.now();
+      frame = requestAnimationFrame(tick);
+    }
+  }
+
+  try {
+    if (!program || !buffer || !texture) throw new Error('Water renderer unavailable');
+    gl.attachShader(program, compile(gl.VERTEX_SHADER, VERTEX));
+    gl.attachShader(program, compile(gl.FRAGMENT_SHADER, FRAGMENT));
+    gl.linkProgram(program);
+    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) throw new Error('Water program failed');
+    gl.useProgram(program);
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, 1]), gl.STATIC_DRAW);
+    const position = gl.getAttribLocation(program, 'a_position');
+    gl.enableVertexAttribArray(position);
+    gl.vertexAttribPointer(position, 2, gl.FLOAT, false, 0, 0);
+    gl.activeTexture(gl.TEXTURE0);
+    gl.bindTexture(gl.TEXTURE_2D, texture);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+    gl.uniform1i(gl.getUniformLocation(program, 'u_image'), 0);
+    gl.uniform2f(gl.getUniformLocation(program, 'u_texel'), 1 / image.naturalWidth, 1 / image.naturalHeight);
+    time = gl.getUniformLocation(program, 'u_time');
+    cover = gl.getUniformLocation(program, 'u_cover');
+    if (gl.getError() !== gl.NO_ERROR) throw new Error('Water texture unavailable');
+    try { enabled = localStorage.getItem(STORAGE_KEY) !== 'off'; } catch { /* Storage is optional. */ }
+    measure();
+    resize = new ResizeObserver(measure);
+    resize.observe(canvas);
+    if (typeof IntersectionObserver !== 'undefined') {
+      intersection = new IntersectionObserver(([entry]) => {
+        onScreen = entry?.isIntersecting ?? false;
+        sync();
+      });
+      intersection.observe(canvas);
+    }
+    toggle.addEventListener('click', () => {
+      enabled = !enabled;
+      try { localStorage.setItem(STORAGE_KEY, enabled ? 'on' : 'off'); } catch { /* Storage is optional. */ }
+      sync();
+    }, { signal: events.signal });
+    document.addEventListener('visibilitychange', sync, { signal: events.signal });
+    reduce.addEventListener('change', sync);
+    canvas.addEventListener('webglcontextlost', cleanup, { signal: events.signal });
+    toggle.hidden = false;
+    sync();
+  } catch {
+    // Keep the original image visible if WebGL or setup is unavailable.
+    cleanup();
+  }
+  return cleanup;
+}

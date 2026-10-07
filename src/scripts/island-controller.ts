@@ -1,12 +1,13 @@
 import { SCENE_ASSETS } from '../components/island/scene-config';
 import { sceneScale } from '../utils/scene-geometry';
 import { waitForImage } from '../utils/image-readiness';
+import { initOceanWater } from './ocean-water';
 
 type SceneState = 'static' | 'loading' | 'ready' | 'error';
 const controllers = new WeakMap<HTMLElement, () => void>();
 const LOAD_TIMEOUT_MS = 120_000;
 
-/** Phase 1 owns only readiness and the single responsive scale. No motion. */
+/** Owns image readiness, responsive scale, and the independent ocean renderer. */
 export function initIslandScene(root: HTMLElement): () => void {
   const existing = controllers.get(root);
   if (existing) return existing;
@@ -19,6 +20,7 @@ export function initIslandScene(root: HTMLElement): () => void {
   let resizeObserver: ResizeObserver | undefined;
   let frame: number | undefined;
   let deadline: ReturnType<typeof setTimeout> | undefined;
+  let disposeWater: (() => void) | undefined;
   const oldScale = root.style.getPropertyValue('--scene-scale');
   const oldScalePriority = root.style.getPropertyPriority('--scene-scale');
   const oldStatus = status?.textContent ?? '';
@@ -46,6 +48,7 @@ export function initIslandScene(root: HTMLElement): () => void {
     clearTimeout(deadline);
     if (frame !== undefined) cancelAnimationFrame(frame);
     resizeObserver?.disconnect();
+    disposeWater?.();
     window.removeEventListener('resize', scheduleMeasure);
     root.removeAttribute('data-scene-enhanced');
     if (oldScale) root.style.setProperty('--scene-scale', oldScale, oldScalePriority);
@@ -84,6 +87,7 @@ export function initIslandScene(root: HTMLElement): () => void {
         if (disposed || abort.signal.aborted) return;
         clearTimeout(deadline);
         state('ready');
+        disposeWater = initOceanWater(root);
       },
       () => fail('The island could not be loaded. Reload the page to try again.'),
     );

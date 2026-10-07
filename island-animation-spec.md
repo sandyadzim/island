@@ -1,5 +1,16 @@
 # Island Animation Specification
 
+## Authorized ocean extension — 7 October 2026
+
+The user explicitly approved animating the ocean after a WebGL shader was
+proposed. The implemented water canvas is an exception to the original CSS/GSAP
+and no-canvas constraints below. It uses the existing ASSET-00 image, without
+new or modified artwork. The background's sky and rock silhouettes are protected
+by source-space exclusion zones; all island transforms remain fixed. Pause,
+reduced-motion, visibility/offscreen suspension, and static fallback are included.
+This authorization covers water only. Other motion remains subject to the gates
+below. See README.md for validation and limitations.
+
 Source of truth for a future AI coding agent. This document specifies behavior only; do not implement the website as part of creating this file.
 
 Use the eight active existing PNG assets ASSET-00 through ASSET-07 only. All animation must use CSS and/or GSAP. Do not generate, modify, split, crop-export, or add image assets. No GIF, video, canvas animation, new bitmap effects, or replacement illustrations. CSS controls, focus outlines, text, and runtime compositing styles are allowed.
