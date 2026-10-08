@@ -1,0 +1,25 @@
+---
+const birds = [
+  { x: 240, y: 125, size: 30, delay: -2, flap: 1.8 },
+  { x: 202, y: 105, size: 24, delay: -2, flap: 2.1 },
+  { x: 164, y: 139, size: 26, delay: -2, flap: 1.6 },
+];
+---
+
+<div class="island-birds" aria-hidden="true">
+  {birds.map((bird, index) => (
+    <div class="island-bird-flight" style={`left:${bird.x}px;top:${bird.y}px;--bird-delay:${bird.delay}s`}>
+      <svg class="island-bird" viewBox="0 0 40 24" width={bird.size} height={bird.size * 0.6} style={`--wing-duration:${bird.flap}s;--wing-delay:${-index * 0.43}s`}>
+        <g class="island-bird-wings">
+          <path d="M20 15 L13 6 L0 3 L9 12 Z" fill="#ddd1b9" />
+          <path d="M20 15 L13 6 L9 12 Z" fill="#9aabb4" />
+          <path d="M20 15 L28 6 L40 5 L31 13 Z" fill="#eee0c6" />
+          <path d="M20 15 L28 6 L31 13 Z" fill="#a4b2b8" />
+        </g>
+        <path d="M14 14 L24 12 L29 14 L23 16 L17 17 Z" fill="#eee0c6" />
+        <path d="M14 14 L17 17 L10 18 Z" fill="#859ca8" />
+        <path d="M28 13 L32 14 L28 15 Z" fill="#c89b68" />
+      </svg>
+    </div>
+  ))}
+</div>

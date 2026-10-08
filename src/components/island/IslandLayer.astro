@@ -34,7 +34,8 @@ const smokeSource = asset.id === 'ASSET-02'
           />
           {(SCENE_LIGHTS[asset.id] ?? []).map(([x, y, width, height], index) => (
             <span
-              class="scene-light-glow"
+              class:list={['scene-light-glow', { 'lighthouse-lamp-glint': asset.id === 'ASSET-06' && index === 0 }]}
+              data-lighthouse-glint={asset.id === 'ASSET-06' && index === 0 ? '' : undefined}
               aria-hidden="true"
               style={`left:${x / STAGE.width * 100}%;top:${y / STAGE.height * 100}%;width:${width / STAGE.width * 100}%;height:${height / STAGE.height * 100}%;--light-duration:${7.3 + (index * 7 + Number(asset.id.slice(-2))) % 11 * 0.47}s;--light-delay:${-((index * 1.73 + Number(asset.id.slice(-2)) * 2.19) % 13)}s;--light-direction:${index % 2 ? 'reverse' : 'normal'}`}
             ></span>

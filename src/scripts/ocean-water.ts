@@ -54,6 +54,7 @@ export function initOceanWater(root: HTMLElement): () => void {
   const image = root.querySelector<HTMLImageElement>('[data-asset-id="ASSET-00"] img');
   const toggle = root.querySelector<HTMLButtonElement>('[data-water-motion-toggle]');
   const beams = Array.from(root.querySelectorAll<SVGSVGElement>('[data-lighthouse-beam]'));
+  const lampGlint = root.querySelector<HTMLElement>('[data-lighthouse-glint]');
   if (!canvas || !image || !toggle) return () => {};
   const gl = canvas.getContext('webgl', { alpha: false, antialias: false, depth: false, powerPreference: 'low-power' });
   if (!gl) return () => {};
@@ -89,6 +90,8 @@ export function initOceanWater(root: HTMLElement): () => void {
       beam.style.removeProperty('transform');
       beam.style.removeProperty('opacity');
     });
+    lampGlint?.style.removeProperty('opacity');
+    lampGlint?.style.removeProperty('transform');
     toggle!.hidden = true;
     gl!.deleteTexture(texture);
     gl!.deleteBuffer(buffer);
@@ -112,6 +115,14 @@ export function initOceanWater(root: HTMLElement): () => void {
   function draw() {
     gl!.uniform1f(time, elapsed);
     gl!.drawArrays(gl!.TRIANGLES, 0, 6);
+    // Two opposing beams face the viewer twice per revolution. A narrow, smooth
+    // crest gives the lamp a warm glint without introducing another timer.
+    const facing = Math.abs(Math.sin(elapsed * Math.PI * 2 / 32));
+    const glint = facing ** 8;
+    if (lampGlint) {
+      lampGlint.style.opacity = String(0.06 + 0.94 * glint);
+      lampGlint.style.transform = `translate(-50%, -50%) scale(${0.95 + 0.85 * glint})`;
+    }
     beams.forEach((beam, index) => {
       // A circle projected onto the local ground plane becomes an ellipse. Projecting
       // its endpoint keeps the sweep continuous and the lamp origin stationary.

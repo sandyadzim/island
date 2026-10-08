@@ -279,6 +279,71 @@
   }
 }
 
+/* The lamp's opacity is synchronized with the two beams by the water clock. */
+[data-marine-motion] .lighthouse-lamp-glint {
+  animation: none;
+  mix-blend-mode: normal;
+  background: radial-gradient(
+    ellipse,
+    rgb(255 244 208 / 100%) 0%,
+    rgb(255 216 133 / 90%) 18%,
+    rgb(255 181 75 / 50%) 38%,
+    rgb(255 166 64 / 18%) 55%,
+    rgb(255 166 64 / 0%) 74%
+  );
+}
+
+.island-birds {
+  position: absolute;
+  inset: 0;
+  z-index: 85;
+  pointer-events: none;
+}
+
+.island-bird-flight {
+  position: absolute;
+  opacity: 0;
+}
+
+.island-bird {
+  display: block;
+  overflow: visible;
+}
+
+.island-bird-wings {
+  transform-origin: 20px 15px;
+}
+
+[data-marine-motion="running"] .island-bird-flight,
+[data-marine-motion="paused"] .island-bird-flight {
+  animation: island-bird-pass 24s linear var(--bird-delay) infinite;
+}
+
+[data-marine-motion="running"] .island-bird-wings,
+[data-marine-motion="paused"] .island-bird-wings {
+  animation: island-bird-wingbeat var(--wing-duration) ease-in-out var(--wing-delay) infinite;
+}
+
+[data-marine-motion="paused"] .island-bird-flight,
+[data-marine-motion="paused"] .island-bird-wings {
+  animation-play-state: paused;
+}
+
+/* A twelve-second crossing followed by twelve seconds of quiet. Both ends
+   disappear before the reset; the flock stays in the sky above the buildings. */
+@keyframes island-bird-pass {
+  0% { transform: translate(0, 0) rotate(-3deg); opacity: 0; }
+  3.5% { opacity: 0.8; }
+  24.5% { transform: translate(460px, -42px) rotate(1deg); opacity: 0.8; }
+  45.5% { opacity: 0.8; }
+  50%, 100% { transform: translate(950px, -10px) rotate(3deg); opacity: 0; }
+}
+
+@keyframes island-bird-wingbeat {
+  0%, 100% { transform: scaleY(1); }
+  50% { transform: scaleY(0.35); }
+}
+
 .island-clouds {
   position: absolute;
   inset: 0;
@@ -334,6 +399,11 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  [data-marine-motion] .island-bird-flight,
+  [data-marine-motion] .island-bird-wings {
+    animation: none;
+    opacity: 0;
+  }
   [data-marine-motion] .island-cloud {
     animation: none;
     opacity: 0;
@@ -352,6 +422,9 @@
   [data-marine-motion] .scene-light-glow {
     animation: none;
     opacity: 0;
+  }
+  [data-marine-motion] .lighthouse-lamp-glint {
+    visibility: hidden;
   }
 }
 
