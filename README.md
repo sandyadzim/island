@@ -73,6 +73,14 @@ npm run preview
 
 ## Ocean animation
 
+Three island-local clouds reuse the illustrated smoke sprite. They drift gently
+across short paths, expand slightly, and fade fully before restarting on
+staggered 24/27/29-second loops. The cloud layer scales with the island and is
+decorative/non-interactive. Pause motion freezes it; reduced motion hides it.
+Desktop presentation, mobile DOM placement, and fade/pause/reduced-motion
+behavior were checked in Ego Lite. Mobile screenshot capture timed out, so
+mobile visual confirmation remains unverified. No new image was required.
+
 The lighthouse has two opposing, tapered SVG beams anchored to source lamp point
 (1174, 361), registered into the shared island stage. A 32-second rotation
 projects a small 360 × 220 stage-px elliptical sweep around the lighthouse and

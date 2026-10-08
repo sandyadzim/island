@@ -35,7 +35,9 @@
   visibility: hidden;
 }
 
-.ocean-water[data-water-visible] { visibility: visible; }
+.ocean-water[data-water-visible] {
+  visibility: visible;
+}
 
 .water-motion-toggle {
   position: absolute;
@@ -53,11 +55,15 @@
   cursor: pointer;
 }
 
-.water-motion-toggle:disabled { cursor: default; color: var(--color-muted); }
-
+.water-motion-toggle:disabled {
+  cursor: default;
+  color: var(--color-muted);
+}
 
 @media (prefers-reduced-motion: reduce) {
-  .ocean-water[data-water-visible] { visibility: hidden; }
+  .ocean-water[data-water-visible] {
+    visibility: hidden;
+  }
 }
 
 .island-frame {
@@ -130,7 +136,9 @@
 }
 
 [data-marine-motion="running"] .lighthouse-beam-origin,
-[data-marine-motion="paused"] .lighthouse-beam-origin { visibility: visible; }
+[data-marine-motion="paused"] .lighthouse-beam-origin {
+  visibility: visible;
+}
 
 .lighthouse-beam-sweep {
   position: absolute;
@@ -155,9 +163,19 @@
 }
 
 @keyframes sailboat-bob {
-  0%, 50%, 100% { transform: translateY(0) rotate(0deg); }
-  25% { transform: translateY(calc(-0.75px / var(--registration-scale))) rotate(-0.15deg); }
-  75% { transform: translateY(calc(0.75px / var(--registration-scale))) rotate(0.15deg); }
+  0%,
+  50%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  25% {
+    transform: translateY(calc(-0.75px / var(--registration-scale)))
+      rotate(-0.15deg);
+  }
+  75% {
+    transform: translateY(calc(0.75px / var(--registration-scale)))
+      rotate(0.15deg);
+  }
 }
 
 /* Emitters inherit their house transforms, using source-image chimney points
@@ -179,9 +197,15 @@
   transform-origin: 50% 100%;
 }
 
-.island-layer .workshop-smoke-art { object-fit: contain; }
-.workshop-smoke-puff:nth-child(3n) .workshop-smoke-art { transform: scaleX(-1) rotate(-12deg); }
-.workshop-smoke-puff:nth-child(3n + 1) .workshop-smoke-art { transform: rotate(8deg); }
+.island-layer .workshop-smoke-art {
+  object-fit: contain;
+}
+.workshop-smoke-puff:nth-child(3n) .workshop-smoke-art {
+  transform: scaleX(-1) rotate(-12deg);
+}
+.workshop-smoke-puff:nth-child(3n + 1) .workshop-smoke-art {
+  transform: rotate(8deg);
+}
 
 [data-marine-motion="running"] .workshop-smoke-puff,
 [data-marine-motion="paused"] .workshop-smoke-puff {
@@ -191,14 +215,31 @@
   animation-iteration-count: infinite;
 }
 
-[data-marine-motion="paused"] .workshop-smoke-puff { animation-play-state: paused; }
+[data-marine-motion="paused"] .workshop-smoke-puff {
+  animation-play-state: paused;
+}
 
 @keyframes chimney-smoke {
-  0% { transform: translate(-50%, -100%) scale(0.35); opacity: 0; }
-  10% { transform: translate(calc(-50% + 1px), calc(-100% - 7px)) scale(0.55); opacity: 0.6; }
-  35% { transform: translate(calc(-50% + 5px), calc(-100% - 40px)) scale(1); opacity: 0.48; }
-  65% { transform: translate(calc(-50% + 20px), calc(-100% - 94px)) scale(1.8); opacity: 0.24; }
-  100% { transform: translate(calc(-50% + 42px), calc(-100% - 160px)) scale(2.6); opacity: 0; }
+  0% {
+    transform: translate(-50%, -100%) scale(0.35);
+    opacity: 0;
+  }
+  10% {
+    transform: translate(calc(-50% + 1px), calc(-100% - 7px)) scale(0.55);
+    opacity: 0.6;
+  }
+  35% {
+    transform: translate(calc(-50% + 5px), calc(-100% - 40px)) scale(1);
+    opacity: 0.48;
+  }
+  65% {
+    transform: translate(calc(-50% + 20px), calc(-100% - 94px)) scale(1.8);
+    opacity: 0.24;
+  }
+  100% {
+    transform: translate(calc(-50% + 42px), calc(-100% - 160px)) scale(2.6);
+    opacity: 0;
+  }
 }
 
 /* Source-aligned glows: opacity only, with independent cycles.
@@ -209,27 +250,97 @@
   transform: translate(-50%, -50%) scale(1.8);
   opacity: 0;
   mix-blend-mode: screen;
-  background: radial-gradient(ellipse,
+  background: radial-gradient(
+    ellipse,
     rgb(255 221 156 / 65%) 0%,
     rgb(255 191 89 / 45%) 22%,
     rgb(245 140 42 / 18%) 48%,
-    rgb(245 140 42 / 0%) 72%);
+    rgb(245 140 42 / 0%) 72%
+  );
 }
 
 [data-marine-motion="running"] .scene-light-glow,
 [data-marine-motion="paused"] .scene-light-glow {
-  animation: lantern-shimmer calc(var(--light-duration) * 0.48) ease-in-out var(--light-delay) infinite var(--light-direction);
+  animation: lantern-shimmer calc(var(--light-duration) * 0.48) ease-in-out
+    var(--light-delay) infinite var(--light-direction);
 }
 
-[data-marine-motion="paused"] .scene-light-glow { animation-play-state: paused; }
+[data-marine-motion="paused"] .scene-light-glow {
+  animation-play-state: paused;
+}
 
 @keyframes lantern-shimmer {
-  0%, 100% { opacity: 0.12; }
-  50% { opacity: 0.75; }
+  0%,
+  100% {
+    opacity: 0.12;
+  }
+  50% {
+    opacity: 0.75;
+  }
+}
+
+.island-clouds {
+  position: absolute;
+  inset: 0;
+  z-index: 80;
+  pointer-events: none;
+}
+
+.island-cloud {
+  position: absolute;
+  opacity: 0;
+}
+
+.island-cloud-art {
+  display: block;
+  width: 100%;
+  height: auto;
+  pointer-events: none;
+  user-select: none;
+}
+
+.island-cloud-art-mirrored {
+  transform: scaleX(-1);
+}
+
+[data-marine-motion="running"] .island-cloud,
+[data-marine-motion="paused"] .island-cloud {
+  animation: island-cloud-drift var(--cloud-duration) linear var(--cloud-delay)
+    infinite;
+}
+
+[data-marine-motion="paused"] .island-cloud {
+  animation-play-state: paused;
+}
+
+@keyframes island-cloud-drift {
+  0% {
+    transform: translate(0, 0) scale(0.9);
+    opacity: 0;
+  }
+  22% {
+    opacity: 0.38;
+  }
+  45% {
+    opacity: 0.48;
+  }
+  70% {
+    opacity: 0.3;
+  }
+  100% {
+    transform: translate(var(--cloud-drift), var(--cloud-rise)) scale(1.12);
+    opacity: 0;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  [data-marine-motion] .lighthouse-beam-origin { visibility: hidden; }
+  [data-marine-motion] .island-cloud {
+    animation: none;
+    opacity: 0;
+  }
+  [data-marine-motion] .lighthouse-beam-origin {
+    visibility: hidden;
+  }
   [data-marine-motion] [data-asset-id="ASSET-07"] .island-ambient {
     animation: none;
     transform: none;

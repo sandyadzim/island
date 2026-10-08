@@ -1,5 +1,13 @@
 # Island Animation Specification
 
+## Authorized island clouds — 8 October 2026
+
+The user authorized drifting clouds that dissolve like the chimney smoke.
+Three clouds reuse the approved faceted sprite in an island-local foreground
+layer. Their 24/27/29-second CSS loops animate transform and opacity, with both
+endpoints invisible to avoid reset jumps. Island scaling, shared pause and
+visibility gates, and reduced motion apply. No new bitmap was required.
+
 ## Authorized lighthouse beam extension — 7 October 2026
 
 The user authorized a rotating lighthouse beam and subsequently requested two
@@ -92,18 +100,18 @@ deferred to a separately authorized request and will need fresh validation.
 
 Exact back-to-front order, within one isolated scene stacking context:
 
-| Layer / z-index | Asset | Existing filename | Role and independent movement |
-| --- | --- | --- | --- |
-| 0 | ASSET-00 | `asset-00-environment-background.png` | Sky, distant islands and sea; minimal pointer parallax only. |
-| 10 | ASSET-01 | `asset-01-clean-island-base.png` | Terrain, paths, planting, docks and ground lanterns; stationary anchor. |
-| 20 | ASSET-02 | `asset-02-creators-house-about.png` | Creator's House / About; small interaction feedback and gated parallax. |
-| 30 | ASSET-03 | `asset-03-workshop-projects.png` | Workshop / Projects; small interaction feedback and gated parallax. |
-| 40 | ASSET-04 | `asset-04-greenhouse-skills.png` | Greenhouse / Skills; small interaction feedback and gated parallax. |
-| 50 | ASSET-05 | `asset-05-sr-monument-home.png` | SR / Home navigation hub; small interaction feedback and gated parallax. |
-| 60 | ASSET-06 | `asset-06-lighthouse-contact-v2.png` | Lighthouse / Contact; small interaction feedback and gated parallax. Use v2; v1 was deleted. |
-| 70 | ASSET-07 | `asset-07-sailboat-experience.png` | Sailboat / Experience; restrained bobbing, interaction and gated parallax. |
-| 80 | ASSET-08 | `asset-08-foreground-occlusion.png` | Front tree and detached rocks; grouped pointer parallax only. |
-| 90 | ASSET-09 | `asset-09-lighting-atmospheric-fx.png` | Supplemental lighting, smoke and water effects; low-opacity atmospheric variation only if validated. |
+| Layer / z-index | Asset    | Existing filename                      | Role and independent movement                                                                        |
+| --------------- | -------- | -------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| 0               | ASSET-00 | `asset-00-environment-background.png`  | Sky, distant islands and sea; minimal pointer parallax only.                                         |
+| 10              | ASSET-01 | `asset-01-clean-island-base.png`       | Terrain, paths, planting, docks and ground lanterns; stationary anchor.                              |
+| 20              | ASSET-02 | `asset-02-creators-house-about.png`    | Creator's House / About; small interaction feedback and gated parallax.                              |
+| 30              | ASSET-03 | `asset-03-workshop-projects.png`       | Workshop / Projects; small interaction feedback and gated parallax.                                  |
+| 40              | ASSET-04 | `asset-04-greenhouse-skills.png`       | Greenhouse / Skills; small interaction feedback and gated parallax.                                  |
+| 50              | ASSET-05 | `asset-05-sr-monument-home.png`        | SR / Home navigation hub; small interaction feedback and gated parallax.                             |
+| 60              | ASSET-06 | `asset-06-lighthouse-contact-v2.png`   | Lighthouse / Contact; small interaction feedback and gated parallax. Use v2; v1 was deleted.         |
+| 70              | ASSET-07 | `asset-07-sailboat-experience.png`     | Sailboat / Experience; restrained bobbing, interaction and gated parallax.                           |
+| 80              | ASSET-08 | `asset-08-foreground-occlusion.png`    | Front tree and detached rocks; grouped pointer parallax only.                                        |
+| 90              | ASSET-09 | `asset-09-lighting-atmospheric-fx.png` | Supplemental lighting, smoke and water effects; low-opacity atmospheric variation only if validated. |
 
 Use the original 1536 × 1024 logical island stage with 32 logical px of roof headroom, giving its frame a 1536:1056 aspect ratio. The seven island layers retain complete canvases and padding; never cover-fit or center their nontransparent bounds. Fit the island uniformly in its responsive frame. ASSET-00 alone covers the full-screen backdrop outside the camera and may crop at screen edges. Clip only at the outer screen viewport, not around buildings. Never stretch island x and y independently.
 
@@ -121,18 +129,18 @@ CSS and GSAP must not write transform on the same element. Camera transformation
 
 ## 2. Animation Classification
 
-| Asset | Classification | Purpose / decision |
-| --- | --- | --- |
-| ASSET-00 | AMBIENT ANIMATION | Pointer depth suggests the distant environment; no automatic drifting loop. |
-| ASSET-01 | STATIC | Maintains grounding and spatial stability. |
-| ASSET-02 | INTERACTIVE ANIMATION | About navigation feedback; no idle building motion. |
-| ASSET-03 | INTERACTIVE ANIMATION | Projects navigation feedback; no idle building motion. |
-| ASSET-04 | INTERACTIVE ANIMATION | Skills feedback; do not fade the whole building to simulate interior lighting. |
-| ASSET-05 | INTERACTIVE ANIMATION | Home feedback; preserve readable SR without spinning or pulsing. |
-| ASSET-06 | INTERACTIVE ANIMATION | Contact feedback; no lighthouse sway or rotating beam. |
-| ASSET-07 | AMBIENT + INTERACTIVE | Waterborne bobbing plus Experience feedback. |
-| ASSET-08 | AMBIENT ANIMATION | Pointer depth at the front of the scene; no wind loop for grouped tree and rocks. |
-| ASSET-09 | AMBIENT ANIMATION | Restrained lighting variation after overlay validation. |
+| Asset    | Classification        | Purpose / decision                                                                |
+| -------- | --------------------- | --------------------------------------------------------------------------------- |
+| ASSET-00 | AMBIENT ANIMATION     | Pointer depth suggests the distant environment; no automatic drifting loop.       |
+| ASSET-01 | STATIC                | Maintains grounding and spatial stability.                                        |
+| ASSET-02 | INTERACTIVE ANIMATION | About navigation feedback; no idle building motion.                               |
+| ASSET-03 | INTERACTIVE ANIMATION | Projects navigation feedback; no idle building motion.                            |
+| ASSET-04 | INTERACTIVE ANIMATION | Skills feedback; do not fade the whole building to simulate interior lighting.    |
+| ASSET-05 | INTERACTIVE ANIMATION | Home feedback; preserve readable SR without spinning or pulsing.                  |
+| ASSET-06 | INTERACTIVE ANIMATION | Contact feedback; no lighthouse sway or rotating beam.                            |
+| ASSET-07 | AMBIENT + INTERACTIVE | Waterborne bobbing plus Experience feedback.                                      |
+| ASSET-08 | AMBIENT ANIMATION     | Pointer depth at the front of the scene; no wind loop for grouped tree and rocks. |
+| ASSET-09 | AMBIENT ANIMATION     | Restrained lighting variation after overlay validation.                           |
 
 Pointer-driven decorative motion is classified as ambient even though user input drives it. Landmarks' parallax is a secondary depth treatment, not an idle infinite loop. Classifications describe intended enabled behavior; production and accessibility gates can reduce it to static.
 
@@ -140,16 +148,16 @@ Pointer-driven decorative motion is classified as ambient even though user input
 
 Only two ambient loops are candidates: boat bobbing and FX opacity variation. Both require successful static compositing and pause when the scene is offscreen, document is hidden, a section is open, or reduced motion is enabled.
 
-| Treatment | Starting values | Decision |
-| --- | --- | --- |
-| Environment | No time-based translation or scale | Slow pointer response supplies depth; automatic ocean drift would move distant islands too. |
-| Base | Identity transform at all times | Anchor remains stationary. |
-| Buildings / monument | No infinite transform, opacity, brightness or rotation loop | Preserve attachment and architectural stability. |
-| Sailboat | translateY between -0.75 and +0.75 logical px; rotation between -0.15° and +0.15°; scale 1; opacity 1; complete cycle 8 s | CSS keyframes, smooth ease-in-out, balanced around registered rest position; no bounce. Pivot near hull center. Disable if the baked halo or FX reflection visibly separates. |
-| Foreground | No infinite animation | Tree and rocks must not bob together. |
-| FX | Baseline opacity F, variation ±0.015, clamped to 0–0.18; complete cycle 24 s | CSS opacity keyframes with unequally spaced holds; avoid regular heartbeat rhythm. Disabled when F=0. |
-| Greenhouse illumination | No independent default loop | Use only the already registered light within validated ASSET-09. One combined overlay cannot isolate greenhouse lighting. No invented beam or whole-building flicker. |
-| Atmospheric translation | Default 0; optional maximum ±0.25 logical px x/y after testing | The FX image also contains reflections; smoke cannot drift independently. Prefer opacity alone. |
+| Treatment               | Starting values                                                                                                           | Decision                                                                                                                                                                      |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Environment             | No time-based translation or scale                                                                                        | Slow pointer response supplies depth; automatic ocean drift would move distant islands too.                                                                                   |
+| Base                    | Identity transform at all times                                                                                           | Anchor remains stationary.                                                                                                                                                    |
+| Buildings / monument    | No infinite transform, opacity, brightness or rotation loop                                                               | Preserve attachment and architectural stability.                                                                                                                              |
+| Sailboat                | translateY between -0.75 and +0.75 logical px; rotation between -0.15° and +0.15°; scale 1; opacity 1; complete cycle 8 s | CSS keyframes, smooth ease-in-out, balanced around registered rest position; no bounce. Pivot near hull center. Disable if the baked halo or FX reflection visibly separates. |
+| Foreground              | No infinite animation                                                                                                     | Tree and rocks must not bob together.                                                                                                                                         |
+| FX                      | Baseline opacity F, variation ±0.015, clamped to 0–0.18; complete cycle 24 s                                              | CSS opacity keyframes with unequally spaced holds; avoid regular heartbeat rhythm. Disabled when F=0.                                                                         |
+| Greenhouse illumination | No independent default loop                                                                                               | Use only the already registered light within validated ASSET-09. One combined overlay cannot isolate greenhouse lighting. No invented beam or whole-building flicker.         |
+| Atmospheric translation | Default 0; optional maximum ±0.25 logical px x/y after testing                                                            | The FX image also contains reflections; smoke cannot drift independently. Prefer opacity alone.                                                                               |
 
 Use CSS ease-in-out for slow decorative cycles. The 8 s and 24 s values are complete return cycles, not one-way durations. Do not run a separate random flicker timer, smoke particle system, or infinite camera animation. Start loops only after assets have decoded and the scene is visible; avoid a staged landmark entrance that temporarily dismantles the island.
 
@@ -169,14 +177,14 @@ Provide six real navigation controls, in logical order Home, About, Projects, Sk
 
 All translate values are logical scene pixels, before responsive scene scaling. `Shadow/glow=0` means no new raster shadow or animated image filter. Brightness remains 1; communicate feedback with transform and CSS control/label styling. This avoids amplifying existing halos and preserves local lighting.
 
-| Asset / destination | Ground-contact pivot guide in master coordinates | Hover transform: translateX, translateY, scale, rotate | Opacity / brightness | Shadow / glow | Duration / easing | z-index |
-| --- | --- | --- | --- | --- | --- | --- |
-| ASSET-02 / About | (850, 305) | 0 px, 0 px, 1.006, 0° | 1 / 1 | 0 | 160 ms ease; leave 200 ms strong ease-out | 20, unchanged |
-| ASSET-03 / Projects | (545, 510) | 0 px, 0 px, 1.006, 0° | 1 / 1 | 0 | Same | 30, unchanged |
-| ASSET-04 / Skills | (1205, 421) | 0 px, 0 px, 1.005, 0° | 1 / 1 | 0 | Same | 40, unchanged |
-| ASSET-05 / Home | (872, 546) | 0 px, 0 px, 1.008, 0° | 1 / 1 | 0 | Same | 50, unchanged |
-| ASSET-06 / Contact | (1265, 734) | 0 px, 0 px, 1.005, 0° | 1 / 1 | 0 | Same | 60, unchanged |
-| ASSET-07 / Experience | (1305, 837) | 0 px, -0.5 px, 1.005, 0° | 1 / 1 | 0 | Same; ambient rotation separately capped ±0.15° | 70, unchanged |
+| Asset / destination   | Ground-contact pivot guide in master coordinates | Hover transform: translateX, translateY, scale, rotate | Opacity / brightness | Shadow / glow | Duration / easing                               | z-index       |
+| --------------------- | ------------------------------------------------ | ------------------------------------------------------ | -------------------- | ------------- | ----------------------------------------------- | ------------- |
+| ASSET-02 / About      | (850, 305)                                       | 0 px, 0 px, 1.006, 0°                                  | 1 / 1                | 0             | 160 ms ease; leave 200 ms strong ease-out       | 20, unchanged |
+| ASSET-03 / Projects   | (545, 510)                                       | 0 px, 0 px, 1.006, 0°                                  | 1 / 1                | 0             | Same                                            | 30, unchanged |
+| ASSET-04 / Skills     | (1205, 421)                                      | 0 px, 0 px, 1.005, 0°                                  | 1 / 1                | 0             | Same                                            | 40, unchanged |
+| ASSET-05 / Home       | (872, 546)                                       | 0 px, 0 px, 1.008, 0°                                  | 1 / 1                | 0             | Same                                            | 50, unchanged |
+| ASSET-06 / Contact    | (1265, 734)                                      | 0 px, 0 px, 1.005, 0°                                  | 1 / 1                | 0             | Same                                            | 60, unchanged |
+| ASSET-07 / Experience | (1305, 837)                                      | 0 px, -0.5 px, 1.005, 0°                               | 1 / 1                | 0             | Same; ambient rotation separately capped ±0.15° | 70, unchanged |
 
 Pivot coordinates are starting guides, not assertions about the generated candidates. Resolve actual contact pivots after static registration. For each asset the shared idle, leave, focus and click rules plus this row define all five states. If any hover target reveals a seam, reduce its scale to 1 and translate to 0; retain the label and focus/control feedback. Never raise a hovered building above foreground occlusion or other buildings.
 
@@ -204,13 +212,13 @@ Default blend mode is normal. Do not switch to screen/additive merely to hide a 
 
 Use pointer position relative to the scene viewport, normalized to [-1,1] for each axis and clamped. Positive x is right and positive y is down; all layers translate in the same sign so depth comes only from the small magnitude difference. Never rotate the scene or skew perspective. Fine-pointer hover only; touch and keyboard do not drive parallax.
 
-| Layer | Maximum absolute translateX / translateY | Relative depth |
-| --- | --- | --- |
-| ASSET-00 | 0.25 / 0.15 logical px | Lowest movement; distant environment |
-| ASSET-01 | 0 / 0 | Stationary anchor |
-| ASSET-02 through ASSET-07 | 0.5 / 0.3 logical px, identical vector for all six | Restrained middle plane |
-| ASSET-08 | 1 / 0.6 logical px | Strongest, still only one logical pixel |
-| ASSET-09 | 0 / 0 by default; at most 0.25 / 0.15 if validated | Atmosphere follows source alignment first |
+| Layer                     | Maximum absolute translateX / translateY           | Relative depth                            |
+| ------------------------- | -------------------------------------------------- | ----------------------------------------- |
+| ASSET-00                  | 0.25 / 0.15 logical px                             | Lowest movement; distant environment      |
+| ASSET-01                  | 0 / 0                                              | Stationary anchor                         |
+| ASSET-02 through ASSET-07 | 0.5 / 0.3 logical px, identical vector for all six | Restrained middle plane                   |
+| ASSET-08                  | 1 / 0.6 logical px                                 | Strongest, still only one logical pixel   |
+| ASSET-09                  | 0 / 0 by default; at most 0.25 / 0.15 if validated | Atmosphere follows source alignment first |
 
 These are ceilings, not requirements. **Default differential parallax amplitudes are zero until seam tests pass.** The existing misaligned candidates do not justify enabling parallax. A single shared camera translation is the fallback when independent movement cannot preserve registration; disable it too if viewport coverage fails.
 
@@ -222,36 +230,36 @@ Background coverage: if any movement reveals the edge of ASSET-00, reduce moveme
 
 ## 7. CSS vs GSAP
 
-| CSS owns | GSAP owns |
-| --- | --- |
-| Landmark hover/press transitions and mouse-leave restoration | Pointer parallax and interruptible return-to-neutral |
-| Label opacity, control highlight and focus outline | Shared camera focus/reset |
-| Optional static CSS control glow (never a new image glow) | Coordination with section activation/close |
-| Boat bobbing keyframes | Multi-layer sequencing only when it serves navigation |
-| Validated FX opacity breathing | Pausing/retargeting coordinated motion as interaction state changes |
+| CSS owns                                                     | GSAP owns                                                           |
+| ------------------------------------------------------------ | ------------------------------------------------------------------- |
+| Landmark hover/press transitions and mouse-leave restoration | Pointer parallax and interruptible return-to-neutral                |
+| Label opacity, control highlight and focus outline           | Shared camera focus/reset                                           |
+| Optional static CSS control glow (never a new image glow)    | Coordination with section activation/close                          |
+| Boat bobbing keyframes                                       | Multi-layer sequencing only when it serves navigation               |
+| Validated FX opacity breathing                               | Pausing/retargeting coordinated motion as interaction state changes |
 
 No GSAP loop for a simple fade, no additional motion library, and no CSS keyframes for rapid hover toggles. Transition only named properties; never transition all. CSS breathing is the only simple lighting loop. Brightness and drop-shadow are not default animated properties: if a static control glow is needed, fade a small DOM pseudo-element's opacity rather than recalculating a full-scene filter.
 
 ## 8. Motion Values and Budgets
 
-| Property / operation | Starting value / hard limit |
-| --- | --- |
-| Building hover translateX/Y | 0 / 0; do not lift grounded architecture |
-| Landmark hover scale | 1.005–1.008; never exceed 1.01 |
-| Building / monument rotation | Always 0° |
-| Boat ambient translation / rotation | ±0.75 px y / ±0.15°; reduce to zero if reflections detach |
-| Boat hover translation | -0.5 px y; combined ambient + hover displacement ≤1.25 px |
-| Landmark opacity / brightness | 1 / 1 for every interaction state |
-| Pointer press scale / duration | 0.998 / 100 ms; release 160 ms |
-| Hover / leave duration | 160 / 200 ms |
-| Hover easing | CSS ease |
-| Leave easing | cubic-bezier(0.23, 1, 0.32, 1) |
-| Decorative loop easing | CSS ease-in-out; no elastic or bounce |
-| Pointer / camera easing and duration | GSAP power2.out / 280 ms |
-| Camera scale / translation ceiling | 1.02 / ±8 px x, ±5 px y |
-| FX opacity | Current 0; validated baseline 0.12, variation ±0.015, ceiling 0.18 |
-| FX optional drift / scale | ±0.25 px; static 1.001 maximum, no scale loop |
-| Parallax strength | Table in section 6; validated maxima, zero until tested |
+| Property / operation                 | Starting value / hard limit                                        |
+| ------------------------------------ | ------------------------------------------------------------------ |
+| Building hover translateX/Y          | 0 / 0; do not lift grounded architecture                           |
+| Landmark hover scale                 | 1.005–1.008; never exceed 1.01                                     |
+| Building / monument rotation         | Always 0°                                                          |
+| Boat ambient translation / rotation  | ±0.75 px y / ±0.15°; reduce to zero if reflections detach          |
+| Boat hover translation               | -0.5 px y; combined ambient + hover displacement ≤1.25 px          |
+| Landmark opacity / brightness        | 1 / 1 for every interaction state                                  |
+| Pointer press scale / duration       | 0.998 / 100 ms; release 160 ms                                     |
+| Hover / leave duration               | 160 / 200 ms                                                       |
+| Hover easing                         | CSS ease                                                           |
+| Leave easing                         | cubic-bezier(0.23, 1, 0.32, 1)                                     |
+| Decorative loop easing               | CSS ease-in-out; no elastic or bounce                              |
+| Pointer / camera easing and duration | GSAP power2.out / 280 ms                                           |
+| Camera scale / translation ceiling   | 1.02 / ±8 px x, ±5 px y                                            |
+| FX opacity                           | Current 0; validated baseline 0.12, variation ±0.015, ceiling 0.18 |
+| FX optional drift / scale            | ±0.25 px; static 1.001 maximum, no scale loop                      |
+| Parallax strength                    | Table in section 6; validated maxima, zero until tested            |
 
 All pixel values are in the 1536 × 1024 logical scene. Convert them through the single responsive scene scale; do not apply both conversion and parent scale. UI outlines and hit target sizes remain CSS pixels. Use existing project easing/duration tokens if they implement these meanings; do not create competing token systems. No ease-in entrances, overshoot, spins, shake, rubber-band effects, or floating buildings.
 
@@ -279,18 +287,18 @@ Give users a visible Motion on/off control because automatic boat/FX motion can 
 
 ## 11. Implementation Matrix
 
-| Asset ID | Role | Layer | Animation Classification | Infinite Animation | Hover | Click | CSS/GSAP | Notes |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| ASSET-00 | Environment | 0 | AMBIENT ANIMATION | None | No | No | GSAP parallax | ≤0.25/0.15 px; coverage gate |
-| ASSET-01 | Terrain anchor | 10 | STATIC | None | No | No | CSS static layout | No independent movement |
-| ASSET-02 | About | 20 | INTERACTIVE ANIMATION | None | Scale 1.006 | About; optional shared camera | CSS feedback, GSAP coordination | Ground pivot; no idle float |
-| ASSET-03 | Projects | 30 | INTERACTIVE ANIMATION | None | Scale 1.006 | Projects; optional shared camera | CSS feedback, GSAP coordination | No animated chimney geometry |
-| ASSET-04 | Skills | 40 | INTERACTIVE ANIMATION | None | Scale 1.005 | Skills; optional shared camera | CSS feedback, GSAP coordination | Illumination only via validated FX |
-| ASSET-05 | Home | 50 | INTERACTIVE ANIMATION | None | Scale 1.008 | Restore hub/camera | CSS feedback, GSAP reset | Preserve exact SR; no rotation |
-| ASSET-06 | Contact | 60 | INTERACTIVE ANIMATION | None | Scale 1.005 | Contact; optional shared camera | CSS feedback, GSAP coordination | Existing v2 only |
-| ASSET-07 | Experience | 70 | AMBIENT + INTERACTIVE | 8 s bob, if validated | Scale 1.005; y -0.5 px | Experience; optional shared camera | CSS bob/feedback, GSAP coordination | No wake asset; reflection gate |
-| ASSET-08 | Foreground occlusion | 80 | AMBIENT ANIMATION | None | No | No | GSAP parallax | Group moves ≤1/0.6 px; no independent tree sway |
-| ASSET-09 | Restrained FX overlay | 90 | AMBIENT ANIMATION | 24 s opacity variation if validated | No | No | CSS opacity; GSAP coordinated pause | Current F=0; duplicate geometry gate |
+| Asset ID | Role                  | Layer | Animation Classification | Infinite Animation                  | Hover                  | Click                              | CSS/GSAP                            | Notes                                           |
+| -------- | --------------------- | ----- | ------------------------ | ----------------------------------- | ---------------------- | ---------------------------------- | ----------------------------------- | ----------------------------------------------- |
+| ASSET-00 | Environment           | 0     | AMBIENT ANIMATION        | None                                | No                     | No                                 | GSAP parallax                       | ≤0.25/0.15 px; coverage gate                    |
+| ASSET-01 | Terrain anchor        | 10    | STATIC                   | None                                | No                     | No                                 | CSS static layout                   | No independent movement                         |
+| ASSET-02 | About                 | 20    | INTERACTIVE ANIMATION    | None                                | Scale 1.006            | About; optional shared camera      | CSS feedback, GSAP coordination     | Ground pivot; no idle float                     |
+| ASSET-03 | Projects              | 30    | INTERACTIVE ANIMATION    | None                                | Scale 1.006            | Projects; optional shared camera   | CSS feedback, GSAP coordination     | No animated chimney geometry                    |
+| ASSET-04 | Skills                | 40    | INTERACTIVE ANIMATION    | None                                | Scale 1.005            | Skills; optional shared camera     | CSS feedback, GSAP coordination     | Illumination only via validated FX              |
+| ASSET-05 | Home                  | 50    | INTERACTIVE ANIMATION    | None                                | Scale 1.008            | Restore hub/camera                 | CSS feedback, GSAP reset            | Preserve exact SR; no rotation                  |
+| ASSET-06 | Contact               | 60    | INTERACTIVE ANIMATION    | None                                | Scale 1.005            | Contact; optional shared camera    | CSS feedback, GSAP coordination     | Existing v2 only                                |
+| ASSET-07 | Experience            | 70    | AMBIENT + INTERACTIVE    | 8 s bob, if validated               | Scale 1.005; y -0.5 px | Experience; optional shared camera | CSS bob/feedback, GSAP coordination | No wake asset; reflection gate                  |
+| ASSET-08 | Foreground occlusion  | 80    | AMBIENT ANIMATION        | None                                | No                     | No                                 | GSAP parallax                       | Group moves ≤1/0.6 px; no independent tree sway |
+| ASSET-09 | Restrained FX overlay | 90    | AMBIENT ANIMATION        | 24 s opacity variation if validated | No                     | No                                 | CSS opacity; GSAP coordinated pause | Current F=0; duplicate geometry gate            |
 
 ## 12. Implementation Checklist
 

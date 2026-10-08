@@ -1,6 +1,7 @@
 ---
 import IslandLayer from './IslandLayer.astro';
 import LighthouseBeam from './LighthouseBeam.astro';
+import IslandClouds from './IslandClouds.astro';
 import { SCENE_ASSETS, SCENE_HEADROOM, STAGE } from './scene-config';
 import '../../styles/island-scene.css';
 ---
@@ -20,6 +21,7 @@ import '../../styles/island-scene.css';
         <div class="island-camera">
           <LighthouseBeam />
           {SCENE_ASSETS.filter((asset) => asset.id !== 'ASSET-00').map((asset) => <IslandLayer asset={asset} />)}
+          <IslandClouds />
         </div>
       </div>
     </div>
