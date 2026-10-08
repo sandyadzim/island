@@ -52,7 +52,7 @@
 }
 .section-close .hero-icon { width: 18px; height: 18px; }
 .section-heading-row { display: flex; align-items: center; gap: .875rem; }
-.section-heading-row h2 { margin: 0; font: 400 clamp(2rem, 3.1vw, 3rem)/1.12 Georgia, serif; letter-spacing: -.035em; overflow-wrap: anywhere; }
+.section-heading-row h2 { margin: 0; font: 400 clamp(2rem, 3.1vw, 3rem)/1.12 var(--font-display); letter-spacing: -.035em; overflow-wrap: anywhere; }
 .section-divider { height: 2px; width: 40px; background: var(--color-gold); margin: 1.5rem 0; }
 .section-description, .section-pending { margin: 0; line-height: 1.7; color: var(--color-teal-muted); }
 .section-pending { margin-top: 1.25rem; font-size: .875rem; }
@@ -147,10 +147,10 @@
 .portfolio-reader { color-scheme: light; background: var(--color-ivory); color: var(--color-teal); --color-focus: var(--color-teal); }
 .reader-header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; padding: max(1.5rem, env(safe-area-inset-top)) clamp(1.25rem, 5vw, 4rem); border-bottom: 1px solid rgb(23 62 67 / 15%); }
 .reader-header a, .reader-footer a { display: inline-flex; align-items: center; gap: .5rem; min-height: 44px; color: inherit; text-decoration: none; }
-.reader-brand { font: 1.25rem Georgia, serif; }
+.reader-brand { font: 1.25rem var(--font-display); }
 .reader-header .hero-icon { width: 18px; height: 18px; }
 .reader-main { width: min(100% - 2.5rem, 65ch); margin: clamp(2rem, 8vw, 5rem) auto; }
-.reader-main h1 { font: 400 clamp(2.25rem, 6vw, 4rem)/1.12 Georgia, serif; letter-spacing: -.035em; margin: 0 0 1.5rem; }
+.reader-main h1 { font: 400 clamp(2.25rem, 6vw, 4rem)/1.12 var(--font-display); letter-spacing: -.035em; margin: 0 0 1.5rem; }
 .reader-introduction { color: var(--color-teal-muted); line-height: 1.7; }
 .reader-index ul { display: flex; flex-wrap: wrap; gap: .5rem 1.5rem; padding: 0; margin: 1.5rem 0 2rem; list-style: none; }
 .reader-index a { display: inline-flex; align-items: center; min-height: 44px; color: inherit; text-underline-offset: 4px; }

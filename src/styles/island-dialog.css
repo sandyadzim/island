@@ -1,0 +1,38 @@
+.island-dialog {
+  --color-focus: var(--color-teal);
+  color-scheme: light;
+  width: min(760px, calc(100% - 48px));
+  max-width: none;
+  max-height: calc(100dvh - 48px);
+  margin: auto;
+  padding: 0;
+  border: 0;
+  border-radius: 24px;
+  background: var(--color-ivory);
+  color: var(--color-teal);
+  box-shadow: 0 24px 80px rgb(4 16 32 / 40%);
+  overflow: hidden;
+}
+.island-dialog[open] { display: flex; flex-direction: column; }
+.island-dialog::backdrop { background: rgb(4 16 32 / 62%); }
+.island-dialog-header {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.75rem 2.5rem 1.25rem;
+  background: var(--color-ivory);
+  border-bottom: 1px solid rgb(181 130 53 / 35%);
+}
+.island-dialog-header h2 { margin: 0; font: 400 clamp(2rem, 4vw, 2.75rem)/1.12 var(--font-display); letter-spacing: -.035em; overflow-wrap: anywhere; }
+.island-dialog-header h2:focus { outline: none; }
+.island-dialog-close { display: grid; place-items: center; flex: 0 0 44px; width: 44px; height: 44px; padding: 0; border: 1px solid rgb(23 62 67 / 25%); border-radius: 50%; background: transparent; color: var(--color-teal); cursor: pointer; }
+.island-dialog-close .hero-icon { width: 20px; height: 20px; }
+.island-dialog-body { min-height: 0; overflow-y: auto; overscroll-behavior: contain; scrollbar-gutter: stable; padding: 1.75rem 2.5rem 2.5rem; }
+@media (max-width: 600px) {
+  .island-dialog { width: 100%; max-height: min(82dvh, calc(100dvh - env(safe-area-inset-top) - 12px)); margin: auto 0 0; border-radius: 24px 24px 0 0; }
+  .island-dialog-header { padding: 1.25rem max(1.25rem, env(safe-area-inset-right)) 1rem max(1.25rem, env(safe-area-inset-left)); }
+  .island-dialog-body { min-height: 0; overflow-y: auto; overscroll-behavior: contain; scrollbar-gutter: stable; padding: 1.5rem max(1.25rem, env(safe-area-inset-right)) max(2rem, env(safe-area-inset-bottom)) max(1.25rem, env(safe-area-inset-left)); }
+}
+@media (hover: hover) { .island-dialog-close:hover { background: rgb(23 62 67 / 6%); } }

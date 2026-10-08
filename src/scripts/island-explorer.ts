@@ -1,13 +1,14 @@
 import { cameraFromTransform, exploreCameraPose } from '../utils/camera-transition';
 import type { Destination } from '../components/island/scene-config';
+import { initDestinationDialogs } from './island-dialog';
 
 const explorers = new WeakMap<HTMLElement, () => void>();
 
-/** Intro gates every landmark; exploration currently emits destinations only. */
+/** Intro gates every landmark; Explore opens shared destination dialogs. */
 export function initIslandExplorer(root: HTMLElement): () => void {
   const existing = explorers.get(root);
   if (existing) return existing;
-  const start = root.querySelector<HTMLAnchorElement>('[data-start-exploring]');
+  const start = root.querySelector<HTMLButtonElement>('[data-start-exploring]');
   const back = root.querySelector<HTMLButtonElement>('[data-back-to-intro]');
   const stack = root.querySelector<HTMLElement>('.layout-stack');
   const frame = root.querySelector<HTMLElement>('.island-frame');
@@ -22,6 +23,12 @@ export function initIslandExplorer(root: HTMLElement): () => void {
   const fine = matchMedia('(hover: hover) and (pointer: fine)');
   const motion = root.querySelector<HTMLButtonElement>('[data-water-motion-toggle]');
   const links = Array.from(root.querySelectorAll<HTMLAnchorElement>('[data-explore-destination]'));
+  const dialogs = initDestinationDialogs(root);
+  const originalLinkAttributes = links.map(link => [link, link.getAttribute('aria-haspopup'), link.getAttribute('aria-controls')] as const);
+  if (dialogs) links.forEach(link => {
+    link.setAttribute('aria-haspopup', 'dialog');
+    link.setAttribute('aria-controls', 'island-destination-dialog');
+  });
   const landmarks = links.filter(link => link.hasAttribute('data-landmark'));
   const layers = Array.from(root.querySelectorAll<HTMLElement>('.island-layer[data-destination]'));
   const originalStackStyle = stack.getAttribute('style');
@@ -113,6 +120,11 @@ export function initIslandExplorer(root: HTMLElement): () => void {
     preference.disconnect();
     layout.disconnect();
     clearCamera();
+    dialogs?.dispose();
+    originalLinkAttributes.forEach(([link, popup, controlsId]) => {
+      if (popup === null) link.removeAttribute('aria-haspopup'); else link.setAttribute('aria-haspopup', popup);
+      if (controlsId === null) link.removeAttribute('aria-controls'); else link.setAttribute('aria-controls', controlsId);
+    });
     restoreStack();
     frame!.style.removeProperty('--explore-width');
     frame!.style.removeProperty('--explore-y');
@@ -140,9 +152,12 @@ export function initIslandExplorer(root: HTMLElement): () => void {
     }, { signal: events.signal });
     links.forEach(link => link.addEventListener('click', event => {
       if (!ordinaryClick(event)) return;
+      if (exploring && !dialogs) return;
       event.preventDefault();
       if (!exploring) return;
-      console.log(link.dataset.exploreDestination as Destination);
+      hovered = focused = null;
+      feedback();
+      dialogs?.open(link.dataset.exploreDestination as Exclude<Destination, 'home'>, link);
     }, { signal: events.signal }));
     landmarks.forEach(link => {
       link.addEventListener('pointerenter', () => { if (exploring && fine.matches) { hovered = link.dataset.landmark!; feedback(); } }, { signal: events.signal });
@@ -156,7 +171,7 @@ export function initIslandExplorer(root: HTMLElement): () => void {
     window.addEventListener('resize', () => { clearCamera(); if (exploring) measureCamera(); }, { signal: events.signal });
     window.addEventListener('blur', () => { hovered = null; feedback(); }, { signal: events.signal });
     document.addEventListener('keydown', event => {
-      if (!exploring || event.key !== 'Escape' || event.defaultPrevented) return;
+      if (!exploring || dialogs?.isOpen || event.key !== 'Escape' || event.defaultPrevented) return;
       if (event.target instanceof Element && event.target.closest('input, textarea, select, [contenteditable]:not([contenteditable="false"])')) return;
       event.preventDefault();
       changeMode(false, true);

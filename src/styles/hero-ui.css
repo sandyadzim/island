@@ -21,8 +21,7 @@
   background: var(--color-ivory);
   color: var(--color-teal);
   font:
-    400 20px/1 Georgia,
-    serif;
+    400 20px/1 var(--font-display);
   letter-spacing: -0.03em;
 }
 .hero-identity-copy {
@@ -128,8 +127,7 @@
 .hero-card h1 {
   margin: 0;
   font:
-    400 clamp(2rem, 3.1vw, 3rem)/1.12 Georgia,
-    serif;
+    400 clamp(2rem, 3.1vw, 3rem)/1.12 var(--font-display);
   letter-spacing: -0.035em;
   text-wrap: balance;
 }
@@ -290,8 +288,7 @@
 .island-guide h2 {
   margin: 0 0 0.875rem;
   font:
-    400 clamp(1.75rem, 4vw, 2.25rem)/1.15 Georgia,
-    serif;
+    400 clamp(1.75rem, 4vw, 2.25rem)/1.15 var(--font-display);
   letter-spacing: -0.025em;
 }
 .guide-introduction {
