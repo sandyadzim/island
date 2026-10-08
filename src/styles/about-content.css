@@ -1,9 +1,14 @@
-.about-profile-identity { display: flex; align-items: center; gap: 1.25rem; margin-bottom: 2rem; }
-.about-portrait { display: block; flex: 0 0 96px; width: 96px; height: 96px; object-fit: cover; border-radius: 50%; background: var(--color-ivory); }
+.about-profile-identity { display: grid; grid-template-columns: 88px minmax(0, 1fr) auto; align-items: center; gap: 1.25rem; margin-bottom: 2rem; }
+.about-portrait { display: block; width: 88px; height: 88px; object-fit: cover; border-radius: 50%; background: var(--color-ivory); }
 .about-identity-details { min-width: 0; }
-.destination-content .about-profile-identity h3 { font: 500 1.5rem/1.2 var(--font-display); margin: 0 0 .5rem; letter-spacing: -.025em; }
-.destination-content .about-role { color: var(--color-teal); margin: 0 0 .625rem; font-size: .9375rem; }
-.destination-content .about-place { display: flex; align-items: center; gap: .375rem; margin: 0; font-size: .8125rem; line-height: 1.5; }
+.destination-content .about-profile-identity h3 { font: 500 1.25rem/1.3 var(--font-display); margin: 0 0 .375rem; letter-spacing: -.025em; }
+.destination-content .about-role { color: var(--color-teal); margin: 0 0 .375rem; font-size: .8125rem; }
+.destination-content .about-place { display: flex; align-items: center; gap: .375rem; margin: 0; font-size: .75rem; line-height: 1.5; }
+.about-cv { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; min-height: 44px; padding: .625rem .875rem; border: 1px solid rgb(23 62 67 / 25%); border-radius: 999px; color: var(--color-teal); text-decoration: none; font-size: .8125rem; font-weight: 600; white-space: nowrap; }
+.about-cv .hero-icon { width: 16px; height: 16px; }
+.about-cv:focus-visible { outline: 2px solid var(--color-teal); outline-offset: 3px; }
+@media (hover: hover) { .about-cv:hover { background: rgb(23 62 67 / 6%); border-color: var(--color-teal); } }
+.about-education { border-top: 1px solid rgb(23 62 67 / 16%); padding-top: 1.75rem; }
 .about-place .hero-icon { flex: 0 0 16px; width: 16px; height: 16px; }
 .about-profile-facts { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem 2rem; margin: 1.75rem 0 0; padding-top: 1.5rem; border-top: 1px solid rgb(23 62 67 / 16%); }
 .about-profile-facts dt { font-size: .8125rem; margin-bottom: .375rem; }
@@ -19,9 +24,10 @@
 .education-timeline li > p:last-child { margin: 0; font-size: .9375rem; }
 @media (max-width: 600px) {
   .about-profile-facts { grid-template-columns: 1fr; }
-  .about-profile-identity { gap: 1rem; }
+  .about-profile-identity { grid-template-columns: 72px minmax(0, 1fr); gap: 1rem; }
+  .about-profile-identity .about-cv { grid-column: 1 / -1; width: 100%; min-height: 48px; }
   .about-portrait { width: 72px; height: 72px; flex-basis: 72px; }
-  .destination-content .about-profile-identity h3 { font-size: 1.25rem; }
+  .destination-content .about-profile-identity h3 { font-size: 1.0625rem; }
   .destination-content .about-role { font-size: .8125rem; }
   .destination-content .about-place { font-size: .75rem; }
   .education-timeline { padding-left: .375rem; }

@@ -1,5 +1,19 @@
 ---
 import HeroIcon from "./HeroIcon.astro";
+
+const socialProfiles = [
+  {
+    name: "LinkedIn",
+    icon: "linkedin",
+    url: "https://www.linkedin.com/in/sandy-rahmansyah/",
+  },
+  { name: "GitHub", icon: "github", url: "https://github.com/sandyadzim" },
+  {
+    name: "Instagram",
+    icon: "instagram-monochrome",
+    url: "https://www.instagram.com/rahmansyah_sandy",
+  },
+];
 ---
 
 <section class="hero-card" aria-labelledby="hero-title" data-hero-card>
@@ -13,7 +27,7 @@ import HeroIcon from "./HeroIcon.astro";
   </p>
   <div class="hero-actions">
     <button class="hero-primary-action" data-start-exploring>
-      <span>Exploring Island</span>
+      <span>Explore the Island</span>
       <HeroIcon name="arrow" />
     </button>
     <a
@@ -25,5 +39,26 @@ import HeroIcon from "./HeroIcon.astro";
     >
       <HeroIcon name="download" />
     </a>
+  </div>
+  <div class="hero-socials" role="group" aria-label="Social profiles">
+    {
+      socialProfiles.map(({ name, icon, url }) => (
+        <a
+          class="hero-social"
+          href={url}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={`${name} (opens in a new tab)`}
+          title={name}
+        >
+          <span
+            class="hero-social-icon"
+            style={`--social-icon: url('/assets/social-icons/${icon}.svg')`}
+            aria-hidden="true"
+          />
+          <span>{name}</span>
+        </a>
+      ))
+    }
   </div>
 </section>

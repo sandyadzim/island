@@ -1,35 +1,68 @@
 ---
-import HeroIcon from '../hero/HeroIcon.astro';
-import '../../styles/about-content.css';
+import HeroIcon from "../hero/HeroIcon.astro";
+import "../../styles/about-content.css";
 ---
+
 <div class="about-layout about-profile">
   <div class="about-profile-identity">
-    <img class="about-portrait" src="/assets/profile/sandy-rahmansyah.webp" alt="Portrait of Sandy Rahmansyah" width="640" height="640" />
+    <img
+      class="about-portrait"
+      src="/assets/profile/sandy-rahmansyah.webp"
+      alt="Portrait of Sandy Rahmansyah"
+      width="640"
+      height="640"
+    />
     <div class="about-identity-details">
       <h3>Sandy Rahmansyah</h3>
       <p class="about-role">Frontend Developer</p>
-      <p class="about-place"><HeroIcon name="map" /><span>Samarinda, Indonesia</span></p>
+      <p class="about-place">
+        <HeroIcon name="map" /><span>Samarinda, Indonesia</span>
+      </p>
     </div>
+    <a
+      class="about-cv"
+      href="/downloads/Sandy_Rahmansyah_CV.pdf"
+      download="Sandy_Rahmansyah_CV.pdf"
+      ><HeroIcon name="download" /><span>Download CV</span></a
+    >
   </div>
-  <p class="content-lead">Thoughtful interfaces, built with care.</p>
-  <p>I build customer-facing web applications, dashboards, and content management systems, taking frontend implementation from requirements through release.</p>
-  <dl class="about-profile-facts"><div><dt>Frontend experience</dt><dd>6+ years, as stated in the CV</dd></div><div><dt>Core stack</dt><dd>Vue · Nuxt · React · Next.js</dd></div></dl>
+  <p class="content-lead">Hi, I’m Sandy.</p>
+  <p>
+    I’m a frontend developer based in Samarinda, Indonesia, with 6+ years of
+    professional experience building websites and web applications.
+  </p>
+  <p>
+    My journey into web development began with a full-stack bootcamp in Jakarta.
+    Since then, I’ve worked alongside designers, developers, and product teams
+    to bring web products to life.
+  </p>
+  <p>
+    Alongside my professional work, I’m currently studying Information Systems
+    at Universitas Terbuka.
+  </p>
   <div class="content-block about-education">
     <h3>Education</h3>
     <ol class="education-timeline">
       <li>
-        <p class="education-date">2023–Present <span>· as stated in the supplied CV</span></p>
+        <p class="education-date">
+          2023–Present <span>· as stated in the supplied CV</span>
+        </p>
         <h4>Information Systems</h4>
         <p class="education-school">Universitas Terbuka</p>
-        <p>Coursework in programming, databases, networking, and information systems. Degree in progress.</p>
+        <p>
+          Coursework in programming, databases, networking, and information
+          systems. Degree in progress.
+        </p>
       </li>
       <li>
         <p class="education-date">October–November 2019</p>
         <h4>Full Stack Development</h4>
         <p class="education-school">Arkademy <span>· now Pijar Camp</span></p>
-        <p>Intensive training in React Native and Express.js mobile application development.</p>
+        <p>
+          Intensive training in React Native and Express.js mobile application
+          development.
+        </p>
       </li>
     </ol>
   </div>
-  <a class="content-cv" href="/downloads/Sandy_Rahmansyah_CV.pdf" download="Sandy_Rahmansyah_CV.pdf">Download CV<HeroIcon name="download" /></a>
 </div>
