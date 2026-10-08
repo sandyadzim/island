@@ -2,24 +2,21 @@
 export const DESTINATIONS = [
   {
     id: "about",
-    number: '01',
     label: "About",
     icon: "house",
-    assetId: "ASSET-02",
+    assetId: "ASSET-05",
     description:
-      "The creator’s house — an introduction and the story behind the island.",
+      "The SR monument — an introduction and the story behind the island.",
   },
   {
     id: "projects",
-    number: '02',
     label: "Projects",
     icon: "layers",
-    assetId: "ASSET-03",
-    description: "The workshop — a place for projects and things made.",
+    assetId: "ASSET-02",
+    description: "The creator’s house — a place for projects and things made.",
   },
   {
     id: "skills",
-    number: '03',
     label: "Skills",
     icon: "leaf",
     assetId: "ASSET-04",
@@ -27,15 +24,13 @@ export const DESTINATIONS = [
   },
   {
     id: "experience",
-    number: '04',
     label: "Experience",
     icon: "map",
-    assetId: "ASSET-07",
-    description: "The sailboat — the journey and experience so far.",
+    assetId: "ASSET-03",
+    description: "The workshop — the journey and experience so far.",
   },
   {
     id: "contact",
-    number: '05',
     label: "Contact",
     icon: "mail",
     assetId: "ASSET-06",

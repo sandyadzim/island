@@ -31,7 +31,7 @@
   z-index: 5;
   left: 50%;
   bottom: max(20px, env(safe-area-inset-bottom));
-  width: min(calc(100% - 40px), 560px);
+  width: min(calc(100% - 32px), 420px);
   opacity: 0;
   visibility: hidden;
   transform: translate(-50%, 12px);
@@ -69,4 +69,8 @@
 @media (max-width: 359px) {
   .hero-back-control { width: 44px; padding: 0; justify-content: center; }
   .hero-back-control span { display: none; }
+}
+
+@media (max-width: 600px) {
+  .layout-menu { width: 252px; max-width: calc(100% - 32px); }
 }

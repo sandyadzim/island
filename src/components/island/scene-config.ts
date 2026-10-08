@@ -80,7 +80,7 @@ export const SCENE_ASSETS: readonly SceneAsset[] = [
     20,
     { x: 552.96, y: -30.72, scale: 0.33 },
     { x: 795, y: 884 },
-    "about",
+    "projects",
   ),
   asset(
     "ASSET-03",
@@ -88,7 +88,7 @@ export const SCENE_ASSETS: readonly SceneAsset[] = [
     30,
     { x: 138.24, y: 163.84, scale: 0.5 },
     { x: 642, y: 662 },
-    "projects",
+    "experience",
   ),
   asset(
     "ASSET-04",
@@ -104,7 +104,7 @@ export const SCENE_ASSETS: readonly SceneAsset[] = [
     50,
     { x: 522.24, y: 296.96, scale: 0.34 },
     { x: 865, y: 722 },
-    "home",
+    "about",
   ),
   asset(
     "ASSET-06",
@@ -120,7 +120,6 @@ export const SCENE_ASSETS: readonly SceneAsset[] = [
     70,
     { x: 983.04, y: 645.12, scale: 0.28 },
     { x: 1120, y: 806 },
-    "experience",
   ),
 ];
 

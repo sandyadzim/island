@@ -18,7 +18,7 @@ test('controls include sky headroom without changing source registration', () =>
 });
 
 test('every destination has one calibrated landmark and bounded nondegenerate hit regions', () => {
-  assert.equal(new Set(SCENE_LANDMARKS.map(landmark => landmark.destination)).size, 6);
+  assert.equal(new Set(SCENE_LANDMARKS.map(landmark => landmark.destination)).size, 5);
   for (const landmark of SCENE_LANDMARKS) {
     const asset = SCENE_ASSETS.find(asset => asset.id === landmark.assetId)!;
     assert.equal(asset.destination, landmark.destination);
@@ -45,4 +45,17 @@ test('user percentages preserve negative offsets and avoid floating-point CSS no
   assert.ok(style.includes('--registration-y:-3%'));
   const workshop = registrationStyle({ x: 138.24, y: 163.84, scale: 0.5 }, { x: 642, y: 662 });
   assert.ok(workshop.includes('--registration-x:9%'));
+});
+
+// Asset filenames retain their original names; interaction semantics follow the current map.
+test('exploration destinations match their illustrations and the sailboat stays ornamental', () => {
+  const expected = [
+    ['ASSET-05', 'about', 53, 38],
+    ['ASSET-02', 'projects', 44, 9],
+    ['ASSET-03', 'experience', 22, 32],
+    ['ASSET-04', 'skills', 79, 22],
+    ['ASSET-06', 'contact', 79, 50],
+  ];
+  assert.deepEqual(SCENE_LANDMARKS.map(({assetId, destination, marker}) => [assetId, destination, marker.x, marker.y]), expected);
+  assert.equal(SCENE_ASSETS.find(asset => asset.id === 'ASSET-07')?.destination, undefined);
 });

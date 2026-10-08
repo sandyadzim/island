@@ -5,7 +5,7 @@ import HeroIcon from './HeroIcon.astro';
 <nav class="hero-navigation" aria-label="Island destinations" data-explore-navigation inert aria-hidden="true">
   <ul>
     {DESTINATIONS.map((destination) => (
-      <li><a href={`/portfolio/#${destination.id}`} data-explore-destination={destination.id}>
+      <li><a href={`/portfolio/#${destination.id}`} data-explore-destination={destination.id} aria-label={destination.label} title={destination.label}>
         <HeroIcon name={destination.icon} />
         <span>{destination.label}</span>
       </a></li>
