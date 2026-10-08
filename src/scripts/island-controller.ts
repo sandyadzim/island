@@ -40,7 +40,10 @@ export function initIslandScene(
     if (!disposed && viewport) {
       root.style.setProperty(
         "--scene-scale",
-        String(sceneScale(viewport.getBoundingClientRect().width)),
+        // Camera transforms change the visual bounds, not the source-space stage.
+        // Using those bounds here applies the camera scale twice and leaves the
+        // artwork at the previous mode's size after the transition finishes.
+        String(sceneScale(parseFloat(getComputedStyle(viewport).width))),
       );
     }
   }
@@ -81,7 +84,8 @@ export function initIslandScene(
     }
     measure();
     if (typeof ResizeObserver !== "undefined") {
-      resizeObserver = new ResizeObserver(scheduleMeasure);
+      // Update registration before paint when the camera changes layout size.
+      resizeObserver = new ResizeObserver(measure);
       resizeObserver.observe(viewport);
     }
     // Also catches viewport changes in browsers without ResizeObserver.

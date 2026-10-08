@@ -5,8 +5,6 @@ import HeroIdentity from "../components/hero/HeroIdentity.astro";
 import HeaderControls from "../components/hero/HeaderControls.astro";
 import HeroCard from "../components/hero/HeroCard.astro";
 import HeroNavigation from "../components/hero/HeroNavigation.astro";
-import IslandGuide from "../components/hero/IslandGuide.astro";
-import PortfolioSections from "../components/sections/PortfolioSections.astro";
 ---
 
 <PortfolioLayout>
@@ -15,16 +13,14 @@ import PortfolioSections from "../components/sections/PortfolioSections.astro";
   <IslandScene />
   <HeroCard slot="card" />
   <HeroNavigation slot="menu" />
-  <IslandGuide slot="guide" />
-  <PortfolioSections slot="sections" />
 </PortfolioLayout>
 
 <script>
-  import { initPortfolioNavigation } from '../scripts/portfolio-navigation';
+  import { initIslandExplorer } from '../scripts/island-explorer';
   let dispose: (() => void) | undefined;
   function initialize() {
     const root = document.querySelector<HTMLElement>('.portfolio-shell');
-    if (root) dispose = initPortfolioNavigation(root);
+    if (root) dispose = initIslandExplorer(root);
   }
   initialize();
   window.addEventListener('pagehide', () => { dispose?.(); dispose = undefined; });

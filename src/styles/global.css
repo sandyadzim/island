@@ -10,6 +10,7 @@
   --color-teal: #173e43;
   --color-teal-muted: #526467;
   --color-gold: #b58235;
+  --ease-out: cubic-bezier(.23, 1, .32, 1);
   font-family:
     ui-sans-serif,
     system-ui,

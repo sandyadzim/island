@@ -2,10 +2,10 @@
 import { DESTINATIONS } from './destinations';
 import HeroIcon from './HeroIcon.astro';
 ---
-<nav class="hero-navigation" aria-label="Island destinations">
+<nav class="hero-navigation" aria-label="Island destinations" data-explore-navigation inert aria-hidden="true">
   <ul>
     {DESTINATIONS.map((destination) => (
-      <li><a href={`#${destination.id}`} data-portfolio-link>
+      <li><a href={`/portfolio/#${destination.id}`} data-explore-destination={destination.id}>
         <HeroIcon name={destination.icon} />
         <span>{destination.label}</span>
       </a></li>

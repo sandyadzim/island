@@ -128,9 +128,7 @@
 @media (hover: hover) and (pointer: fine) {
   [data-marine-motion="running"] [data-landmark-hover]:not([data-landmark-focus]) .island-interaction { transform: scale(1.01); }
   .hero-read-control:hover, .section-close:hover { background: #e9e1d1; }
-  .portfolio-shell:not([data-portfolio-enhanced]) .island-landmark-link:hover .landmark-label { visibility: visible; }
 }
-.portfolio-shell:not([data-portfolio-enhanced]) .island-landmark-link:focus-visible .landmark-label { visibility: visible; }
 @media (max-width: 540px) {
   .portfolio-shell { --shell-gutter: 20px; }
   .hero-card, .portfolio-section { padding: 28px; }

@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import '../styles/hero-ui.css';
 import '../styles/portfolio.css';
+import '../styles/island-explorer.css';
 ---
 <!doctype html>
 <html lang="en">
@@ -13,7 +14,7 @@ import '../styles/portfolio.css';
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to main content</a>
-    <div id="home" class="portfolio-shell">
+    <div id="home" class="portfolio-shell" data-explore-mode="intro">
       <header class="layout-header" data-layout-slot="header">
         <div class="layout-identity"><slot name="identity" /></div>
         <div class="layout-controls"><slot name="header-controls" /></div>
@@ -23,11 +24,9 @@ import '../styles/portfolio.css';
           <slot />
           <div class="layout-stack">
             <div class="layout-card" data-layout-slot="card"><slot name="card" /></div>
-            <div class="layout-menu" data-layout-slot="menu"><slot name="menu" /></div>
           </div>
+          <div class="layout-menu" data-layout-slot="menu"><slot name="menu" /></div>
         </div>
-        <slot name="sections" />
-        <slot name="guide" />
       </main>
     </div>
   </body>

@@ -199,11 +199,12 @@ export function initOceanWater(
       : enabled
         ? "Pause motion"
         : "Resume motion";
+    toggle!.setAttribute('aria-label', toggleLabel.textContent);
     toggle!.dataset.motionPreference =
       reduce.matches || !enabled ? "off" : "on";
     toggle!.title = reduce.matches
       ? "Reduced motion is enabled in your system settings"
-      : "";
+      : toggleLabel.textContent;
     canvas!.dataset.waterState = running ? "running" : "paused";
     root.dataset.marineMotion = reduce.matches
       ? "reduced"
