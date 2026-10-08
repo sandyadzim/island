@@ -1,8 +1,9 @@
 ---
 import type { Destination } from '../island/scene-config';
-import { EXPERIENCE, SKILL_GROUPS, DEMO_PROJECTS } from './portfolio-content';
+import { EXPERIENCE, DEMO_PROJECTS } from './portfolio-content';
 import ProjectPreview from './ProjectPreview.astro';
 import AboutContent from './AboutContent.astro';
+import SkillsContent from './SkillsContent.astro';
 import HeroIcon from '../hero/HeroIcon.astro';
 import '../../styles/portfolio-content.css';
 interface Props { destination: Exclude<Destination, 'home'>; }
@@ -20,11 +21,7 @@ const { destination } = Astro.props;
       </div>
     </article>)}</div>
   </>}
-  {destination === 'skills' && <>
-    <p class="content-lead">The tools behind the interfaces.</p>
-    <p>My day-to-day work brings together component systems, API integration, responsive design, testing, and performance optimization.</p>
-    <div class="skill-groups">{SKILL_GROUPS.map(group => <div class="skill-group"><h3>{group.title}</h3><ul class="skill-tags">{group.items.map(item => <li>{item}</li>)}</ul>{group.note && <p class="content-note">{group.note}</p>}</div>)}</div>
-  </>}
+  {destination === 'skills' && <SkillsContent />}
   {destination === 'experience' && <>
     <p class="content-lead">A journey through products, teams, and frontend work.</p>
     <p class="content-note">“Present” reflects the supplied CV, reviewed 8 October 2026.</p>

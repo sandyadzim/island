@@ -1,0 +1,177 @@
+[
+  {
+    "title": "Bootstrap",
+    "file": "bootstrap.svg",
+    "source": "https://svgl.app/library/bootstrap.svg"
+  },
+  {
+    "title": "Next.js",
+    "file": "next-js.svg",
+    "source": "https://svgl.app/library/nextjs_icon_dark.svg"
+  },
+  {
+    "title": "shadcn/ui",
+    "file": "shadcn-ui.svg",
+    "source": "https://svgl.app/library/shadcn-ui.svg"
+  },
+  {
+    "title": "Tailwind CSS",
+    "file": "tailwind-css.svg",
+    "source": "https://svgl.app/library/tailwindcss.svg"
+  },
+  {
+    "title": "JavaScript",
+    "file": "javascript.svg",
+    "source": "https://svgl.app/library/javascript.svg"
+  },
+  {
+    "title": "TypeScript",
+    "file": "typescript.svg",
+    "source": "https://svgl.app/library/typescript.svg"
+  },
+  {
+    "title": "Nuxt",
+    "file": "nuxt.svg",
+    "source": "https://svgl.app/library/nuxt.svg"
+  },
+  {
+    "title": "Vuetify",
+    "file": "vuetify.svg",
+    "source": "https://svgl.app/library/vuetify.svg"
+  },
+  {
+    "title": "Vue",
+    "file": "vue.svg",
+    "source": "https://svgl.app/library/vue.svg"
+  },
+  {
+    "title": "React",
+    "file": "react.svg",
+    "source": "https://svgl.app/library/react_light.svg"
+  },
+  {
+    "title": "Express.js",
+    "file": "express-js.svg",
+    "source": "https://svgl.app/library/expressjs.svg"
+  },
+  {
+    "title": "Vitest",
+    "file": "vitest.svg",
+    "source": "https://svgl.app/library/vitest.svg"
+  },
+  {
+    "title": "CSS (New)",
+    "file": "css-new.svg",
+    "source": "https://svgl.app/library/css.svg"
+  },
+  {
+    "title": "Jest",
+    "file": "jest.svg",
+    "source": "https://svgl.app/library/jest.svg"
+  },
+  {
+    "title": "HTML5",
+    "file": "html5.svg",
+    "source": "https://svgl.app/library/html5.svg"
+  },
+  {
+    "title": "Node.js",
+    "file": "node-js.svg",
+    "source": "https://svgl.app/library/nodejs.svg"
+  },
+  {
+    "title": "NestJS",
+    "file": "nestjs.svg",
+    "source": "https://svgl.app/library/nestjs.svg"
+  },
+  {
+    "title": "Element Plus",
+    "file": "element-plus.svg",
+    "source": "https://raw.githubusercontent.com/element-plus/element-plus/dev/docs/public/images/element-plus-logo-small.svg"
+  },
+  {
+    "title": "Figma",
+    "file": "figma.svg",
+    "source": "https://svgl.app/library/figma.svg"
+  },
+  {
+    "title": "PostgreSQL",
+    "file": "postgresql.svg",
+    "source": "https://svgl.app/library/postgresql.svg"
+  },
+  {
+    "title": "Docker",
+    "file": "docker.svg",
+    "source": "https://svgl.app/library/docker.svg"
+  },
+  {
+    "title": "NGINX",
+    "file": "nginx.svg",
+    "source": "https://svgl.app/library/nginx.svg"
+  },
+  {
+    "title": "Bun",
+    "file": "bun.svg",
+    "source": "https://svgl.app/library/bun.svg"
+  },
+  {
+    "title": "Swift",
+    "file": "swift.svg",
+    "source": "https://svgl.app/library/swift.svg"
+  },
+  {
+    "title": "Laravel",
+    "file": "laravel.svg",
+    "source": "https://svgl.app/library/laravel.svg"
+  },
+  {
+    "title": "Sass",
+    "file": "sass.svg",
+    "source": "https://svgl.app/library/sass.svg"
+  },
+  {
+    "title": "Git",
+    "file": "git.svg",
+    "source": "https://svgl.app/library/git.svg"
+  },
+  {
+    "title": "Flutter",
+    "file": "flutter.svg",
+    "source": "https://svgl.app/library/flutter.svg"
+  },
+  {
+    "title": "MongoDB",
+    "file": "mongodb.svg",
+    "source": "https://svgl.app/library/mongodb-icon-light.svg"
+  },
+  {
+    "title": "MySQL",
+    "file": "mysql.svg",
+    "source": "https://svgl.app/library/mysql-icon-light.svg"
+  },
+  {
+    "title": "PHP",
+    "file": "php.svg",
+    "source": "https://svgl.app/library/php.svg"
+  },
+  {
+    "title": "Go",
+    "file": "go.svg",
+    "source": "https://svgl.app/library/golang.svg"
+  },
+  {
+    "title": "Angular",
+    "file": "angular.svg",
+    "source": "https://svgl.app/library/angular.svg"
+  },
+  {
+    "title": "Astro",
+    "file": "astro.svg",
+    "source": "https://svgl.app/library/astro-icon-light.svg"
+  },
+  {
+    "title": "Yarn",
+    "file": "yarn.svg",
+    "source": "https://svgl.app/library/yarn.svg"
+  }
+]

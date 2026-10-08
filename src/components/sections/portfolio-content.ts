@@ -6,15 +6,14 @@ export const EXPERIENCE = [
   { organization: 'Lintasmaya Multi Media', dates: 'October–December 2020', role: 'Frontend Developer', detail: 'Built a WordPress company landing page and a Vue/Nuxt product catalog, collaborating with backend developers and supporting deployment.' },
   { organization: 'Edutore by Gramedia', dates: 'December 2019–July 2020', role: 'Frontend Developer', detail: 'Developed the Edutore Try-Out school practice-exam application and CMS interfaces with Vue and Nuxt. Delivered features, fixed bugs, and worked on stability and performance.' },
 ];
+/** Expanded technology list and favorite stack supplied by Sandy after UI selection. */
+export const FAVORITE_STACK = ['Vue.js', 'shadcn/ui', 'NestJS', 'PostgreSQL', 'Vitest', 'Bun'];
 export const SKILL_GROUPS = [
-  { title: 'Languages & web', items: ['JavaScript', 'TypeScript', 'HTML', 'CSS'] },
-  { title: 'Frameworks', items: ['Vue.js', 'Nuxt.js', 'React', 'Next.js', 'AngularJS'] },
-  { title: 'State & data', items: ['Pinia', 'React Query'] },
-  { title: 'Interfaces', items: ['Tailwind CSS', 'Element Plus', 'shadcn/ui', 'Vuetify', 'Bootstrap', 'TanStack Table'] },
-  { title: 'API integration', items: ['REST', 'Axios'] },
-  { title: 'Testing', items: ['Vitest', 'Jest', 'Manual testing'] },
-  { title: 'Content management', items: ['WordPress'] },
-  { title: 'Backend · personal projects', items: ['Node.js', 'Express.js', 'NestJS'], note: 'Working knowledge developed in personal projects.' },
+  { title: 'Frontend Ecosystem', items: ['Vue.js', 'React', 'Angular', 'Nuxt.js', 'Next.js', 'Astro'] },
+  { title: 'UI & Styling', items: ['Tailwind CSS', 'shadcn/ui', 'Bootstrap', 'Vuetify', 'Element Plus'] },
+  { title: 'Mobile Ecosystem', items: ['React Native', 'Flutter', 'Swift'] },
+  { title: 'Backend Ecosystem', items: ['Express.js', 'NestJS', 'Laravel', 'Golang'] },
+  { title: 'Other', items: ['Node.js', 'Bun', 'Yarn', 'Jest', 'Vitest', 'HTML', 'CSS', 'JavaScript', 'TypeScript', 'PHP', 'Sass', 'Docker', 'Git', 'PostgreSQL', 'MongoDB', 'MySQL', 'Nginx', 'Figma'] },
 ];
 export const DEMO_PROJECTS = [
   { id: 'harbor', name: 'Harbor', category: 'Booking interface', description: 'An imagined seaside stay, with a calm booking flow and room to compare dates and places.', stack: ['Vue.js', 'Nuxt.js', 'Tailwind CSS'] },

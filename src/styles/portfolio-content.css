@@ -46,12 +46,6 @@
   font-size: 0.8125rem;
   line-height: 1.6;
 }
-.skill-groups {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 2rem 2.5rem;
-  margin-top: 2rem;
-}
 .skill-tags {
   list-style: none;
   display: flex;
@@ -66,9 +60,6 @@
   background: rgb(23 62 67 / 6%);
   color: var(--color-teal);
   font-size: 0.8125rem;
-}
-.skill-group .content-note {
-  margin: 0.75rem 0 0;
 }
 .experience-list {
   list-style: none;
@@ -366,10 +357,6 @@
   .project-entry .preview-products > div { font-size: .625rem; }
   .project-entry .preview-object { transform: none; }
 
-  .skill-groups {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
   .preview-canvas {
     padding: 0.75rem;
   }
