@@ -79,6 +79,15 @@
 
 @media (max-width: 600px) {
   .hero-identity-copy { display: none; }
+}
+
+/* Match the stacked layout below the wide desktop composition. */
+@media (max-width: 1099px) {
+  .hero-card h1 br { display: none; }
+  .hero-introduction { max-width: none; text-align: justify; }
+  [data-explore-mode="intro"] .island-frame { right: 2.5%; }
+  [data-explore-mode="intro"] .island-viewport { background: transparent; }
+  [data-explore-mode="intro"] .island-environment { position: fixed; inset: 0; z-index: -1; pointer-events: none; }
   [data-explore-mode="intro"] .layout-stage { display: flex; flex-direction: column; }
   [data-explore-mode="intro"] .layout-stack { order: -1; flex: none; margin: .75rem auto 1.25rem; }
   [data-explore-mode="intro"] .island-scene { flex: none; }

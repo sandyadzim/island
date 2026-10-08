@@ -11,12 +11,13 @@ const { destination } = Astro.props;
 <div class:list={['destination-content', `content-${destination}`]}>
   {destination === 'about' && <AboutContent />}
   {destination === 'projects' && <>
-    <p class="content-lead">A few imagined interfaces, ready for a closer look.</p>
-    <p class="preview-notice">These fictional demo projects preview this portfolio's layout. Their names, interfaces, and sample stacks are illustrative, rather than claims about shipped work.</p>
+    <p class="preview-notice">Three fictional demos · illustrative interfaces and sample stacks.</p>
     <div class="project-list">{DEMO_PROJECTS.map(project => <article class="project-entry">
       <ProjectPreview variant={project.id} name={project.name} />
-      <div class="project-heading"><h3>{project.name}</h3><span>{project.category}</span></div>
-      <p>{project.description}</p><ul class="skill-tags" aria-label={`${project.name} sample stack`}>{project.stack.map(item => <li>{item}</li>)}</ul>
+      <div class="project-copy"><h3>{project.name}</h3>
+        <p>{project.description}</p>
+        <ul class="skill-tags project-stack" aria-label={`${project.name} sample stack`}>{project.stack.map(item => <li>{item}</li>)}</ul>
+      </div>
     </article>)}</div>
   </>}
   {destination === 'skills' && <>
