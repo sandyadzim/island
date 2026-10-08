@@ -1,0 +1,138 @@
+.destination-content .contact-title {
+  margin: 0 0 0.75rem;
+  font: 400 clamp(1.75rem, 3.5vw, 1.875rem)/1.25 var(--font-display);
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+.destination-content .contact-description {
+  margin: 0 0 1.75rem;
+  font-size: 0.9375rem;
+  line-height: 1.75;
+  text-wrap: pretty;
+}
+.contact-details {
+  display: grid;
+  gap: 0.875rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.contact-detail-card {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  min-height: 104px;
+  padding: 1.25rem;
+  border: 1px solid rgb(23 62 67 / 16%);
+  border-radius: 12px;
+  background: rgb(23 62 67 / 3%);
+  color: var(--color-teal);
+}
+.contact-email-card {
+  text-decoration: none;
+}
+.contact-detail-card > .hero-icon {
+  flex: 0 0 28px;
+  width: 28px;
+  height: 28px;
+}
+.contact-detail-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-width: 0;
+}
+.contact-detail-label {
+  color: var(--color-teal-muted);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+.contact-detail-value {
+  font: 400 clamp(1.0625rem, 2.5vw, 1.375rem)/1.4 var(--font-display);
+  letter-spacing: -0.02em;
+  overflow-wrap: anywhere;
+}
+.contact-detail-card > .contact-email-arrow {
+  margin-left: auto;
+  flex-basis: 20px;
+  width: 20px;
+  height: 20px;
+}
+.destination-content .contact-social-copy {
+  margin: 1.5rem 0 0.625rem;
+  font-size: 0.8125rem;
+  color: var(--color-teal-muted);
+}
+.contact-socials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.625rem;
+}
+.contact-social-card {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgb(23 62 67 / 25%);
+  border-radius: 12px;
+  color: var(--color-teal);
+  text-decoration: none;
+}
+.contact-social-glyph {
+  display: block;
+  width: 20px;
+  height: 20px;
+  background: currentColor;
+  mask: var(--contact-social-icon) center / contain no-repeat;
+}
+.contact-email-card:focus-visible,
+.contact-social-card:focus-visible {
+  outline: 2px solid var(--color-teal);
+  outline-offset: 4px;
+}
+@media (hover: hover) {
+  .contact-email-card:hover {
+    border-color: var(--color-teal);
+    background: rgb(23 62 67 / 6%);
+  }
+  .contact-social-card:hover {
+    border-color: var(--color-gold);
+    color: var(--color-gold);
+  }
+}
+@media (max-width: 600px) {
+  .contact-detail-card {
+    gap: 0.875rem;
+    min-height: 96px;
+    padding: 1rem;
+  }
+  .contact-detail-card > .hero-icon {
+    flex-basis: 24px;
+    width: 24px;
+    height: 24px;
+  }
+  .contact-detail-card > .contact-email-arrow {
+    flex-basis: 18px;
+    width: 18px;
+    height: 18px;
+  }
+}
+@media (max-width: 360px) {
+  .contact-detail-card {
+    gap: 0.75rem;
+    padding: 0.875rem;
+  }
+  .contact-detail-card > .hero-icon {
+    flex-basis: 22px;
+    width: 22px;
+    height: 22px;
+  }
+  .contact-detail-card > .contact-email-arrow {
+    flex-basis: 16px;
+    width: 16px;
+    height: 16px;
+  }
+  .contact-detail-value {
+    font-size: 1rem;
+  }
+}

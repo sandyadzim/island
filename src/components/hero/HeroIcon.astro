@@ -1,25 +1,55 @@
 ---
 interface Props {
-  name: 'house' | 'layers' | 'leaf' | 'map' | 'mail' | 'arrow' | 'help' | 'pause' | 'play' | 'close' | 'sound-off' | 'sound-on' | 'download';
+  name:
+    | "house"
+    | "layers"
+    | "leaf"
+    | "map"
+    | "mail"
+    | "arrow"
+    | "arrow-up-right"
+    | "help"
+    | "pause"
+    | "play"
+    | "close"
+    | "sound-off"
+    | "sound-on"
+    | "download";
   class?: string;
 }
-const { name, class: className = '' } = Astro.props;
-const paths: Record<Props['name'], string[]> = {
-  house: ['M3 10 12 3l9 7', 'M5 9v12h14V9'],
-  layers: ['m12 3 10 5-10 5L2 8Z', 'm2 12 10 5 10-5', 'm2 16 10 5 10-5'],
-  leaf: ['M20 3C9 3 4 7 4 13a7 7 0 0 0 7 7c6 0 9-7 9-17Z', 'M3 21 15 9'],
-  map: ['m3 5 6-2 6 2 6-2v16l-6 2-6-2-6 2Z', 'M9 3v16M15 5v16'],
-  mail: ['M3 5h18v14H3Z', 'm3 6 9 7 9-7'],
-  arrow: ['M4 12h16m-6-6 6 6-6 6'],
-  help: ['M12 11v6m0-10v.1', 'M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0Z'],
-  pause: ['M9 5v14M15 5v14'],
-  play: ['m8 4 12 8-12 8Z'],
-  close: ['m6 6 12 12M18 6 6 18'],
-  'sound-off': ['M11 5 6 9H3v6h3l5 4Z', 'm16 9 6 6m0-6-6 6'],
-  'sound-on': ['M11 5 6 9H3v6h3l5 4Z', 'M15 8a5 5 0 0 1 0 8', 'M18 5a9 9 0 0 1 0 14'],
-  download: ['M12 3v12m-5-5 5 5 5-5', 'M4 16v5h16v-5'],
+const { name, class: className = "" } = Astro.props;
+const paths: Record<Props["name"], string[]> = {
+  house: ["M3 10 12 3l9 7", "M5 9v12h14V9"],
+  layers: ["m12 3 10 5-10 5L2 8Z", "m2 12 10 5 10-5", "m2 16 10 5 10-5"],
+  leaf: ["M20 3C9 3 4 7 4 13a7 7 0 0 0 7 7c6 0 9-7 9-17Z", "M3 21 15 9"],
+  map: ["m3 5 6-2 6 2 6-2v16l-6 2-6-2-6 2Z", "M9 3v16M15 5v16"],
+  mail: ["M3 5h18v14H3Z", "m3 6 9 7 9-7"],
+  arrow: ["M4 12h16m-6-6 6 6-6 6"],
+  "arrow-up-right": ["M5 19 19 5", "M5 5h14v14"],
+  help: ["M12 11v6m0-10v.1", "M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0Z"],
+  pause: ["M9 5v14M15 5v14"],
+  play: ["m8 4 12 8-12 8Z"],
+  close: ["m6 6 12 12M18 6 6 18"],
+  "sound-off": ["M11 5 6 9H3v6h3l5 4Z", "m16 9 6 6m0-6-6 6"],
+  "sound-on": [
+    "M11 5 6 9H3v6h3l5 4Z",
+    "M15 8a5 5 0 0 1 0 8",
+    "M18 5a9 9 0 0 1 0 14",
+  ],
+  download: ["M12 3v12m-5-5 5 5 5-5", "M4 16v5h16v-5"],
 };
 ---
-<svg class:list={['hero-icon', className]} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+
+<svg
+  class:list={["hero-icon", className]}
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.5"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+  focusable="false"
+>
   {paths[name].map((d) => <path d={d} />)}
 </svg>

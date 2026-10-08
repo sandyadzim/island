@@ -4,7 +4,7 @@ import { EXPERIENCE } from "./portfolio-content";
 import ProjectsContent from "./ProjectsContent.astro";
 import AboutContent from "./AboutContent.astro";
 import SkillsContent from "./SkillsContent.astro";
-import HeroIcon from "../hero/HeroIcon.astro";
+import ContactContent from "./ContactContent.astro";
 import "../../styles/portfolio-content.css";
 interface Props {
   destination: Exclude<Destination, "home">;
@@ -35,52 +35,5 @@ const { destination } = Astro.props;
       </>
     )
   }
-  {
-    destination === "contact" && (
-      <>
-        <p class="content-lead">
-          A little lighthouse for future conversations.
-        </p>
-        <p>
-          Public contact details will be added here. For now, these rows are
-          layout previews.
-        </p>
-        <dl class="contact-preview">
-          <>
-            <div>
-              <>
-                <dt>
-                  <>
-                    <HeroIcon name="mail" />
-                    <span>Email</span>
-                  </>
-                </dt>
-                <dd>
-                  hello@example.com
-                  <span>Sample address · not an active contact link</span>
-                </dd>
-              </>
-            </div>
-            <div>
-              <>
-                <dt>
-                  <>
-                    <HeroIcon name="arrow" />
-                    <span>LinkedIn</span>
-                  </>
-                </dt>
-                <dd>
-                  Your LinkedIn profile
-                  <span>Placeholder · profile link coming later</span>
-                </dd>
-              </>
-            </div>
-          </>
-        </dl>
-        <p class="content-note">
-          Preview only. No messages can be sent from this section.
-        </p>
-      </>
-    )
-  }
+  {destination === "contact" && <ContactContent />}
 </div>

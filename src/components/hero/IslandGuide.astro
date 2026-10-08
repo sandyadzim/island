@@ -1,25 +1,48 @@
 ---
-import { DESTINATIONS } from './destinations';
-import HeroIcon from './HeroIcon.astro';
+import { DESTINATIONS } from "./destinations";
+import HeroIcon from "./HeroIcon.astro";
 ---
+
 <div class="island-guide-root" data-island-guide-root>
-  <section id="island-guide" class="island-guide" aria-labelledby="island-guide-title" data-guide-content>
+  <section
+    id="island-guide"
+    class="island-guide"
+    aria-labelledby="island-guide-title"
+    data-guide-content
+  >
     <h2 id="island-guide-title" tabindex="-1">Five places to explore.</h2>
-    <p class="guide-introduction">Choose an illustration, its numbered marker, or a place in the navigation below the card. The monument returns Home. Pause motion stops the island’s animation.</p>
+    <p class="guide-introduction">
+      Choose an illustration, its numbered marker, or a place in the navigation
+      below the card. The monument returns Home. Pause motion stops the island’s
+      animation.
+    </p>
     <ul class="guide-destinations">
-      {DESTINATIONS.map((destination) => (
-        <li>
-          <HeroIcon name={destination.icon} />
-          <div>
-            <h3 id={`guide-${destination.id}`} tabindex="-1">{destination.label}</h3>
-            <p>{destination.description}</p>
-          </div>
-        </li>
-      ))}
+      {
+        DESTINATIONS.map((destination) => (
+          <li>
+            <HeroIcon name={destination.icon} />
+            <div>
+              <h3 id={`guide-${destination.id}`} tabindex="-1">
+                {destination.label}
+              </h3>
+              <p>{destination.description}</p>
+            </div>
+          </li>
+        ))
+      }
     </ul>
   </section>
-  <dialog class="island-guide-dialog" aria-labelledby="island-guide-title" data-guide-dialog>
-    <button class="guide-close" type="button" data-guide-close aria-label="Close island guide">
+  <dialog
+    class="island-guide-dialog"
+    aria-labelledby="island-guide-title"
+    data-guide-dialog
+  >
+    <button
+      class="guide-close"
+      type="button"
+      data-guide-close
+      aria-label="Close island guide"
+    >
       <HeroIcon name="close" /><span>Close</span>
     </button>
     <div data-guide-container></div>
@@ -27,13 +50,20 @@ import HeroIcon from './HeroIcon.astro';
 </div>
 
 <script>
-  import { initIslandGuide } from '../../scripts/island-guide';
+  import { initIslandGuide } from "../../scripts/island-guide";
   let dispose: (() => void) | undefined;
   function initialize() {
-    const root = document.querySelector<HTMLElement>('[data-island-guide-root]');
+    const root = document.querySelector<HTMLElement>(
+      "[data-island-guide-root]",
+    );
     if (root) dispose = initIslandGuide(root);
   }
   initialize();
-  window.addEventListener('pagehide', () => { dispose?.(); dispose = undefined; });
-  window.addEventListener('pageshow', (event) => { if (event.persisted) initialize(); });
+  window.addEventListener("pagehide", () => {
+    dispose?.();
+    dispose = undefined;
+  });
+  window.addEventListener("pageshow", (event) => {
+    if (event.persisted) initialize();
+  });
 </script>
