@@ -1,0 +1,13 @@
+---
+import HeroIcon from './HeroIcon.astro';
+---
+<div class="hero-header-controls">
+  <a class="hero-help-control" href="#island-guide" data-guide-link aria-label="Help: explore the island" title="Explore the island">
+    <HeroIcon name="help" />
+  </a>
+  <button class="hero-motion-control" data-water-motion-toggle type="button" hidden>
+    <HeroIcon name="pause" class="motion-icon-pause" />
+    <HeroIcon name="play" class="motion-icon-play" />
+    <span data-motion-label>Pause motion</span>
+  </button>
+</div>

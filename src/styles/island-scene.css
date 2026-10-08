@@ -39,27 +39,6 @@
   visibility: visible;
 }
 
-.water-motion-toggle {
-  position: absolute;
-  z-index: 3;
-  right: var(--shell-gutter);
-  bottom: max(1.25rem, env(safe-area-inset-bottom));
-  min-height: 44px;
-  padding: 0.5rem 0.875rem;
-  border: 1px solid rgb(169 189 215 / 25%);
-  border-radius: 999px;
-  background: rgb(8 20 38 / 75%);
-  color: var(--color-text);
-  font: inherit;
-  font-size: 0.75rem;
-  cursor: pointer;
-}
-
-.water-motion-toggle:disabled {
-  cursor: default;
-  color: var(--color-muted);
-}
-
 @media (prefers-reduced-motion: reduce) {
   .ocean-water[data-water-visible] {
     visibility: hidden;
@@ -321,7 +300,8 @@
 
 [data-marine-motion="running"] .island-bird-wings,
 [data-marine-motion="paused"] .island-bird-wings {
-  animation: island-bird-wingbeat var(--wing-duration) ease-in-out var(--wing-delay) infinite;
+  animation: island-bird-wingbeat var(--wing-duration) ease-in-out
+    var(--wing-delay) infinite;
 }
 
 [data-marine-motion="paused"] .island-bird-flight,
@@ -332,16 +312,35 @@
 /* A twelve-second crossing followed by twelve seconds of quiet. Both ends
    disappear before the reset; the flock stays in the sky above the buildings. */
 @keyframes island-bird-pass {
-  0% { transform: translate(0, 0) rotate(-3deg); opacity: 0; }
-  3.5% { opacity: 0.8; }
-  24.5% { transform: translate(460px, -42px) rotate(1deg); opacity: 0.8; }
-  45.5% { opacity: 0.8; }
-  50%, 100% { transform: translate(950px, -10px) rotate(3deg); opacity: 0; }
+  0% {
+    transform: translate(0, 0) rotate(-3deg);
+    opacity: 0;
+  }
+  3.5% {
+    opacity: 0.8;
+  }
+  24.5% {
+    transform: translate(460px, -42px) rotate(1deg);
+    opacity: 0.8;
+  }
+  45.5% {
+    opacity: 0.8;
+  }
+  50%,
+  100% {
+    transform: translate(950px, -10px) rotate(3deg);
+    opacity: 0;
+  }
 }
 
 @keyframes island-bird-wingbeat {
-  0%, 100% { transform: scaleY(1); }
-  50% { transform: scaleY(0.35); }
+  0%,
+  100% {
+    transform: scaleY(1);
+  }
+  50% {
+    transform: scaleY(0.35);
+  }
 }
 
 .island-clouds {
@@ -457,36 +456,42 @@
   background: var(--color-page);
 }
 
-/* Fit the desktop island beside the card space without altering registration. */
-@media (min-width: 901px) and (min-height: 601px) {
-  .island-frame {
-    right: 1vw;
-    width: min(65vw, calc(88svh * 1536 / 1056));
-  }
+/* Outer composition changes; all source-space registration remains unchanged. */
+.island-scene {
+  position: relative;
+  width: min(100%, 960px);
+  aspect-ratio: var(--viewport-ratio);
+  margin-inline: auto;
+}
+.island-frame {
+  top: 0;
+  right: 0;
+  width: 100%;
+  max-width: none;
+  transform: none;
+}
+.scene-caption {
+  bottom: 0.5rem;
 }
 
-@media (max-width: 900px) {
-  .island-frame {
-    top: var(--header-space);
-    right: 50%;
-    width: min(
-      100vw,
-      calc((100svh - var(--header-space) - var(--menu-space)) * 1536 / 1056)
-    );
-    transform: translateX(50%);
+@media (min-width: 1100px) and (min-height: 720px) {
+  .island-scene {
+    position: absolute;
+    inset: 0;
+    width: auto;
+    aspect-ratio: auto;
+    margin: 0;
   }
-}
-
-@media (max-height: 600px) and (min-aspect-ratio: 4/3) {
   .island-frame {
     top: calc(
       var(--header-space) + (100% - var(--header-space) - var(--menu-space)) / 2
     );
-    right: var(--shell-gutter);
-    width: min(
-      72vw,
-      calc((100svh - var(--header-space) - var(--menu-space)) * 1536 / 1056)
-    );
+    right: 1vw;
+    width: min(65vw, calc(88svh * 1536 / 1056));
+    max-width: 1536px;
     transform: translateY(-50%);
+  }
+  .scene-caption {
+    bottom: 1rem;
   }
 }

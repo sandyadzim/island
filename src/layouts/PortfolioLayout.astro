@@ -1,29 +1,32 @@
 ---
 import '../styles/global.css';
+import '../styles/hero-ui.css';
 ---
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="A quiet island scene at dusk, built from layered artwork." />
-    <title>Island Portfolio</title>
+    <meta name="description" content="Welcome to Sunrise Reef. Explore my work, the things I know, and the story so far." />
+    <title>Sunrise Reef — A little island of ideas</title>
   </head>
   <body>
-    <a class="skip-link" href="#main">Skip to the island</a>
-    <div class="portfolio-shell">
+    <a class="skip-link" href="#main">Skip to main content</a>
+    <div id="home" class="portfolio-shell">
       <header class="layout-header" data-layout-slot="header">
-        <h1 class="sr-only">Island Portfolio</h1>
         <div class="layout-identity"><slot name="identity" /></div>
         <div class="layout-controls"><slot name="header-controls" /></div>
       </header>
       <main id="main" tabindex="-1" class="layout-main">
-        <slot />
-        <div class="layout-card" data-layout-slot="card"><slot name="card" /></div>
+        <div class="layout-stage">
+          <slot />
+          <div class="layout-stack">
+            <div class="layout-card" data-layout-slot="card"><slot name="card" /></div>
+            <div class="layout-menu" data-layout-slot="menu"><slot name="menu" /></div>
+          </div>
+        </div>
+        <slot name="guide" />
       </main>
-      <footer class="layout-menu" data-layout-slot="menu">
-        <slot name="menu" />
-      </footer>
     </div>
   </body>
 </html>

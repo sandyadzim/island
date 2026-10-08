@@ -1,7 +1,18 @@
 ---
-import PortfolioLayout from '../layouts/PortfolioLayout.astro';
-import IslandScene from '../components/island/IslandScene.astro';
+import PortfolioLayout from "../layouts/PortfolioLayout.astro";
+import IslandScene from "../components/island/IslandScene.astro";
+import HeroIdentity from "../components/hero/HeroIdentity.astro";
+import HeaderControls from "../components/hero/HeaderControls.astro";
+import HeroCard from "../components/hero/HeroCard.astro";
+import HeroNavigation from "../components/hero/HeroNavigation.astro";
+import IslandGuide from "../components/hero/IslandGuide.astro";
 ---
+
 <PortfolioLayout>
+  <HeroIdentity slot="identity" />
+  <HeaderControls slot="header-controls" />
   <IslandScene />
+  <HeroCard slot="card" />
+  <HeroNavigation slot="menu" />
+  <IslandGuide slot="guide" />
 </PortfolioLayout>

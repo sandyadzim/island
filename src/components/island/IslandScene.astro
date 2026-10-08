@@ -32,7 +32,6 @@ import '../../styles/island-scene.css';
     <p class="sr-only">An island at dusk.</p>
     <p class="scene-status" data-scene-status role="status" aria-live="polite" aria-atomic="true"></p>
   </figcaption>
-  <button class="water-motion-toggle" data-water-motion-toggle type="button" hidden>Pause motion</button>
 </figure>
 
 <script>
@@ -40,7 +39,8 @@ import '../../styles/island-scene.css';
 
   let disposers: Array<() => void> = [];
   function initialize() {
-    disposers = Array.from(document.querySelectorAll<HTMLElement>('[data-island-scene]'), initIslandScene);
+    const motionToggle = document.querySelector<HTMLButtonElement>('[data-water-motion-toggle]');
+    disposers = Array.from(document.querySelectorAll<HTMLElement>('[data-island-scene]'), (root) => initIslandScene(root, motionToggle));
   }
   initialize();
   window.addEventListener('pagehide', () => {

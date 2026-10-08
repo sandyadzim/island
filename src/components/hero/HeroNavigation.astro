@@ -1,0 +1,14 @@
+---
+import { DESTINATIONS } from './destinations';
+import HeroIcon from './HeroIcon.astro';
+---
+<nav class="hero-navigation" aria-label="Island destinations">
+  <ul>
+    {DESTINATIONS.map((destination) => (
+      <li><a href={`#guide-${destination.id}`} data-guide-link>
+        <HeroIcon name={destination.icon} />
+        <span>{destination.label}</span>
+      </a></li>
+    ))}
+  </ul>
+</nav>

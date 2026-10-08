@@ -47,16 +47,29 @@ void main() {
   gl_FragColor = color;
 }`;
 
-const STORAGE_KEY = 'island-water-motion';
+const STORAGE_KEY = "island-water-motion";
 
-export function initOceanWater(root: HTMLElement): () => void {
-  const canvas = root.querySelector<HTMLCanvasElement>('[data-ocean-water]');
-  const image = root.querySelector<HTMLImageElement>('[data-asset-id="ASSET-00"] img');
-  const toggle = root.querySelector<HTMLButtonElement>('[data-water-motion-toggle]');
-  const beams = Array.from(root.querySelectorAll<SVGSVGElement>('[data-lighthouse-beam]'));
-  const lampGlint = root.querySelector<HTMLElement>('[data-lighthouse-glint]');
+export function initOceanWater(
+  root: HTMLElement,
+  toggle: HTMLButtonElement | null,
+): () => void {
+  const canvas = root.querySelector<HTMLCanvasElement>("[data-ocean-water]");
+  const image = root.querySelector<HTMLImageElement>(
+    '[data-asset-id="ASSET-00"] img',
+  );
+  const beams = Array.from(
+    root.querySelectorAll<SVGSVGElement>("[data-lighthouse-beam]"),
+  );
+  const lampGlint = root.querySelector<HTMLElement>("[data-lighthouse-glint]");
   if (!canvas || !image || !toggle) return () => {};
-  const gl = canvas.getContext('webgl', { alpha: false, antialias: false, depth: false, powerPreference: 'low-power' });
+  const toggleLabel =
+    toggle.querySelector<HTMLElement>("[data-motion-label]") ?? toggle;
+  const gl = canvas.getContext("webgl", {
+    alpha: false,
+    antialias: false,
+    depth: false,
+    powerPreference: "low-power",
+  });
   if (!gl) return () => {};
 
   const shaders: WebGLShader[] = [];
@@ -64,7 +77,7 @@ export function initOceanWater(root: HTMLElement): () => void {
   const buffer = gl.createBuffer();
   const texture = gl.createTexture();
   const events = new AbortController();
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)");
   let resize: ResizeObserver | undefined;
   let intersection: IntersectionObserver | undefined;
   let frame: number | undefined;
@@ -82,16 +95,16 @@ export function initOceanWater(root: HTMLElement): () => void {
     events.abort();
     resize?.disconnect();
     intersection?.disconnect();
-    reduce.removeEventListener('change', sync);
-    canvas!.removeAttribute('data-water-visible');
-    canvas!.removeAttribute('data-water-state');
-    root.removeAttribute('data-marine-motion');
+    reduce.removeEventListener("change", sync);
+    canvas!.removeAttribute("data-water-visible");
+    canvas!.removeAttribute("data-water-state");
+    root.removeAttribute("data-marine-motion");
     beams.forEach((beam) => {
-      beam.style.removeProperty('transform');
-      beam.style.removeProperty('opacity');
+      beam.style.removeProperty("transform");
+      beam.style.removeProperty("opacity");
     });
-    lampGlint?.style.removeProperty('opacity');
-    lampGlint?.style.removeProperty('transform');
+    lampGlint?.style.removeProperty("opacity");
+    lampGlint?.style.removeProperty("transform");
     toggle!.hidden = true;
     gl!.deleteTexture(texture);
     gl!.deleteBuffer(buffer);
@@ -101,11 +114,12 @@ export function initOceanWater(root: HTMLElement): () => void {
 
   function compile(type: number, source: string) {
     const shader = gl!.createShader(type);
-    if (!shader) throw new Error('Water shader unavailable');
+    if (!shader) throw new Error("Water shader unavailable");
     shaders.push(shader);
     gl!.shaderSource(shader, source);
     gl!.compileShader(shader);
-    if (!gl!.getShaderParameter(shader, gl!.COMPILE_STATUS)) throw new Error('Water shader failed');
+    if (!gl!.getShaderParameter(shader, gl!.COMPILE_STATUS))
+      throw new Error("Water shader failed");
     return shader;
   }
 
@@ -117,7 +131,7 @@ export function initOceanWater(root: HTMLElement): () => void {
     gl!.drawArrays(gl!.TRIANGLES, 0, 6);
     // Two opposing beams face the viewer twice per revolution. A narrow, smooth
     // crest gives the lamp a warm glint without introducing another timer.
-    const facing = Math.abs(Math.sin(elapsed * Math.PI * 2 / 32));
+    const facing = Math.abs(Math.sin((elapsed * Math.PI * 2) / 32));
     const glint = facing ** 8;
     if (lampGlint) {
       lampGlint.style.opacity = String(0.06 + 0.94 * glint);
@@ -126,12 +140,12 @@ export function initOceanWater(root: HTMLElement): () => void {
     beams.forEach((beam, index) => {
       // A circle projected onto the local ground plane becomes an ellipse. Projecting
       // its endpoint keeps the sweep continuous and the lamp origin stationary.
-      const phase = elapsed * Math.PI * 2 / 32 + index * Math.PI;
+      const phase = (elapsed * Math.PI * 2) / 32 + index * Math.PI;
       const depth = Math.sin(phase);
       const x = -Math.cos(phase) * 360;
       const y = depth * 220;
       const length = Math.hypot(x, y);
-      const angle = Math.atan2(y, x) * 180 / Math.PI;
+      const angle = (Math.atan2(y, x) * 180) / Math.PI;
       const front = Math.max(0, depth);
       beam.style.transform = `rotate(${angle}deg) scale(${length / 1400}, ${0.2 + front * 0.15})`;
       // Rear light stays visible, slightly narrower and dimmer than the front.
@@ -144,18 +158,30 @@ export function initOceanWater(root: HTMLElement): () => void {
     const { width, height } = canvas!.getBoundingClientRect();
     if (!width || !height) return;
     // Cap fill rate on Retina displays and render at most 30 frames per second.
-    const scale = Math.min(devicePixelRatio || 1, 1.5, 1600 / width, 1200 / height);
+    const scale = Math.min(
+      devicePixelRatio || 1,
+      1.5,
+      1600 / width,
+      1200 / height,
+    );
     canvas!.width = Math.max(1, Math.round(width * scale));
     canvas!.height = Math.max(1, Math.round(height * scale));
     gl!.viewport(0, 0, canvas!.width, canvas!.height);
-    const fitted = Math.max(width / image!.naturalWidth, height / image!.naturalHeight);
-    gl!.uniform2f(cover, width / (image!.naturalWidth * fitted), height / (image!.naturalHeight * fitted));
+    const fitted = Math.max(
+      width / image!.naturalWidth,
+      height / image!.naturalHeight,
+    );
+    gl!.uniform2f(
+      cover,
+      width / (image!.naturalWidth * fitted),
+      height / (image!.naturalHeight * fitted),
+    );
     draw();
   }
 
   function tick(now: number) {
     if (disposed) return;
-    elapsed += Math.min((now - lastTime) / 1000, .1);
+    elapsed += Math.min((now - lastTime) / 1000, 0.1);
     lastTime = now;
     if (now - lastDraw >= 1000 / 30) {
       draw();
@@ -168,11 +194,23 @@ export function initOceanWater(root: HTMLElement): () => void {
     if (disposed) return;
     const running = enabled && !reduce.matches && !document.hidden && onScreen;
     toggle!.disabled = reduce.matches;
-    toggle!.textContent = reduce.matches ? 'Motion off' : enabled ? 'Pause motion' : 'Resume motion';
-    toggle!.title = reduce.matches ? 'Reduced motion is enabled in your system settings' : '';
-    canvas!.dataset.waterState = running ? 'running' : 'paused';
-    root.dataset.marineMotion = reduce.matches ? 'reduced' : running ? 'running' : 'paused';
-    canvas!.toggleAttribute('data-water-visible', !reduce.matches);
+    toggleLabel.textContent = reduce.matches
+      ? "Motion off"
+      : enabled
+        ? "Pause motion"
+        : "Resume motion";
+    toggle!.dataset.motionPreference =
+      reduce.matches || !enabled ? "off" : "on";
+    toggle!.title = reduce.matches
+      ? "Reduced motion is enabled in your system settings"
+      : "";
+    canvas!.dataset.waterState = running ? "running" : "paused";
+    root.dataset.marineMotion = reduce.matches
+      ? "reduced"
+      : running
+        ? "running"
+        : "paused";
+    canvas!.toggleAttribute("data-water-visible", !reduce.matches);
     if (frame !== undefined) cancelAnimationFrame(frame);
     frame = undefined;
     if (running) {
@@ -182,15 +220,21 @@ export function initOceanWater(root: HTMLElement): () => void {
   }
 
   try {
-    if (!program || !buffer || !texture) throw new Error('Water renderer unavailable');
+    if (!program || !buffer || !texture)
+      throw new Error("Water renderer unavailable");
     gl.attachShader(program, compile(gl.VERTEX_SHADER, VERTEX));
     gl.attachShader(program, compile(gl.FRAGMENT_SHADER, FRAGMENT));
     gl.linkProgram(program);
-    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) throw new Error('Water program failed');
+    if (!gl.getProgramParameter(program, gl.LINK_STATUS))
+      throw new Error("Water program failed");
     gl.useProgram(program);
     gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, 1]), gl.STATIC_DRAW);
-    const position = gl.getAttribLocation(program, 'a_position');
+    gl.bufferData(
+      gl.ARRAY_BUFFER,
+      new Float32Array([-1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, 1]),
+      gl.STATIC_DRAW,
+    );
+    const position = gl.getAttribLocation(program, "a_position");
     gl.enableVertexAttribArray(position);
     gl.vertexAttribPointer(position, 2, gl.FLOAT, false, 0, 0);
     gl.activeTexture(gl.TEXTURE0);
@@ -200,30 +244,51 @@ export function initOceanWater(root: HTMLElement): () => void {
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
-    gl.uniform1i(gl.getUniformLocation(program, 'u_image'), 0);
-    gl.uniform2f(gl.getUniformLocation(program, 'u_texel'), 1 / image.naturalWidth, 1 / image.naturalHeight);
-    time = gl.getUniformLocation(program, 'u_time');
-    cover = gl.getUniformLocation(program, 'u_cover');
-    if (gl.getError() !== gl.NO_ERROR) throw new Error('Water texture unavailable');
-    try { enabled = localStorage.getItem(STORAGE_KEY) !== 'off'; } catch { /* Storage is optional. */ }
+    gl.uniform1i(gl.getUniformLocation(program, "u_image"), 0);
+    gl.uniform2f(
+      gl.getUniformLocation(program, "u_texel"),
+      1 / image.naturalWidth,
+      1 / image.naturalHeight,
+    );
+    time = gl.getUniformLocation(program, "u_time");
+    cover = gl.getUniformLocation(program, "u_cover");
+    if (gl.getError() !== gl.NO_ERROR)
+      throw new Error("Water texture unavailable");
+    try {
+      enabled = localStorage.getItem(STORAGE_KEY) !== "off";
+    } catch {
+      /* Storage is optional. */
+    }
     measure();
     resize = new ResizeObserver(measure);
     resize.observe(canvas);
-    if (typeof IntersectionObserver !== 'undefined') {
+    if (typeof IntersectionObserver !== "undefined") {
       intersection = new IntersectionObserver(([entry]) => {
         onScreen = entry?.isIntersecting ?? false;
         sync();
       });
       intersection.observe(canvas);
     }
-    toggle.addEventListener('click', () => {
-      enabled = !enabled;
-      try { localStorage.setItem(STORAGE_KEY, enabled ? 'on' : 'off'); } catch { /* Storage is optional. */ }
-      sync();
-    }, { signal: events.signal });
-    document.addEventListener('visibilitychange', sync, { signal: events.signal });
-    reduce.addEventListener('change', sync);
-    canvas.addEventListener('webglcontextlost', cleanup, { signal: events.signal });
+    toggle.addEventListener(
+      "click",
+      () => {
+        enabled = !enabled;
+        try {
+          localStorage.setItem(STORAGE_KEY, enabled ? "on" : "off");
+        } catch {
+          /* Storage is optional. */
+        }
+        sync();
+      },
+      { signal: events.signal },
+    );
+    document.addEventListener("visibilitychange", sync, {
+      signal: events.signal,
+    });
+    reduce.addEventListener("change", sync);
+    canvas.addEventListener("webglcontextlost", cleanup, {
+      signal: events.signal,
+    });
     toggle.hidden = false;
     sync();
   } catch {

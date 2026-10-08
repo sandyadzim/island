@@ -1,129 +1,125 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
 :root {
   color-scheme: dark;
   --color-page: #081426;
   --color-text: #edf3fc;
   --color-muted: #a9bdd7;
-  --color-focus: #ffca80;
-  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --color-focus: #f7f0e3;
+  --color-ivory: #f7f0e3;
+  --color-teal: #173e43;
+  --color-teal-muted: #526467;
+  --color-gold: #b58235;
+  font-family:
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
   background: var(--color-page);
   color: var(--color-text);
 }
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
 body {
   margin: 0;
   min-width: 0;
 }
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+button {
+  font: inherit;
+}
+[hidden] {
+  display: none !important;
+}
 
-/* Empty slots reserve the reference layout; their future content owns its UI. */
 .portfolio-shell {
-  --shell-gutter: clamp(1.5rem, 3.5vw, 3.5rem);
+  --shell-gutter: clamp(1.25rem, 3.5vw, 3.5rem);
   --header-space: 7rem;
   --menu-space: 9rem;
   position: relative;
   min-height: 100svh;
   isolation: isolate;
 }
-
-.layout-main {
-  position: relative;
-  min-height: 100svh;
-}
-
-.layout-header,
-.layout-card,
-.layout-menu {
-  position: absolute;
-  z-index: 2;
-  pointer-events: none;
-}
-
-.layout-header > *,
-.layout-card > *,
-.layout-menu > * {
-  pointer-events: auto;
-}
-
 .layout-header {
-  inset: max(2rem, env(safe-area-inset-top)) var(--shell-gutter) auto;
+  position: relative;
+  z-index: 2;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 2rem;
-  min-height: 3.5rem;
+  gap: 1.5rem;
+  padding: max(1.25rem, env(safe-area-inset-top)) var(--shell-gutter) 1.25rem;
 }
-
-.layout-card {
-  left: var(--shell-gutter);
-  top: 50%;
-  transform: translateY(-50%);
-  width: min(29vw, 28rem);
-  min-height: min(46svh, 30rem);
+.layout-identity,
+.layout-controls {
+  min-width: 0;
 }
-
+.layout-main,
+.layout-stage {
+  position: relative;
+}
+.layout-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: min(100% - 2 * var(--shell-gutter), 36rem);
+  margin: 1.5rem auto max(2rem, env(safe-area-inset-bottom));
+}
+.layout-card,
 .layout-menu {
-  bottom: max(2.5rem, env(safe-area-inset-bottom));
-  left: 50%;
-  transform: translateX(-50%);
-  width: min(42rem, 60vw);
-  min-height: 6rem;
+  min-width: 0;
 }
 
-@media (max-width: 900px) {
-  .portfolio-shell {
-    --shell-gutter: 1.25rem;
-    --header-space: 5rem;
-    --menu-space: 14rem;
-  }
-
+@media (min-width: 1100px) and (min-height: 720px) {
   .layout-header {
-    top: max(1.25rem, env(safe-area-inset-top));
+    position: absolute;
+    inset: max(1.5rem, env(safe-area-inset-top)) var(--shell-gutter) auto;
+    padding: 0;
+  }
+  .layout-stage {
+    min-height: 100svh;
+  }
+  .layout-stack {
+    position: relative;
+    z-index: 2;
+    width: min(32vw, 430px);
+    min-height: 100svh;
+    margin: 0 0 0 var(--shell-gutter);
+    padding-block: 8rem max(2rem, env(safe-area-inset-bottom));
+    justify-content: center;
+    pointer-events: none;
+  }
+  .layout-stack > * {
+    pointer-events: auto;
+  }
+}
+
+@media (max-width: 540px) {
+  .layout-header {
+    flex-wrap: wrap;
     gap: 1rem;
   }
-
-  .layout-card {
-    top: auto;
-    bottom: 7rem;
-    width: calc(100% - 2 * var(--shell-gutter));
-    min-height: 7rem;
-    transform: none;
+  .layout-controls {
+    margin-left: auto;
   }
-
-  .layout-menu {
-    bottom: max(1.25rem, env(safe-area-inset-bottom));
-    width: calc(100% - 2 * var(--shell-gutter));
-    min-height: 4.5rem;
-  }
-}
-
-@media (max-height: 600px) and (min-aspect-ratio: 4/3) {
-  .portfolio-shell {
-    --header-space: 4.5rem;
-    --menu-space: 5.5rem;
-  }
-
-  .layout-header { top: 1rem; }
-  .layout-card {
-    top: 50%;
-    bottom: auto;
-    width: 29vw;
-    min-height: 40svh;
-    transform: translateY(-50%);
-  }
-  .layout-menu { bottom: 1rem; min-height: 3rem; width: 50vw; }
 }
 
 ::selection {
-  background: #ffca80;
-  color: #081426;
+  background: var(--color-ivory);
+  color: var(--color-teal);
 }
-
 :focus-visible {
   outline: 2px solid var(--color-focus);
   outline-offset: 4px;
 }
-
 .skip-link {
   position: absolute;
   top: 1rem;
@@ -131,10 +127,10 @@ body {
   z-index: 100;
   transform: translateY(-200%);
   padding: 0.75rem 1rem;
-  background: var(--color-text);
-  color: var(--color-page);
+  background: var(--color-ivory);
+  color: var(--color-teal);
 }
-
 .skip-link:focus {
   transform: none;
+  outline-color: var(--color-teal);
 }
