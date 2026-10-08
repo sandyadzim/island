@@ -1,29 +1,61 @@
 ---
-import { STAGE } from './scene-config';
+import { STAGE } from "./scene-config";
 
 // Island-local positions; share the stage's uniform responsive scale.
 const clouds = [
-  { x: 300, y: 170, width: 260, duration: 24, delay: -7, drift: 190, rise: -42, flip: false },
-  { x: 960, y: 150, width: 230, duration: 29, delay: -18, drift: 130, rise: -28, flip: true },
-  { x: 680, y: 570, width: 240, duration: 27, delay: -24, drift: 180, rise: -35, flip: false },
+  {
+    x: 300,
+    y: 170,
+    width: 260,
+    duration: 24,
+    delay: -7,
+    drift: 190,
+    rise: -42,
+    flip: false,
+  },
+  {
+    x: 960,
+    y: 150,
+    width: 230,
+    duration: 29,
+    delay: -18,
+    drift: 130,
+    rise: -28,
+    flip: true,
+  },
+  {
+    x: 680,
+    y: 570,
+    width: 240,
+    duration: 27,
+    delay: -24,
+    drift: 180,
+    rise: -35,
+    flip: false,
+  },
 ];
 ---
 
 <div class="island-clouds" aria-hidden="true">
-  {clouds.map((cloud) => (
-    <div
-      class="island-cloud"
-      style={`left:${cloud.x / STAGE.width * 100}%;top:${cloud.y / STAGE.height * 100}%;width:${cloud.width / STAGE.width * 100}%;--cloud-duration:${cloud.duration}s;--cloud-delay:${cloud.delay}s;--cloud-drift:${cloud.drift}px;--cloud-rise:${cloud.rise}px`}
-    >
-      <img
-        class:list={['island-cloud-art', { 'island-cloud-art-mirrored': cloud.flip }]}
-        src="/assets/island/workshop-smoke-puff.png"
-        width="1448"
-        height="1086"
-        alt=""
-        decoding="async"
-        draggable="false"
-      />
-    </div>
-  ))}
+  {
+    clouds.map((cloud) => (
+      <div
+        class="island-cloud"
+        style={`left:${(cloud.x / STAGE.width) * 100}%;top:${(cloud.y / STAGE.height) * 100}%;width:${(cloud.width / STAGE.width) * 100}%;--cloud-duration:${cloud.duration}s;--cloud-delay:${cloud.delay}s;--cloud-drift:${cloud.drift}px;--cloud-rise:${cloud.rise}px`}
+      >
+        <img
+          class:list={[
+            "island-cloud-art",
+            { "island-cloud-art-mirrored": cloud.flip },
+          ]}
+          src="/assets/island/workshop-smoke-puff.webp"
+          width="1448"
+          height="1086"
+          alt=""
+          decoding="async"
+          draggable="false"
+        />
+      </div>
+    ))
+  }
 </div>

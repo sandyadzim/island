@@ -2,6 +2,7 @@
 export const DESTINATIONS = [
   {
     id: "about",
+    number: '01',
     label: "About",
     icon: "house",
     assetId: "ASSET-02",
@@ -10,6 +11,7 @@ export const DESTINATIONS = [
   },
   {
     id: "projects",
+    number: '02',
     label: "Projects",
     icon: "layers",
     assetId: "ASSET-03",
@@ -17,6 +19,7 @@ export const DESTINATIONS = [
   },
   {
     id: "skills",
+    number: '03',
     label: "Skills",
     icon: "leaf",
     assetId: "ASSET-04",
@@ -24,6 +27,7 @@ export const DESTINATIONS = [
   },
   {
     id: "experience",
+    number: '04',
     label: "Experience",
     icon: "map",
     assetId: "ASSET-07",
@@ -31,6 +35,7 @@ export const DESTINATIONS = [
   },
   {
     id: "contact",
+    number: '05',
     label: "Contact",
     icon: "mail",
     assetId: "ASSET-06",

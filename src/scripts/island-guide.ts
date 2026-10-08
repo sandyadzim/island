@@ -23,9 +23,6 @@ export function initIslandGuide(root: HTMLElement): () => void {
   );
   const targets = new Map<string, HTMLElement>();
   targets.set("#island-guide", content.querySelector<HTMLElement>("h2")!);
-  content
-    .querySelectorAll<HTMLElement>("h3[id]")
-    .forEach((heading) => targets.set(`#${heading.id}`, heading));
   let opener: HTMLAnchorElement | undefined;
   let disposed = false;
 

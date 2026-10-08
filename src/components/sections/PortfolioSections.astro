@@ -1,0 +1,18 @@
+---
+import { DESTINATIONS } from '../hero/destinations';
+import HeroIcon from '../hero/HeroIcon.astro';
+import SectionContent from './SectionContent.astro';
+interface Props { reading?: boolean; }
+const { reading = false } = Astro.props;
+---
+<div id="portfolio-content" class:list={['portfolio-sections', { 'reading-sections': reading }]} data-portfolio-sections={!reading ? '' : undefined}>
+  {DESTINATIONS.map((destination) => (
+    <section id={destination.id} class="portfolio-section" aria-labelledby={`${destination.id}-title`} data-portfolio-section={!reading ? destination.id : undefined}>
+      {!reading && <button class="section-close" type="button" data-section-close aria-label={`Close ${destination.label} and return to the island`} hidden><HeroIcon name="close" /><span>Close</span></button>}
+      <div class="section-heading-row"><HeroIcon name={destination.icon} /><h2 id={`${destination.id}-title`} tabindex="-1">{destination.label}</h2></div>
+      <div class="section-divider" aria-hidden="true"></div>
+      <SectionContent destination={destination.id} />
+      <a class="section-reading-link" href={`/portfolio/#${destination.id}`} hidden={reading} data-panel-reading-link>Read portfolio <HeroIcon name="arrow" /></a>
+    </section>
+  ))}
+</div>

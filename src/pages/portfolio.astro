@@ -1,0 +1,27 @@
+---
+import '../styles/global.css';
+import '../styles/hero-ui.css';
+import '../styles/portfolio.css';
+import { DESTINATIONS } from '../components/hero/destinations';
+import PortfolioSections from '../components/sections/PortfolioSections.astro';
+import HeroIcon from '../components/hero/HeroIcon.astro';
+---
+<!doctype html>
+<html lang="en" class="reading-page">
+  <head>
+    <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Read portfolio — Sunrise Reef</title>
+    <meta name="description" content="The stories behind Sunrise Reef: About, Projects, Skills, Experience, and Contact." />
+  </head>
+  <body class="portfolio-reader">
+    <a class="skip-link" href="#reading-main">Skip to portfolio content</a>
+    <header class="reader-header"><a class="reader-brand" href="/#home">Sunrise Reef</a><a class="reader-return" href="/#home"><HeroIcon name="arrow" />Back to island</a></header>
+    <main id="reading-main" tabindex="-1" class="reader-main">
+      <h1>A little island of ideas.</h1>
+      <p class="reader-introduction">Explore my work, the things I know, and the story so far.</p>
+      <nav class="reader-index" aria-label="Portfolio sections"><ul>{DESTINATIONS.map((destination) => <li><a href={`#${destination.id}`}>{destination.label}</a></li>)}</ul></nav>
+      <PortfolioSections reading />
+    </main>
+    <footer class="reader-footer"><a href="/#home">Back to the island <HeroIcon name="arrow" /></a></footer>
+  </body>
+</html>

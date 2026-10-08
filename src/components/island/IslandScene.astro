@@ -3,6 +3,7 @@ import IslandLayer from './IslandLayer.astro';
 import LighthouseBeam from './LighthouseBeam.astro';
 import IslandClouds from './IslandClouds.astro';
 import IslandBirds from './IslandBirds.astro';
+import IslandControls from './IslandControls.astro';
 import { SCENE_ASSETS, SCENE_HEADROOM, STAGE } from './scene-config';
 import '../../styles/island-scene.css';
 ---
@@ -12,13 +13,13 @@ import '../../styles/island-scene.css';
   data-scene-state="static"
   style={`--viewport-ratio:${STAGE.width} / ${STAGE.height + SCENE_HEADROOM};--stage-top:${SCENE_HEADROOM / (STAGE.height + SCENE_HEADROOM) * 100}%;--stage-height:${STAGE.height / (STAGE.height + SCENE_HEADROOM) * 100}%`}
 >
-  <div class="island-viewport" aria-hidden="true">
-    <div class="island-environment">
+  <div class="island-viewport">
+    <div class="island-environment" aria-hidden="true">
       {SCENE_ASSETS.filter((asset) => asset.id === 'ASSET-00').map((asset) => <IslandLayer asset={asset} />)}
       <canvas class="ocean-water" data-ocean-water></canvas>
     </div>
     <div class="island-frame" data-scene-viewport>
-      <div class="island-responsive-scale">
+      <div class="island-responsive-scale" aria-hidden="true">
         <div class="island-camera">
           <LighthouseBeam />
           {SCENE_ASSETS.filter((asset) => asset.id !== 'ASSET-00').map((asset) => <IslandLayer asset={asset} />)}
@@ -26,6 +27,7 @@ import '../../styles/island-scene.css';
           <IslandBirds />
         </div>
       </div>
+      <IslandControls />
     </div>
   </div>
   <figcaption class="scene-caption">

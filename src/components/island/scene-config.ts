@@ -62,21 +62,21 @@ function asset(
 export const SCENE_ASSETS: readonly SceneAsset[] = [
   asset(
     "ASSET-00",
-    "asset-00-environment-background.png",
+    "asset-00-environment-background.webp",
     0,
     { x: -24, y: -SCENE_HEADROOM, scale: 1.03125 },
     { x: 768, y: 512 },
   ),
   asset(
     "ASSET-01",
-    "asset-01-clean-island-base.png",
+    "asset-01-clean-island-base.webp",
     10,
     { x: 0, y: 0, scale: 1 },
     { x: 768, y: 512 },
   ),
   asset(
     "ASSET-02",
-    "asset-02-creators-house-about.png",
+    "asset-02-creators-house-about.webp",
     20,
     { x: 552.96, y: -30.72, scale: 0.33 },
     { x: 795, y: 884 },
@@ -84,7 +84,7 @@ export const SCENE_ASSETS: readonly SceneAsset[] = [
   ),
   asset(
     "ASSET-03",
-    "asset-03-workshop-projects.png",
+    "asset-03-workshop-projects.webp",
     30,
     { x: 138.24, y: 163.84, scale: 0.5 },
     { x: 642, y: 662 },
@@ -92,7 +92,7 @@ export const SCENE_ASSETS: readonly SceneAsset[] = [
   ),
   asset(
     "ASSET-04",
-    "asset-04-greenhouse-skills.png",
+    "asset-04-greenhouse-skills.webp",
     40,
     { x: 752.64, y: 148.48, scale: 0.42 },
     { x: 1135, y: 570 },
@@ -100,7 +100,7 @@ export const SCENE_ASSETS: readonly SceneAsset[] = [
   ),
   asset(
     "ASSET-05",
-    "asset-05-sr-monument-home.png",
+    "asset-05-sr-monument-home.webp",
     50,
     { x: 522.24, y: 296.96, scale: 0.34 },
     { x: 865, y: 722 },
@@ -108,7 +108,7 @@ export const SCENE_ASSETS: readonly SceneAsset[] = [
   ),
   asset(
     "ASSET-06",
-    "asset-06-lighthouse-contact-v2.png",
+    "asset-06-lighthouse-contact-v2.webp",
     60,
     { x: 861.8, y: 410, scale: 0.36 },
     { x: 1120, y: 900 },
@@ -116,7 +116,7 @@ export const SCENE_ASSETS: readonly SceneAsset[] = [
   ),
   asset(
     "ASSET-07",
-    "asset-07-sailboat-experience.png",
+    "asset-07-sailboat-experience.webp",
     70,
     { x: 983.04, y: 645.12, scale: 0.28 },
     { x: 1120, y: 806 },

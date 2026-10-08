@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import '../styles/hero-ui.css';
+import '../styles/portfolio.css';
 ---
 <!doctype html>
 <html lang="en">
@@ -25,6 +26,7 @@ import '../styles/hero-ui.css';
             <div class="layout-menu" data-layout-slot="menu"><slot name="menu" /></div>
           </div>
         </div>
+        <slot name="sections" />
         <slot name="guide" />
       </main>
     </div>

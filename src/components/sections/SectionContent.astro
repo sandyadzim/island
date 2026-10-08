@@ -1,0 +1,9 @@
+---
+import type { Destination } from '../island/scene-config';
+import { DESTINATIONS } from '../hero/destinations';
+interface Props { destination: Exclude<Destination, 'home'>; }
+const { destination } = Astro.props;
+const entry = DESTINATIONS.find((entry) => entry.id === destination)!;
+---
+<p class="section-description">{entry.description}</p>
+<p class="section-pending">More details will be added here.</p>

@@ -1,0 +1,26 @@
+---
+import { SCENE_ASSETS, STAGE, SCENE_HEADROOM } from './scene-config';
+import { SCENE_LANDMARKS } from './scene-landmarks';
+import { controlPoint, controlPolygon } from '../../utils/scene-geometry';
+import { DESTINATIONS } from '../hero/destinations';
+import HeroIcon from '../hero/HeroIcon.astro';
+---
+<nav class="island-controls" aria-label="Explore the island landmarks" data-island-controls>
+  {SCENE_LANDMARKS.map((landmark) => {
+    const asset = SCENE_ASSETS.find((asset) => asset.id === landmark.assetId)!;
+    const destination = DESTINATIONS.find((destination) => destination.id === landmark.destination);
+    const point = controlPoint(landmark.anchor, asset.registration);
+    const label = destination?.label ?? 'Home';
+    return (
+      <a class="island-landmark-link" href={`#${landmark.destination}`} data-portfolio-link data-landmark={landmark.destination} data-label-side={landmark.labelSide} aria-label={label} style={`z-index:${asset.zIndex};--marker-x:${point.x / STAGE.width * 100}%;--marker-y:${point.y / (STAGE.height + SCENE_HEADROOM) * 100}%;--marker-offset-x:${landmark.offset.x}px;--marker-offset-y:${landmark.offset.y}px`}>
+        <svg class="landmark-hit-region" viewBox={`0 0 ${STAGE.width} ${STAGE.height + SCENE_HEADROOM}`} aria-hidden="true" focusable="false">
+          {landmark.polygons.map((polygon) => <polygon points={controlPolygon(polygon, asset.registration)} />)}
+        </svg>
+        <span class="landmark-marker" aria-hidden="true">
+          <span class="landmark-disc">{destination ? destination.number : <HeroIcon name="house" />}</span>
+          <span class="landmark-label">{label}<HeroIcon name="arrow" /></span>
+        </span>
+      </a>
+    );
+  })}
+</nav>
