@@ -1,10 +1,11 @@
-/* A compact identity and one motion affordance leave the scene in charge. */
+/* Keep the identity compact while the visitor explores the island. */
 .hero-identity { min-width: 44px; min-height: 44px; justify-content: center; }
-.hero-monogram { position: static; display: block; width: auto; height: auto; color: var(--color-ivory); font: 400 28px/1 Georgia, serif; letter-spacing: -.04em; }
+[data-explore-mode="explore"] .hero-identity-copy,
+[data-explore-mode="explore"] .hero-read-control { display: none; }
 .hero-motion-control { width: 44px; height: 44px; padding: 0; }
 .hero-motion-control:disabled .motion-icon-play { display: block; }
 .hero-back-control {
-  display: inline-flex;
+  display: none;
   align-items: center;
   gap: .5rem;
   min-height: 44px;
@@ -50,7 +51,7 @@
 [data-explore-mode="explore"] .hero-card { opacity: 0; transform: translateX(-16px); visibility: hidden; transition: opacity 200ms var(--ease-out), transform 200ms var(--ease-out), visibility 200ms; }
 [data-explore-mode="explore"] .island-controls { opacity: 1; visibility: visible; transition-delay: 120ms; }
 [data-explore-mode="explore"] .layout-menu { opacity: 1; visibility: visible; transform: translate(-50%, 0); pointer-events: auto; transition-delay: 120ms; }
-[data-explore-mode="explore"] .hero-back-control { opacity: 1; visibility: visible; }
+[data-explore-mode="explore"] .hero-back-control { display: inline-flex; opacity: 1; visibility: visible; }
 [data-ui-motion-off] .hero-card,
 [data-ui-motion-off] .layout-menu,
 [data-ui-motion-off] .island-controls,

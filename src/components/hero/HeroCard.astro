@@ -1,13 +1,29 @@
 ---
-import HeroIcon from './HeroIcon.astro';
+import HeroIcon from "./HeroIcon.astro";
 ---
+
 <section class="hero-card" aria-labelledby="hero-title" data-hero-card>
-  <p class="hero-eyebrow">A personal portfolio</p>
-  <h1 id="hero-title">A little world.<br />A lot to explore.</h1>
-  <div class="hero-divider" aria-hidden="true"></div>
-  <p class="hero-introduction">Welcome to my corner of the internet. Explore my work, the things I know, and the story so far.</p>
-  <a class="hero-primary-action" href="/portfolio/" data-start-exploring>
-    <span>Start exploring</span> <HeroIcon name="arrow" />
-  </a>
-  <p class="hero-footnote">Five places. One story.</p>
+  <p class="hero-status">
+    <span aria-hidden="true"></span>Frontend developer · 6+ years
+  </p>
+  <h1 id="hero-title">Thoughtful interfaces.<br />Built to work.</h1>
+  <p class="hero-introduction">
+    I’m Sandy. I build responsive web applications with Vue, Nuxt, React, and
+    Next.js — from customer experiences to dashboards and content tools.
+  </p>
+  <div class="hero-actions">
+    <button class="hero-primary-action" data-start-exploring>
+      <span>Start Exploring</span>
+      <HeroIcon name="arrow" />
+    </button>
+    <a
+      class="hero-secondary-action"
+      href="/downloads/Sandy_Rahmansyah_CV.pdf"
+      download="Sandy_Rahmansyah_CV.pdf"
+      aria-label="Download CV"
+      title="Download CV"
+    >
+      <HeroIcon name="download" />
+    </a>
+  </div>
 </section>

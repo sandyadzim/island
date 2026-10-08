@@ -12,48 +12,31 @@
   text-decoration: none;
 }
 .hero-monogram {
-  position: relative;
-  display: block;
-  width: 48px;
-  height: 74px;
-  color: #f0ca7b;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
   flex: 0 0 auto;
-}
-.hero-monogram svg {
-  position: absolute;
-  top: 0;
-  width: 48px;
-  height: 20px;
-}
-.hero-monogram > span {
-  position: absolute;
-  top: 12px;
-  left: 3px;
+  border-radius: 50%;
+  background: var(--color-ivory);
+  color: var(--color-teal);
   font:
-    48px/1 Georgia,
+    400 20px/1 Georgia,
     serif;
-}
-.hero-monogram > span > span {
-  position: absolute;
-  top: 14px;
-  left: 15px;
+  letter-spacing: -0.03em;
 }
 .hero-identity-copy {
   display: grid;
-  gap: 0.4rem;
+  gap: 0.125rem;
 }
 .hero-identity-name {
-  font:
-    1.125rem/1.4 Georgia,
-    serif;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.4;
 }
 .hero-identity-subtitle {
-  font:
-    italic 0.9375rem/1.4 Georgia,
-    serif;
-  letter-spacing: 0.04em;
+  font-size: 0.8125rem;
+  line-height: 1.5;
 }
 .hero-header-controls {
   display: flex;
@@ -61,6 +44,7 @@
   gap: 0.75rem;
 }
 .hero-help-control,
+.hero-sound-control,
 .hero-motion-control {
   min-height: 44px;
   border: 1px solid rgb(247 240 227 / 65%);
@@ -116,17 +100,30 @@
   background: var(--color-ivory);
 }
 .hero-card {
+  display: grid;
+  gap: 1.5rem;
   padding: clamp(1.75rem, 3vw, 2.75rem);
   border-radius: 24px;
   box-shadow: 0 16px 48px rgb(4 16 32 / 20%);
 }
-.hero-eyebrow {
-  margin: 0 0 1.375rem;
+.hero-status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  color: var(--color-teal-muted);
   font-size: 0.6875rem;
   line-height: 1.6;
   font-weight: 600;
-  letter-spacing: 0.23em;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
+}
+.hero-status > span {
+  width: 6px;
+  height: 6px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: var(--color-gold);
 }
 .hero-card h1 {
   margin: 0;
@@ -135,12 +132,6 @@
     serif;
   letter-spacing: -0.035em;
   text-wrap: balance;
-}
-.hero-divider {
-  width: 40px;
-  height: 2px;
-  margin: 1.5rem 0;
-  background: var(--color-gold);
 }
 .hero-introduction {
   margin: 0;
@@ -152,25 +143,92 @@
 .hero-primary-action {
   display: inline-flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 1.5rem;
+  justify-content: center;
+  gap: 0.75rem;
   min-height: 52px;
-  margin-top: 1.5rem;
+  width: 100%;
   padding: 0.875rem 1.25rem;
   border-radius: 999px;
   background: var(--color-teal);
   color: var(--color-ivory);
   font-size: 0.9375rem;
-  font-weight: 500;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
   text-decoration: none;
   transition: background-color 160ms ease-out;
 }
-.hero-footnote {
-  margin: 2rem 0 0;
-  font-size: 0.625rem;
-  line-height: 1.6;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
+.hero-actions {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 0.75rem;
+}
+.hero-actions > :is(a, button) {
+  flex: 1 1 0;
+  min-width: 0;
+  width: auto;
+  white-space: nowrap;
+}
+.hero-actions .hero-icon { width: 20px; height: 20px; stroke-width: 1.75; }
+@media (max-width: 359px) {
+  .hero-actions { gap: 0.5rem; }
+  .hero-actions > .hero-primary-action { padding-inline: 0.75rem; gap: 0.5rem; font-size: 0.875rem; }
+}
+.hero-secondary-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 52px;
+  padding: 0.875rem 1.25rem;
+  border: 1px solid rgb(23 62 67 / 40%);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--color-teal);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition:
+    background-color 160ms ease-out,
+    border-color 160ms ease-out;
+}
+.hero-secondary-action .hero-icon {
+  width: 20px;
+  height: 20px;
+}
+.hero-actions > .hero-secondary-action {
+  flex: 0 0 52px;
+  width: 52px;
+  height: 52px;
+  padding: 0;
+  justify-content: center;
+  border-radius: 50%;
+}
+[data-explore-mode="intro"] .hero-header-controls > :is(a, button) {
+  --color-focus: var(--color-teal);
+  background: var(--color-ivory);
+  color: var(--color-teal);
+  border-color: transparent;
+}
+[data-explore-mode="intro"] .hero-header-controls > button:disabled {
+  color: var(--color-teal-muted);
+}
+@media (hover: hover) {
+  .hero-secondary-action:hover {
+    background: #e9e1d1;
+    border-color: var(--color-teal);
+  }
+  [data-explore-mode="intro"]
+    .hero-header-controls
+    > :is(a, button:not(:disabled)):hover {
+    background: #e9e1d1;
+    border-color: transparent;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-secondary-action {
+    transition: none;
+  }
 }
 .hero-navigation {
   padding: 0.5rem;
@@ -311,6 +369,7 @@
   }
   .hero-primary-action:hover {
     background: #24565a;
+    cursor: pointer;
   }
   .hero-navigation a:hover,
   .guide-close:hover {
@@ -318,29 +377,8 @@
   }
 }
 @media (max-width: 540px) {
-  .hero-identity-name {
-    font-size: 0.9375rem;
-    letter-spacing: 0.15em;
-  }
-  .hero-identity-subtitle {
-    font-size: 0.8125rem;
-  }
   .hero-card h1 {
     font-size: clamp(2rem, 8vw, 2.75rem);
-  }
-  .hero-monogram {
-    width: 40px;
-    height: 64px;
-  }
-  .hero-monogram svg {
-    width: 40px;
-  }
-  .hero-monogram > span {
-    font-size: 42px;
-  }
-  .hero-monogram > span > span {
-    top: 13px;
-    left: 12px;
   }
 }
 @media (max-width: 359px) {
@@ -360,6 +398,35 @@
   .hero-primary-action,
   .hero-navigation a,
   .guide-close {
+    transition: none;
+  }
+}
+
+.hero-sound-control {
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  cursor: default;
+}
+.hero-sound-control .hero-icon {
+  width: 20px;
+  height: 20px;
+}
+.hero-sound-control:disabled {
+  color: rgb(247 240 227 / 65%);
+  border-color: rgb(247 240 227 / 35%);
+}
+.hero-read-control:focus-visible {
+  outline-color: var(--color-teal);
+}
+@media (hover: hover) {
+  .hero-read-control:hover {
+    background: #e9e1d1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-read-control,
+  .hero-sound-control {
     transition: none;
   }
 }
