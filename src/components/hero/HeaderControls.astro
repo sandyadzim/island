@@ -4,9 +4,11 @@ import HeroIcon from './HeroIcon.astro';
 <div class="hero-header-controls">
   <a class="hero-read-control" href="/portfolio/">Read Portfolio <HeroIcon name="arrow" /></a>
   <button class="hero-back-control" data-back-to-intro type="button" aria-label="Back to intro" title="Back to intro" hidden><HeroIcon name="arrow" /><span>Back to intro</span></button>
-  <button class="hero-sound-control" type="button" disabled aria-label="Sound unavailable — no audio track yet" title="Sound unavailable — no audio track yet">
-    <HeroIcon name="sound-off" />
+  <button class="hero-sound-control" data-music-toggle type="button" disabled aria-pressed="false" aria-label="Play background music" title="Play background music">
+    <HeroIcon name="sound-off" class="sound-icon-off" />
+    <HeroIcon name="sound-on" class="sound-icon-on" />
   </button>
+  <span class="sr-only" data-music-status role="status"></span>
   <button class="hero-motion-control" data-water-motion-toggle type="button" aria-label="Pause motion" title="Pause motion" hidden>
     <HeroIcon name="pause" class="motion-icon-pause" />
     <HeroIcon name="play" class="motion-icon-play" />

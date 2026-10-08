@@ -1,6 +1,5 @@
-/* Keep the identity compact while the visitor explores the island. */
+/* Keep the full identity visible in both Intro and Explore. */
 .hero-identity { min-width: 44px; min-height: 44px; justify-content: center; }
-[data-explore-mode="explore"] .hero-identity-copy,
 [data-explore-mode="explore"] .hero-read-control { display: none; }
 .hero-motion-control { width: 44px; height: 44px; padding: 0; }
 .hero-motion-control:disabled .motion-icon-play { display: block; }
@@ -38,7 +37,10 @@
   pointer-events: none;
   transition: opacity 220ms var(--ease-out), transform 220ms var(--ease-out), visibility 220ms;
 }
-[data-explore-mode="explore"] .layout-header { position: fixed; inset: max(20px, env(safe-area-inset-top)) var(--shell-gutter) auto; padding: 0; }
+[data-explore-mode="explore"] .layout-header { position: fixed; inset: 0 0 auto; }
+@media (min-width: 1100px) and (min-height: 720px) {
+  [data-explore-mode="explore"] .layout-header { inset: max(1.5rem, env(safe-area-inset-top)) var(--shell-gutter) auto; }
+}
 [data-explore-mode="explore"] .layout-stage { min-height: 100svh; }
 [data-explore-mode="explore"] .island-scene { position: fixed; inset: 0; width: 100%; height: 100svh; aspect-ratio: auto; margin: 0; }
 [data-explore-mode="explore"] .island-frame {

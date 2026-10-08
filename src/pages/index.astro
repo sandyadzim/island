@@ -17,10 +17,15 @@ import HeroNavigation from "../components/hero/HeroNavigation.astro";
 
 <script>
   import { initIslandExplorer } from '../scripts/island-explorer';
+  import { initIslandMusic } from '../scripts/island-music';
   let dispose: (() => void) | undefined;
   function initialize() {
     const root = document.querySelector<HTMLElement>('.portfolio-shell');
-    if (root) dispose = initIslandExplorer(root);
+    if (root) {
+      const disposeExplorer = initIslandExplorer(root);
+      const disposeMusic = initIslandMusic(root);
+      dispose = () => { disposeExplorer(); disposeMusic(); };
+    }
   }
   initialize();
   window.addEventListener('pagehide', () => { dispose?.(); dispose = undefined; });
