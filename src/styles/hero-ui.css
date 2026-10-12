@@ -20,8 +20,7 @@
   border-radius: 50%;
   background: var(--color-ivory);
   color: var(--color-teal);
-  font:
-    400 20px/1 var(--font-display);
+  font: 400 20px/1 var(--font-display);
   letter-spacing: -0.03em;
 }
 .hero-identity-copy {
@@ -105,6 +104,56 @@
   border-radius: 24px;
   box-shadow: 0 16px 48px rgb(4 16 32 / 20%);
 }
+
+/* The card's Explore transition stays separate from its one-time content entry. */
+.hero-card > [data-hero-reveal-group] {
+  opacity: 1;
+  transform: none;
+}
+.hero-card > [data-hero-reveal-group="0"] {
+  --hero-reveal-delay: 0ms;
+}
+.hero-card > [data-hero-reveal-group="1"] {
+  --hero-reveal-delay: 60ms;
+}
+.hero-card > [data-hero-reveal-group="2"] {
+  --hero-reveal-delay: 120ms;
+}
+.hero-card > [data-hero-reveal-group="3"] {
+  --hero-reveal-delay: 180ms;
+}
+.hero-card > [data-hero-reveal-group="4"] {
+  --hero-reveal-delay: 240ms;
+}
+.hero-card[data-hero-reveal] > [data-hero-reveal-group] {
+  animation: hero-content-reveal 280ms var(--ease-out) var(--hero-reveal-delay)
+    backwards;
+}
+@keyframes hero-content-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes hero-content-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-card[data-hero-reveal] > [data-hero-reveal-group] {
+    animation-name: hero-content-fade;
+    animation-duration: 120ms;
+    animation-delay: 0ms;
+  }
+}
 .hero-status {
   display: flex;
   align-items: center;
@@ -126,8 +175,7 @@
 }
 .hero-card h1 {
   margin: 0;
-  font:
-    400 clamp(2rem, 3.1vw, 3rem)/1.12 var(--font-display);
+  font: 400 clamp(2rem, 3.1vw, 3rem)/1.12 var(--font-display);
   letter-spacing: -0.035em;
   text-wrap: balance;
 }
@@ -345,8 +393,7 @@
 }
 .island-guide h2 {
   margin: 0 0 0.875rem;
-  font:
-    400 clamp(1.75rem, 4vw, 2.25rem)/1.15 var(--font-display);
+  font: 400 clamp(1.75rem, 4vw, 2.25rem)/1.15 var(--font-display);
   letter-spacing: -0.025em;
 }
 .guide-introduction {
@@ -476,10 +523,16 @@
   padding: 0;
   cursor: pointer;
 }
-.hero-sound-control:disabled { cursor: default; }
+.hero-sound-control:disabled {
+  cursor: default;
+}
 .sound-icon-on,
-.hero-sound-control[aria-pressed="true"] .sound-icon-off { display: none; }
-.hero-sound-control[aria-pressed="true"] .sound-icon-on { display: block; }
+.hero-sound-control[aria-pressed="true"] .sound-icon-off {
+  display: none;
+}
+.hero-sound-control[aria-pressed="true"] .sound-icon-on {
+  display: block;
+}
 .hero-sound-control .hero-icon {
   width: 20px;
   height: 20px;

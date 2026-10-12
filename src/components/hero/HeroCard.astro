@@ -17,15 +17,26 @@ const socialProfiles = [
 ---
 
 <section class="hero-card" aria-labelledby="hero-title" data-hero-card>
-  <p class="hero-status">
+  <script is:inline>
+    (() => {
+      let paused = false;
+      try {
+        paused = localStorage.getItem("island-water-motion") === "off";
+      } catch { /* Storage is optional. */ }
+      if (!paused && !document.hidden) {
+        document.currentScript?.parentElement?.setAttribute("data-hero-reveal", "");
+      }
+    })();
+  </script>
+  <p class="hero-status" data-hero-reveal-group="0">
     <span aria-hidden="true"></span>Frontend developer · 6+ years
   </p>
-  <h1 id="hero-title">Hello!<br /> I'm Sandy.</h1>
-  <p class="hero-introduction">
+  <h1 id="hero-title" data-hero-reveal-group="1">Hello!<br /> I'm Sandy.</h1>
+  <p class="hero-introduction" data-hero-reveal-group="2">
     Frontend developer who loves pixel-perfect details and smooth interactions,
     building polished websites where design and function work together.
   </p>
-  <div class="hero-actions">
+  <div class="hero-actions" data-hero-reveal-group="3">
     <button class="hero-primary-action" data-start-exploring>
       <span>Explore the Island</span>
       <HeroIcon name="arrow" />
@@ -40,7 +51,7 @@ const socialProfiles = [
       <HeroIcon name="download" />
     </a>
   </div>
-  <div class="hero-socials" role="group" aria-label="Social profiles">
+  <div class="hero-socials" role="group" aria-label="Social profiles" data-hero-reveal-group="4">
     {
       socialProfiles.map(({ name, icon, url }) => (
         <a

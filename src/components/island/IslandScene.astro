@@ -19,12 +19,14 @@ import '../../styles/island-scene.css';
       <canvas class="ocean-water" data-ocean-water></canvas>
     </div>
     <div class="island-frame" data-scene-viewport>
-      <div class="island-responsive-scale" aria-hidden="true">
-        <div class="island-camera">
-          <LighthouseBeam />
-          {SCENE_ASSETS.filter((asset) => asset.id !== 'ASSET-00').map((asset) => <IslandLayer asset={asset} />)}
-          <IslandClouds />
-          <IslandBirds />
+      <div class="island-reveal" aria-hidden="true">
+        <div class="island-responsive-scale">
+          <div class="island-camera">
+            <LighthouseBeam />
+            {SCENE_ASSETS.filter((asset) => asset.id !== 'ASSET-00').map((asset) => <IslandLayer asset={asset} />)}
+            <IslandClouds />
+            <IslandBirds />
+          </div>
         </div>
       </div>
       <IslandControls />

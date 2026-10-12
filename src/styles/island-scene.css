@@ -18,6 +18,15 @@
   inset: 0;
 }
 
+/* Arrival owns CSS-pixel movement outside the source-space scale and camera. */
+.island-reveal {
+  position: absolute;
+  inset: 0;
+  opacity: 1;
+  transform: none;
+  pointer-events: none;
+}
+
 .island-environment .island-registration {
   transform: none;
 }

@@ -39,7 +39,11 @@ export function initIslandExplorer(root: HTMLElement): () => void {
   let animation: Animation | undefined;
   let disposed = false;
 
-  function clearCamera() { animation?.cancel(); animation = undefined; }
+  function clearCamera() {
+    animation?.cancel();
+    animation = undefined;
+    root.removeAttribute('data-camera-transition');
+  }
   function motionOff() { return reduce.matches || motion?.dataset.motionPreference === 'off'; }
   function syncMotion() {
     root.toggleAttribute('data-ui-motion-off', motionOff());
@@ -104,12 +108,15 @@ export function initIslandExplorer(root: HTMLElement): () => void {
     const base = getComputedStyle(frame!).transform;
     const matrix = new DOMMatrix(base);
     if (!keyboard && !motionOff() && typeof frame!.animate === 'function') {
+      // Intro restores the stacked scene's smaller clipping box immediately.
+      // Keep the moving artwork visible until it reaches that box.
+      root.setAttribute('data-camera-transition', '');
       const camera = frame!.animate([
         { transform: cameraFromTransform(previous, target, { x: matrix.e, y: matrix.f }) },
         { transform: base },
       ], { duration: 650, easing: 'cubic-bezier(.77, 0, .175, 1)' });
       animation = camera;
-      camera.finished.then(() => { if (animation === camera) animation = undefined; }, () => {});
+      camera.finished.then(() => { if (animation === camera) clearCamera(); }, () => {});
     }
   }
   const ordinaryClick = (event: MouseEvent) => !event.defaultPrevented && event.button === 0 && !event.metaKey && !event.ctrlKey && !event.altKey && !event.shiftKey;

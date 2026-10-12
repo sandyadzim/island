@@ -24,6 +24,9 @@
 .layout-stack { position: relative; z-index: 3; }
 .hero-card { transition: opacity 200ms var(--ease-out), transform 200ms var(--ease-out); }
 .island-frame { transform-origin: 0 0; }
+/* During FLIP, clip at the page edge instead of the restored Intro scene box. */
+[data-camera-transition] { overflow: clip; }
+[data-camera-transition] .island-viewport { overflow: visible; }
 .island-controls { opacity: 0; visibility: hidden; transition: opacity 200ms var(--ease-out), visibility 200ms; }
 .layout-menu {
   position: fixed;

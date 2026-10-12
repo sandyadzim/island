@@ -18,15 +18,17 @@ import IslandDestinationDialog from "../components/sections/IslandDestinationDia
 </PortfolioLayout>
 
 <script>
+  import { initHeroReveal } from '../scripts/hero-reveal';
   import { initIslandExplorer } from '../scripts/island-explorer';
   import { initIslandMusic } from '../scripts/island-music';
   let dispose: (() => void) | undefined;
   function initialize() {
     const root = document.querySelector<HTMLElement>('.portfolio-shell');
     if (root) {
+      const disposeHero = initHeroReveal(root);
       const disposeExplorer = initIslandExplorer(root);
       const disposeMusic = initIslandMusic(root);
-      dispose = () => { disposeExplorer(); disposeMusic(); };
+      dispose = () => { disposeHero(); disposeExplorer(); disposeMusic(); };
     }
   }
   initialize();
