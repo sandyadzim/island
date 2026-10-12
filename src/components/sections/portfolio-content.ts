@@ -38,56 +38,16 @@ export const EXPERIENCE = [
 ];
 /** Expanded technology list and favorite stack supplied by Sandy after UI selection. */
 export const FAVORITE_STACK = [
-  "Vue.js",
-  "shadcn/ui",
-  "NestJS",
-  "PostgreSQL",
-  "Vitest",
-  "Bun",
+  "Vue.js", "shadcn/ui", "NestJS", "PostgreSQL", "Vitest",
 ];
 export const SKILL_GROUPS = [
-  {
-    title: "Frontend Ecosystem",
-    items: ["Vue.js", "React", "Angular", "Nuxt.js", "Next.js", "Astro"],
-  },
-  {
-    title: "UI & Styling",
-    items: [
-      "Tailwind CSS",
-      "shadcn/ui",
-      "Bootstrap",
-      "Vuetify",
-      "Element Plus",
-    ],
-  },
-  { title: "Mobile Ecosystem", items: ["React Native", "Flutter", "Swift"] },
-  {
-    title: "Backend Ecosystem",
-    items: ["Express.js", "NestJS", "Laravel", "Golang"],
-  },
-  {
-    title: "Other",
-    items: [
-      "Node.js",
-      "Bun",
-      "Yarn",
-      "Jest",
-      "Vitest",
-      "HTML",
-      "CSS",
-      "JavaScript",
-      "TypeScript",
-      "PHP",
-      "Sass",
-      "Docker",
-      "Git",
-      "PostgreSQL",
-      "MongoDB",
-      "MySQL",
-      "Nginx",
-      "Figma",
-    ],
-  },
+  { title: "Languages & Web Technologies", items: ["JavaScript", "TypeScript", "PHP", "HTML", "CSS"] },
+  { title: "Frontend", items: ["Vue", "React", "Angular", "Nuxt", "Next", "Astro"] },
+  { title: "UI & Styling", items: ["Tailwind", "shadcn/ui", "Element Plus", "Vuetify", "Bootstrap"] },
+  { title: "Testing", items: ["Vitest", "Jest"] },
+  { title: "Mobile", items: ["React Native", "Flutter"] },
+  { title: "Backend", items: ["Node.js", "Express", "Nest", "Laravel"] },
+  { title: "Database & ORM", items: ["PostgreSQL", "MySQL", "MongoDB", "Prisma", "Drizzle"] },
 ];
 export const DEMO_PROJECTS = [
   {
@@ -116,7 +76,7 @@ export const DEMO_PROJECTS = [
   },
 ] as const;
 
-/** Gallery data. Personal entries remain concepts; Solva/Mitra stacks are user-approved temporary tags. */
+/** Gallery data. Personal entries remain concepts; work-project stacks are supplied by Sandy. */
 export interface GalleryProject {
   id: string;
   name: string;
@@ -149,18 +109,45 @@ export const PROJECT_GROUPS: {
     projects: [
       {
         id: "solva",
-        name: "Solva & Solva Reservation",
+        name: "Solva",
         context: "Member.id",
         description:
-          "Customer and admin interfaces for loyalty, CRM, vouchers, reporting, and reservations.",
-        stack: ["Vue.js", "Nuxt.js", "Tailwind CSS"],
+          "Solva is a loyalty program solution built to boost customer engagement and strengthen brand loyalty. With a rich set of features, it helps you reward your customers more effectively and keep them coming back.",
+        stack: ["Vue.js", "Tailwind CSS", "Element Plus"],
+        image: {
+          src: "/assets/projects/solva.webp",
+          alt: "Solva backoffice dashboard showing membership, active members, and points reports",
+          width: 1598,
+          height: 1078,
+        },
+      },
+      {
+        id: "solva-reservation",
+        name: "Solva Reservation",
+        context: "Member.id",
+        description:
+          "Solva Reservation is an end-to-end dining solution that simplifies reservation management and optimizes table bookings. By cutting wait times and streamlining coordination, it improves guest satisfaction while helping your restaurant boost revenue, operate more efficiently, and retain more customers.",
+        stack: ["Vue.js", "Tailwind CSS", "Element Plus"],
+        image: {
+          src: "/assets/projects/solva-reservation.webp",
+          alt: "Solva Reservation table-layout editor showing a restaurant floor plan and table settings",
+          width: 1612,
+          height: 1148,
+        },
       },
       {
         id: "mitra",
         name: "Mitra Gramedia",
         context: "PT. Gramedia Asri Media",
-        description: "Frontend development for Gramedia’s partner marketplace.",
-        stack: ["Vue.js", "Nuxt.js", "Element Plus"],
+        description:
+          "Mitra Gramedia is a platform that helps store owners and individual entrepreneurs offer a wide range of Gramedia products. It makes stocking your store easier through online wholesale shopping, complete with dropshipping services.",
+        stack: ["Vue.js", "Nuxt.js", "Tailwind CSS"],
+        image: {
+          src: "/assets/projects/mitra-gramedia.webp",
+          alt: "Mitra Gramedia storefront showing its wholesale shopping banner, partner tier, and product catalog",
+          width: 1972,
+          height: 1038,
+        },
       },
       {
         id: "edutore",
@@ -173,3 +160,15 @@ export const PROJECT_GROUPS: {
     ],
   },
 ];
+
+/** Curated entries shown in the Projects dialog and reading page.
+ * Change these IDs to select and order projects; the full gallery remains reusable.
+ */
+export const SELECTED_PROJECT_IDS = ["solva", "solva-reservation", "mitra"] as const;
+export const SELECTED_PROJECTS: GalleryProject[] = SELECTED_PROJECT_IDS.map((id) => {
+  const project = PROJECT_GROUPS.flatMap((group) => group.projects).find(
+    (entry) => entry.id === id,
+  );
+  if (!project) throw new Error(`Unknown selected project: ${id}`);
+  return project;
+});

@@ -90,49 +90,14 @@
     "source": "https://raw.githubusercontent.com/element-plus/element-plus/dev/docs/public/images/element-plus-logo-small.svg"
   },
   {
-    "title": "Figma",
-    "file": "figma.svg",
-    "source": "https://svgl.app/library/figma.svg"
-  },
-  {
     "title": "PostgreSQL",
     "file": "postgresql.svg",
     "source": "https://svgl.app/library/postgresql.svg"
   },
   {
-    "title": "Docker",
-    "file": "docker.svg",
-    "source": "https://svgl.app/library/docker.svg"
-  },
-  {
-    "title": "NGINX",
-    "file": "nginx.svg",
-    "source": "https://svgl.app/library/nginx.svg"
-  },
-  {
-    "title": "Bun",
-    "file": "bun.svg",
-    "source": "https://svgl.app/library/bun.svg"
-  },
-  {
-    "title": "Swift",
-    "file": "swift.svg",
-    "source": "https://svgl.app/library/swift.svg"
-  },
-  {
     "title": "Laravel",
     "file": "laravel.svg",
     "source": "https://svgl.app/library/laravel.svg"
-  },
-  {
-    "title": "Sass",
-    "file": "sass.svg",
-    "source": "https://svgl.app/library/sass.svg"
-  },
-  {
-    "title": "Git",
-    "file": "git.svg",
-    "source": "https://svgl.app/library/git.svg"
   },
   {
     "title": "Flutter",
@@ -155,11 +120,6 @@
     "source": "https://svgl.app/library/php.svg"
   },
   {
-    "title": "Go",
-    "file": "go.svg",
-    "source": "https://svgl.app/library/golang.svg"
-  },
-  {
     "title": "Angular",
     "file": "angular.svg",
     "source": "https://svgl.app/library/angular.svg"
@@ -170,8 +130,13 @@
     "source": "https://svgl.app/library/astro-icon-light.svg"
   },
   {
-    "title": "Yarn",
-    "file": "yarn.svg",
-    "source": "https://svgl.app/library/yarn.svg"
+    "title": "Prisma",
+    "file": "prisma.svg",
+    "source": "https://raw.githubusercontent.com/pheralb/svgl/main/static/library/prisma.svg"
+  },
+  {
+    "title": "Drizzle",
+    "file": "drizzle.svg",
+    "source": "https://raw.githubusercontent.com/pheralb/svgl/main/static/library/drizzle-orm_light.svg"
   }
 ]

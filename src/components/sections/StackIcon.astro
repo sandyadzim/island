@@ -2,18 +2,15 @@
 interface Props { name: string; }
 const { name } = Astro.props;
 const files: Record<string, string> = {
-  'Vue.js': 'vue', 'Nuxt.js': 'nuxt', React: 'react', 'Next.js': 'next-js',
-  JavaScript: 'javascript', TypeScript: 'typescript', HTML: 'html5', CSS: 'css-new',
-  'Tailwind CSS': 'tailwind-css',
-  'Element Plus': 'element-plus', 'shadcn/ui': 'shadcn-ui', Vuetify: 'vuetify',
-  Bootstrap: 'bootstrap',
+  Vue: 'vue', 'Vue.js': 'vue', Nuxt: 'nuxt', React: 'react', Next: 'next-js',
+  JavaScript: 'javascript', TypeScript: 'typescript', HTML: 'html5', CSS: 'css-new', PHP: 'php',
+  Tailwind: 'tailwind-css',
+  'Element Plus': 'element-plus', 'shadcn/ui': 'shadcn-ui', Vuetify: 'vuetify', Bootstrap: 'bootstrap',
   Vitest: 'vitest', Jest: 'jest',
-  'Node.js': 'node-js', 'Express.js': 'express-js', NestJS: 'nestjs',
-  Angular: 'angular', Astro: 'astro', Bun: 'bun', Yarn: 'yarn', PHP: 'php',
-  Sass: 'sass', Docker: 'docker', Git: 'git', PostgreSQL: 'postgresql',
-  MongoDB: 'mongodb', MySQL: 'mysql', Nginx: 'nginx', Figma: 'figma',
-  'React Native': 'react', Flutter: 'flutter', Swift: 'swift',
-  Laravel: 'laravel', Golang: 'go',
+  'Node.js': 'node-js', Express: 'express-js', Nest: 'nestjs', NestJS: 'nestjs', Laravel: 'laravel',
+  Angular: 'angular', Astro: 'astro',
+  PostgreSQL: 'postgresql', MongoDB: 'mongodb', MySQL: 'mysql', Prisma: 'prisma', Drizzle: 'drizzle',
+  'React Native': 'react', Flutter: 'flutter',
 };
 const file = files[name];
 if (!file) throw new Error(`Missing stack icon for ${name}`);
