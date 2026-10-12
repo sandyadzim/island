@@ -1,25 +1,98 @@
-# Island Portfolio
+# Sandy Rahmansyah — Island Portfolio
 
-A layered Astro scene currently displaying eight of the supplied PNG layers, with a ninth
-replacement FX source mounted invisibly.
-Phase 1 delivered the responsive scene, image readiness/error handling, and a
-minimal semantic page shell. The full-screen layout is a separately requested
-post-Phase-1 extension.
+A personal portfolio for Sandy Rahmansyah, a frontend developer based in Jakarta,
+Indonesia. An illustrated island brings together projects, skills, work experience,
+and contact information through interactive landmarks and ambient animation.
 
-The ocean fills the viewport, with the island on the right and empty named slots
-for identity, header controls, a left card, and a bottom menu. No UI components
-are supplied in these slots yet.
+The site offers two ways to explore: an interactive island at `/` and a reading
+page at `/portfolio/` with the same portfolio content.
 
-## Run locally
+## Features
 
-Use Node 24 or newer (an even-numbered supported release) and npm.
+- Interactive landmarks open About, Projects, Skills, Experience, and Contact.
+- Animated ocean, sailboat, clouds, birds, chimney smoke, and lighthouse lighting.
+- Responsive layouts with desktop dialogs and mobile bottom sheets.
+- Keyboard navigation, focus management, reduced-motion support, and a saved
+  pause/resume preference.
+- Optional background music with visitor-controlled playback.
+- Selected work projects: Solva, Solva Reservation, and Mitra Gramedia.
+- Downloadable CV and links to LinkedIn, GitHub, Instagram, and email.
+- A static reading page that works without JavaScript.
+- Page-specific SEO metadata, canonical URLs, social preview cards, structured
+  profile data, and a generated sitemap.
+
+## Tech stack
+
+| Technology | Purpose |
+| --- | --- |
+| Astro 7 | Components, routing, and static site generation |
+| TypeScript 6 | Interaction logic and typed configuration |
+| Tailwind CSS 4 + custom CSS | Styling, responsive layouts, and animation |
+| Web Animations API | Interruptible island camera transitions |
+| WebGL | Animated ocean rendering with a static-image fallback |
+| Web Audio API | Background music playback and fades |
+| WebP + SVG | Island artwork, portraits, project previews, and icons |
+| Fontsource | Self-hosted Manrope and Space Grotesk fonts |
+| `@astrojs/sitemap` | Sitemap generation during production builds |
+| Astro Check + Node.js test runner | Type checking and unit tests |
+
+## Getting started
+
+Use **Node.js 24 or newer** and **npm 9.6.5 or newer**.
 
 ```sh
 npm ci
 npm run dev
 ```
 
-Astro prints the local URL. Production and verification commands:
+Open the local URL printed by Astro in your terminal.
+
+## Commands
+
+| Command | Description |
+| --- | --- |
+| `npm run dev` | Start the development server |
+| `npm run check` | Check Astro and TypeScript files |
+| `npm test` | Run unit tests |
+| `npm run verify:assets` | Validate island asset files and dimensions |
+| `npm run build` | Generate the production site in `dist/` |
+| `npm run preview` | Preview the production build locally |
+
+## Project structure
+
+```text
+src/
+  components/
+    hero/          Introduction, identity, and navigation
+    island/        Island layers, landmarks, and ambient effects
+    sections/      Shared portfolio content and dialogs
+    SeoHead.astro  Shared SEO metadata
+  config/          Site identity and SEO configuration
+  layouts/         Page layout
+  pages/           Island, reading page, and robots.txt routes
+  scripts/         Camera, navigation, dialogs, audio, and animation
+  styles/          Global and component styles
+  utils/           Scene geometry, transitions, and state helpers
+public/
+  assets/          Artwork, portraits, project images, icons, and social preview
+  audio/           Background music
+  downloads/       Downloadable CV
+tests/             Unit tests, browser checks, and asset validation
+```
+
+## Customization
+
+- **Profile and SEO:** edit `src/config/site.ts` for the production domain, titles,
+  descriptions, social links, and structured profile data.
+- **Introduction:** edit `src/components/hero/HeroCard.astro` and
+  `src/components/hero/HeroIdentity.astro`.
+- **Portfolio content:** update the components in `src/components/sections/`.
+  Projects, selected project IDs, skills, and experience are defined in
+  `portfolio-content.ts` in that directory.
+- **Artwork and downloads:** place public files in `public/` and update their
+  references in the relevant components or configuration.
+
+## Production build
 
 ```sh
 npm run check
@@ -29,136 +102,7 @@ npm run build
 npm run preview
 ```
 
-## Scope and delivery status
-
-- **Phase 1 — complete:** static scene foundation, calibration record, reliable
-  image loading, controller cleanup, and initial validation.
-- **Subsequent calibration revision — complete:** user-supplied landmark
-  percentages, 32 logical px of roof headroom, and removal of foreground/FX
-  from rendering. All ten original/public asset files remain preserved.
-- **Post-Phase-1 layout extension — complete:** full-screen backdrop and empty
-  named layout slots. This does not complete Phase 2 navigation or Phase 3 UI.
-- **Ocean animation — complete:** an independent WebGL water renderer uses the
-  existing background, with a pause control and reduced-motion support.
-- **Later phases — pending:** real controls, navigation/history, section content,
-  panels, other scene motion, and device performance profiling.
-
-## Current scene contract
-
-- The source images in the project root are preserved. Public files are
-  byte-identical deployment copies; no image processing pipeline is used.
-- `src/components/island/scene-config.ts` owns layer order, registration,
-  source-space pivots, destination mappings, and disabled motion gates.
-- CSS supplies a proportional static scene without JavaScript. Enhancement
-  applies one shared scale to a fixed 1536 × 1024 stage and reveals the assembly
-  after all nine mounted images have loaded and decoded. The foreground and
-  original FX remain removed; replacement FX v2 is mounted at opacity zero.
-  All original files remain preserved for reference.
-- The island frame includes 32 logical pixels of sky above the original stage
-  so the house at y -3% is not clipped. The environment renders independently
-  across the screen using `object-fit: cover`; the island fits without cropping.
-  Its registration remains unchanged; no PNG pixels are edited.
-- The desktop island fits within 65vw and 88svh, capped at
-  1536px wide, with a 1vw right inset. Landmark registration is unchanged.
-- At widths at or below 900 px, the island centers above the future card and menu.
-  Short landscape screens retain the left-card/right-island arrangement.
-- A failed image or decode hides the incomplete enhanced scene and leaves a
-  visible error message. A 120-second deadline covers stalled requests. Reload
-  the page to retry; the shell never becomes a blocking loading screen.
-- `initIslandScene(root)` is idempotent and returns a disposer. Disposal cancels
-  readiness work, disconnects resizing, clears timers/frames, and restores the
-  CSS-only scene. Page hide/show handles the browser back-forward cache.
-- GSAP is installed for later phases but is neither imported nor bundled here.
-  Navigation, panels, portfolio content, and landmark motion are deferred.
-
-## Ocean animation
-
-Three island-local clouds reuse the illustrated smoke sprite. They drift gently
-across short paths, expand slightly, and fade fully before restarting on
-staggered 24/27/29-second loops. The cloud layer scales with the island and is
-decorative/non-interactive. Pause motion freezes it; reduced motion hides it.
-Desktop presentation, mobile DOM placement, and fade/pause/reduced-motion
-behavior were checked in Ego Lite. Mobile screenshot capture timed out, so
-mobile visual confirmation remains unverified. No new image was required.
-
-The lighthouse has two opposing, tapered SVG beams anchored to source lamp point
-(1174, 361), registered into the shared island stage. A 32-second rotation
-projects a small 360 × 220 stage-px elliptical sweep around the lighthouse and
-dock, widening toward the viewer. After visual refinement, both beams stay
-visible: the rear beam is narrower and slightly dimmer. After manual review of
-house occlusion, lower gradient/beam opacity and more edge softness replace the
-solid treatment so the building silhouette's cutoff is less conspicuous.
-It sits above nearby terrain and behind all buildings, keeping the source
-occluded by the tower. SVG gradient/edge softness are static;
-only transform and opacity update on the existing capped water-rendering clock.
-Pause, hidden/offscreen suspension, reduced motion, and renderer cleanup apply.
-Desktop/mobile origin alignment and motion controls were verified in Ego Lite.
-No new bitmap or dependency is needed.
-
-Lanterns and illuminated windows now have 53 small, source-aligned amber glow
-overlays, configured in `src/components/island/scene-lights.ts`. They inherit
-their image registration and layer order; base glows remain behind foreground
-buildings. After manual review, the glows use a 1.8× footprint, 0.12–0.75 opacity,
-different phases/directions, and 3.50–5.76 second cycles. The temporary comparison
-toggle has been removed. Original image brightness
-and building geometry stay fixed. Shared Pause motion freezes the glows, and
-reduced motion removes them, preserving the painted lights. Desktop/mobile
-alignment, independent opacity changes, pause, and reduced motion were checked
-in Ego Lite. Astro check/build pass. No new image or dependency is needed.
-
-The workshop chimney also emits eight staggered illustrated smoke puffs.
-The creator's house reuses the same sprite and animation, anchored at source
-point (804, 257), with a half-second phase offset from the workshop. Both chimney
-origins were checked in desktop close-ups and mobile layouts.
-Their anchor is (527, 282) in ASSET-03 source coordinates, inside the same
-registration/interaction wrappers as the workshop image. Each puff rises,
-drifts slightly right, expands, and fades over eight seconds. A transparent
-faceted smoke sprite replaces the earlier CSS gradients to match the low-poly
-artwork; the workshop image and building transforms are preserved. See
-[smoke-asset-production.md](smoke-asset-production.md) for its generation prompt.
-Smoke shares Pause motion, visibility suspension,
-and reduced-motion behavior. Desktop close-up and mobile alignment were checked
-in Ego Lite; computed mobile placement matches the scaled chimney coordinates.
-
-The sailboat now has an eight-second CSS ambient cycle around its hull pivot,
-with ±0.75 logical stage px of bobbing and ±0.15° of rocking. Its static
-registration is unchanged. The shared control is labeled **Pause motion** and
-pauses both water and boat, including when hidden/offscreen. Reduced motion
-removes the boat animation and restores its neutral transform. Desktop motion
-extremes, mobile layout, shared pause/resume, and reduced motion were checked in
-Ego Lite. The missing, invisible ASSET-09 entry was removed from the active
-configuration so it no longer blocks readiness; eight existing images now load.
-
-The user authorized water motion separately on 7 October 2026. This supersedes
-the earlier static-only gate for the ocean; other asset motion remains disabled.
-`src/scripts/ocean-water.ts` refracts the existing ASSET-00 texture with overlapping
-waves, increasing displacement toward the foreground. Source-space exclusion
-zones protect the embedded rocks, and the horizon/sky remain static. These are
-soft approximate masks, not a separately painted segmentation asset.
-
-The canvas shares the background's centered cover fitting and sits below the
-island layers. No new artwork, image edits, dependencies, or island transforms
-were needed. Rendering is capped at 30 fps and 1600 × 1200, with pixel density
-capped at 1.5. Work pauses when hidden or offscreen. The visible Pause water
-control remembers the user's choice; system reduced motion always takes priority.
-Unsupported WebGL, setup failure, and context loss retain the original image.
-
-Validation: Astro check/build and all 11 existing tests pass. Ego Lite checks
-confirmed animated ocean pixels, static sampled sky/rock interiors, pause/resume,
-live reduced-motion changes, a 390 × 844 viewport, and context-loss fallback.
-Ordinary mobile-device frame-rate profiling remains unverified.
-
-See [phase-1-calibration.md](phase-1-calibration.md) for registration measurements,
-visual limitations, and validation results. The technical specification records
-the current scope amendments; the animation specification defines future motion gates. Static assessment and the layout
-extension do not approve motion.
-
-## New ASSET-09 candidate — inactive
-
-The user separately authorized replacement FX generation after Phase 1.
-`public/assets/island/asset-09-lighting-atmospheric-fx-v2.png` now exists as a
-1536 × 1024 transparent candidate. It is now mounted as ASSET-09 at z-index 90, identity registration, and opacity
-zero, with static validation disabled. Nine sources are requested and decoded;
-eight are visible. Generation still shows registration drift and broad glow, so
-exact-fit acceptance has not passed. The original FX file is preserved and FX
-motion remains disabled. See [the generation and validation record](output/asset-09/README.md).
+Deploy the generated `dist/` directory to a static hosting service. The production
+URL is configured as `https://sandyrahmansyah.com` in `src/config/site.ts`; update
+it before building for another domain. The build generates `robots.txt`,
+`sitemap-index.xml`, and the page sitemap alongside the static HTML and assets.
