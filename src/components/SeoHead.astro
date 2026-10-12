@@ -1,0 +1,90 @@
+---
+import { SITE, type SeoPage } from '../config/site';
+
+interface Props {
+  page?: SeoPage;
+}
+
+const { page = 'home' } = Astro.props;
+const { title, description } = SITE.pages[page];
+const siteURL = Astro.site ?? new URL(SITE.url);
+const canonicalURL = new URL(Astro.url.pathname, siteURL);
+const imageURL = new URL(SITE.image.path, siteURL);
+const personID = new URL('/#person', siteURL).href;
+const websiteID = new URL('/#website', siteURL).href;
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Person',
+      '@id': personID,
+      name: SITE.name,
+      url: siteURL.href,
+      jobTitle: SITE.role,
+      image: new URL(SITE.portrait, siteURL).href,
+      homeLocation: {
+        '@type': 'Place',
+        name: `${SITE.location.city}, ${SITE.location.country}`,
+        address: {
+          '@type': 'PostalAddress',
+          addressLocality: SITE.location.city,
+          addressCountry: SITE.location.countryCode,
+        },
+      },
+      sameAs: SITE.profiles,
+      knowsAbout: SITE.skills,
+    },
+    {
+      '@type': 'WebSite',
+      '@id': websiteID,
+      name: `${SITE.name} — ${SITE.role}`,
+      url: siteURL.href,
+      inLanguage: SITE.language,
+      author: { '@id': personID },
+    },
+    {
+      '@type': 'ProfilePage',
+      '@id': `${canonicalURL.href}#webpage`,
+      url: canonicalURL.href,
+      name: title,
+      description,
+      inLanguage: SITE.language,
+      isPartOf: { '@id': websiteID },
+      mainEntity: { '@id': personID },
+    },
+  ],
+};
+// Prevent text containing '<' from terminating the inline JSON script.
+const jsonLD = JSON.stringify(structuredData).replace(/</g, '\\u003c');
+---
+
+<title>{title}</title>
+<meta name="description" content={description} />
+<meta name="author" content={SITE.name} />
+<meta name="robots" content="index, follow, max-image-preview:large" />
+<link rel="canonical" href={canonicalURL} />
+<link rel="sitemap" type="application/xml" href="/sitemap-index.xml" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+<meta name="theme-color" content="#f5f1e8" />
+
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content={SITE.name} />
+<meta property="og:locale" content={SITE.locale} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonicalURL} />
+<meta property="og:image" content={imageURL} />
+<meta property="og:image:type" content="image/jpeg" />
+<meta property="og:image:width" content={String(SITE.image.width)} />
+<meta property="og:image:height" content={String(SITE.image.height)} />
+<meta property="og:image:alt" content={SITE.image.alt} />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={imageURL} />
+<meta name="twitter:image:alt" content={SITE.image.alt} />
+
+<script type="application/ld+json" is:inline set:html={jsonLD} />

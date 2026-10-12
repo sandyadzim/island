@@ -83,6 +83,7 @@ export interface GalleryProject {
   context: string;
   description: string;
   stack: readonly string[];
+  url?: string;
   preview?: "harbor" | "fieldnotes" | "market";
   image?: { src: string; alt: string; width: number; height: number };
 }
@@ -109,6 +110,7 @@ export const PROJECT_GROUPS: {
     projects: [
       {
         id: "solva",
+        url: "https://member.id/products/solva",
         name: "Solva",
         context: "Member.id",
         description:
@@ -123,6 +125,7 @@ export const PROJECT_GROUPS: {
       },
       {
         id: "solva-reservation",
+        url: "https://member.id/products/reservation",
         name: "Solva Reservation",
         context: "Member.id",
         description:
@@ -137,6 +140,7 @@ export const PROJECT_GROUPS: {
       },
       {
         id: "mitra",
+        url: "https://mitra.gramedia.com/",
         name: "Mitra Gramedia",
         context: "PT. Gramedia Asri Media",
         description:

@@ -1,4 +1,5 @@
 ---
+import SeoHead from '../components/SeoHead.astro';
 import '../styles/global.css';
 import '../styles/hero-ui.css';
 import '../styles/portfolio.css';
@@ -9,8 +10,7 @@ import '../styles/island-explorer.css';
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Welcome to Sunrise Reef. Explore my work, the things I know, and the story so far." />
-    <title>Sunrise Reef — A little island of ideas</title>
+    <SeoHead page="home" />
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to main content</a>

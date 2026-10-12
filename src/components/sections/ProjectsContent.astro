@@ -1,6 +1,7 @@
 ---
 import { SELECTED_PROJECTS } from "./portfolio-content";
 import ProjectPreview from "./ProjectPreview.astro";
+import HeroIcon from "../hero/HeroIcon.astro";
 import "../../styles/projects-content.css";
 import "../../styles/selected-projects.css";
 ---
@@ -30,7 +31,15 @@ import "../../styles/selected-projects.css";
         )}
         <div class="selected-project-copy">
           <div class="selected-project-heading">
-            <h3 id={`selected-project-${project.id}`}>{project.name}</h3>
+            <div class="selected-project-title-row">
+              <h3 id={`selected-project-${project.id}`}>{project.name}</h3>
+              {project.url && (
+                <a class="selected-project-link" href={project.url} target="_blank" rel="noopener noreferrer"
+                  aria-label={`Visit ${project.name} (opens in a new tab)`}>
+                  <HeroIcon name="arrow-up-right" />
+                </a>
+              )}
+            </div>
             <p class="selected-project-context">{project.context}</p>
           </div>
           <div class="selected-project-detail">

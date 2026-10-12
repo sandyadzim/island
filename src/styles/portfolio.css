@@ -144,10 +144,14 @@
 }
 
 .reading-page { color-scheme: light; background: var(--color-ivory); }
+@media (prefers-reduced-motion: no-preference) {
+  .reading-page { scroll-behavior: smooth; }
+}
 .portfolio-reader { color-scheme: light; background: var(--color-ivory); color: var(--color-teal); --color-focus: var(--color-teal); }
 .reader-header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; padding: max(1.5rem, env(safe-area-inset-top)) clamp(1.25rem, 5vw, 4rem); border-bottom: 1px solid rgb(23 62 67 / 15%); }
 .reader-header a, .reader-footer a { display: inline-flex; align-items: center; gap: .5rem; min-height: 44px; color: inherit; text-decoration: none; }
 .reader-brand { font: 1.25rem var(--font-display); }
+.reader-brand .hero-monogram { background: var(--color-teal); color: var(--color-ivory); }
 .reader-header .hero-icon { width: 18px; height: 18px; }
 .reader-main { width: min(100% - 2.5rem, 65ch); margin: clamp(2rem, 8vw, 5rem) auto; }
 .reader-main h1 { font: 400 clamp(2.25rem, 6vw, 4rem)/1.12 var(--font-display); letter-spacing: -.035em; margin: 0 0 1.5rem; }
@@ -158,3 +162,44 @@
 .reading-sections .portfolio-section { padding: 2rem 0; border-top: 1px solid rgb(23 62 67 / 20%); border-radius: 0; }
 .reading-sections .section-heading-row h2 { font-size: 2rem; }
 .reader-footer { width: min(100% - 2.5rem, 65ch); margin: 0 auto max(2rem, env(safe-area-inset-bottom)); }
+.reader-footer { padding-bottom: 4rem; }
+.reader-back-to-top {
+  position: fixed;
+  right: max(1.25rem, env(safe-area-inset-right));
+  bottom: max(1.25rem, env(safe-area-inset-bottom));
+  z-index: 10;
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  min-height: 44px;
+  padding: .625rem 1rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--color-teal);
+  color: var(--color-ivory);
+  font-size: .8125rem;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgb(23 62 67 / 18%);
+  opacity: 0;
+  transform: translateY(20%);
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 180ms var(--ease-out), transform 180ms var(--ease-out), visibility 0s 180ms;
+}
+.reader-back-to-top.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  visibility: visible;
+  pointer-events: auto;
+  transition-delay: 0s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .reader-back-to-top {
+    transform: none;
+    transition: opacity 120ms var(--ease-out), visibility 0s 120ms;
+  }
+  .reader-back-to-top.is-visible { transform: none; transition-delay: 0s; }
+}
+.reader-back-to-top .hero-icon { width: 18px; height: 18px; transform: rotate(-90deg); }
+.reader-back-to-top:hover { background: #24565a; }
+.reader-back-to-top:focus-visible { outline: 2px solid var(--color-teal); outline-offset: 4px; }
