@@ -9,7 +9,10 @@ function abortError(): DOMException {
 }
 
 /** Load events alone do not establish that an image is decoded and paintable. */
-export async function waitForImage(image: SceneImage, signal: AbortSignal): Promise<void> {
+export async function waitForImage(
+  image: SceneImage,
+  signal: AbortSignal,
+): Promise<void> {
   if (signal.aborted) throw abortError();
 
   await new Promise<void>((resolve, reject) => {
@@ -27,9 +30,15 @@ export async function waitForImage(image: SceneImage, signal: AbortSignal): Prom
       cleanup();
       reject(new Error('A scene image could not be loaded.'));
     };
-    const onAbort = () => { cleanup(); reject(abortError()); };
+    const onAbort = () => {
+      cleanup();
+      reject(abortError());
+    };
 
-    if (image.complete) { onLoad(); return; }
+    if (image.complete) {
+      onLoad();
+      return;
+    }
     image.addEventListener('load', onLoad);
     image.addEventListener('error', onError);
     signal.addEventListener('abort', onAbort, { once: true });
@@ -39,13 +48,22 @@ export async function waitForImage(image: SceneImage, signal: AbortSignal): Prom
   if (!image.decode) return;
 
   await new Promise<void>((resolve, reject) => {
-    const onAbort = () => { cleanup(); reject(abortError()); };
+    const onAbort = () => {
+      cleanup();
+      reject(abortError());
+    };
     const cleanup = () => signal.removeEventListener('abort', onAbort);
     signal.addEventListener('abort', onAbort, { once: true });
     try {
       image.decode!().then(
-        () => { cleanup(); resolve(); },
-        (error: unknown) => { cleanup(); reject(error); },
+        () => {
+          cleanup();
+          resolve();
+        },
+        (error: unknown) => {
+          cleanup();
+          reject(error);
+        },
       );
     } catch (error) {
       cleanup();

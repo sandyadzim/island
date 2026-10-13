@@ -3,7 +3,9 @@
   min-height: 100svh;
   display: flex;
   flex-direction: column;
-  background: var(--color-page) url('/assets/island/asset-00-environment-background.webp') center top / cover no-repeat;
+  background: var(--color-page)
+    url('/assets/island/asset-00-environment-background.webp') center top /
+    cover no-repeat;
 }
 
 .not-found-header {

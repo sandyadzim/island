@@ -123,8 +123,8 @@
   visibility: hidden;
 }
 
-[data-marine-motion="running"] .lighthouse-beam-origin,
-[data-marine-motion="paused"] .lighthouse-beam-origin {
+[data-marine-motion='running'] .lighthouse-beam-origin,
+[data-marine-motion='paused'] .lighthouse-beam-origin {
   visibility: visible;
 }
 
@@ -140,13 +140,13 @@
 
 /* Ambient wrapper owns boat motion; registration and interaction stay separate.
    Compensate for the asset's 0.28 registration scale to bob ±0.75 stage px. */
-[data-marine-motion="running"] [data-asset-id="ASSET-07"] .island-ambient,
-[data-marine-motion="paused"] [data-asset-id="ASSET-07"] .island-ambient {
+[data-marine-motion='running'] [data-asset-id='ASSET-07'] .island-ambient,
+[data-marine-motion='paused'] [data-asset-id='ASSET-07'] .island-ambient {
   transform-origin: var(--pivot-x) var(--pivot-y);
   animation: sailboat-bob 8s cubic-bezier(0.77, 0, 0.175, 1) infinite;
 }
 
-[data-marine-motion="paused"] [data-asset-id="ASSET-07"] .island-ambient {
+[data-marine-motion='paused'] [data-asset-id='ASSET-07'] .island-ambient {
   animation-play-state: paused;
 }
 
@@ -195,15 +195,15 @@
   transform: rotate(8deg);
 }
 
-[data-marine-motion="running"] .workshop-smoke-puff,
-[data-marine-motion="paused"] .workshop-smoke-puff {
+[data-marine-motion='running'] .workshop-smoke-puff,
+[data-marine-motion='paused'] .workshop-smoke-puff {
   animation-name: chimney-smoke;
   animation-duration: 8s;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
 }
 
-[data-marine-motion="paused"] .workshop-smoke-puff {
+[data-marine-motion='paused'] .workshop-smoke-puff {
   animation-play-state: paused;
 }
 
@@ -247,13 +247,13 @@
   );
 }
 
-[data-marine-motion="running"] .scene-light-glow,
-[data-marine-motion="paused"] .scene-light-glow {
+[data-marine-motion='running'] .scene-light-glow,
+[data-marine-motion='paused'] .scene-light-glow {
   animation: lantern-shimmer calc(var(--light-duration) * 0.48) ease-in-out
     var(--light-delay) infinite var(--light-direction);
 }
 
-[data-marine-motion="paused"] .scene-light-glow {
+[data-marine-motion='paused'] .scene-light-glow {
   animation-play-state: paused;
 }
 
@@ -302,19 +302,19 @@
   transform-origin: 20px 15px;
 }
 
-[data-marine-motion="running"] .island-bird-flight,
-[data-marine-motion="paused"] .island-bird-flight {
+[data-marine-motion='running'] .island-bird-flight,
+[data-marine-motion='paused'] .island-bird-flight {
   animation: island-bird-pass 24s linear var(--bird-delay) infinite;
 }
 
-[data-marine-motion="running"] .island-bird-wings,
-[data-marine-motion="paused"] .island-bird-wings {
+[data-marine-motion='running'] .island-bird-wings,
+[data-marine-motion='paused'] .island-bird-wings {
   animation: island-bird-wingbeat var(--wing-duration) ease-in-out
     var(--wing-delay) infinite;
 }
 
-[data-marine-motion="paused"] .island-bird-flight,
-[data-marine-motion="paused"] .island-bird-wings {
+[data-marine-motion='paused'] .island-bird-flight,
+[data-marine-motion='paused'] .island-bird-wings {
   animation-play-state: paused;
 }
 
@@ -376,13 +376,13 @@
   transform: scaleX(-1);
 }
 
-[data-marine-motion="running"] .island-cloud,
-[data-marine-motion="paused"] .island-cloud {
+[data-marine-motion='running'] .island-cloud,
+[data-marine-motion='paused'] .island-cloud {
   animation: island-cloud-drift var(--cloud-duration) linear var(--cloud-delay)
     infinite;
 }
 
-[data-marine-motion="paused"] .island-cloud {
+[data-marine-motion='paused'] .island-cloud {
   animation-play-state: paused;
 }
 
@@ -419,7 +419,7 @@
   [data-marine-motion] .lighthouse-beam-origin {
     visibility: hidden;
   }
-  [data-marine-motion] [data-asset-id="ASSET-07"] .island-ambient {
+  [data-marine-motion] [data-asset-id='ASSET-07'] .island-ambient {
     animation: none;
     transform: none;
   }
@@ -442,13 +442,13 @@
   transform: scale(var(--scene-scale));
 }
 
-[data-scene-state="loading"] .island-responsive-scale,
-[data-scene-state="error"] .island-responsive-scale,
-[data-scene-state="loading"] .island-environment {
+[data-scene-state='loading'] .island-responsive-scale,
+[data-scene-state='error'] .island-responsive-scale,
+[data-scene-state='loading'] .island-environment {
   visibility: hidden;
 }
 
-[data-scene-enhanced] .island-layer:not([data-asset-state="ready"]),
+[data-scene-enhanced] .island-layer:not([data-asset-state='ready']),
 [data-scene-enhanced]:not([data-lighthouse-ready]) .lighthouse-beam-origin {
   visibility: hidden;
 }

@@ -3,16 +3,38 @@ import { FAVORITE_STACK, SKILL_GROUPS } from './portfolio-content';
 import StackIcon from './StackIcon.astro';
 import '../../styles/skills-content.css';
 ---
+
 <div class="skills-content">
   <p class="content-lead">The tools behind the interfaces.</p>
-  <p>My day-to-day work brings together component systems, API integration, responsive design, testing, and performance optimization.</p>
+  <p>
+    My day-to-day work brings together component systems, API integration,
+    responsive design, testing, and performance optimization.
+  </p>
   <section class="skills-favorite-card" aria-label="Favorite website stack">
     <h3>My go-to stack for building websites</h3>
     <p>A few favorites I reach for, from the interface to the backend.</p>
-    <ul class="skills-favorite-list">{FAVORITE_STACK.map(item => <li><StackIcon name={item} /><span>{item}</span></li>)}</ul>
+    <ul class="skills-favorite-list">
+      {FAVORITE_STACK.map((item) => (
+        <li>
+          <StackIcon name={item} />
+          <span>{item}</span>
+        </li>
+      ))}
+    </ul>
   </section>
-  <div class="skills-icon-directory">{SKILL_GROUPS.map(group => <section>
-    <h3>{group.title}</h3>
-    <ul class="skills-logo-list">{group.items.map(item => <li><StackIcon name={item} /><span>{item}</span></li>)}</ul>
-  </section>)}</div>
+  <div class="skills-icon-directory">
+    {SKILL_GROUPS.map((group) => (
+      <section>
+        <h3>{group.title}</h3>
+        <ul class="skills-logo-list">
+          {group.items.map((item) => (
+            <li>
+              <StackIcon name={item} />
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+  </div>
 </div>

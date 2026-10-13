@@ -1,123 +1,118 @@
 ---
 interface Props {
-  variant: "harbor" | "fieldnotes" | "market";
+  variant: 'harbor' | 'fieldnotes' | 'market';
   name: string;
 }
 const { variant, name } = Astro.props;
 ---
 
-<figure class:list={["project-preview", `preview-${variant}`]}>
+<figure class:list={['project-preview', `preview-${variant}`]}>
   <div
     class="preview-canvas"
     role="img"
     aria-label={`Illustrative ${name} interface mockup, not a real project screenshot`}
   >
     <div class="preview-topbar">
-      <strong>{name}</strong><span>Concept preview</span>
+      <strong>{name}</strong>
+      <span>Concept preview</span>
     </div>
-    {
-      variant === "harbor" && (
-        <div class="preview-harbor-layout">
-          <div class="preview-harbor-scene">
-            <>
-              <span class="preview-sun" />
-              <span class="preview-horizon" />
-              <span class="preview-caption">A slower kind of stay.</span>
-            </>
-          </div>
-          <div class="preview-booking">
-            <>
-              <span>YOUR NEXT ESCAPE</span>
-              <strong>Somewhere by the sea</strong>
-              <div>
-                <>
-                  <span>
-                    Arrival
-                    <>
-                      <br />
-                      <b>18 Oct</b>
-                    </>
-                  </span>
-                  <span>
-                    Departure
-                    <>
-                      <br />
-                      <b>21 Oct</b>
-                    </>
-                  </span>
-                </>
-              </div>
-              <span class="preview-action">Find your stay</span>
-            </>
-          </div>
-        </div>
-      )
-    }
-    {
-      variant === "fieldnotes" && (
-        <div class="preview-editor-layout">
-          <div class="preview-sidebar">
-            <>
-              <span>All stories</span>
-              <span>Drafts</span>
-              <span>Published</span>
-            </>
-          </div>
-          <div class="preview-stories">
-            <>
-              <strong>A place for your next idea.</strong>
-              <div>
-                <>
-                  <span>Morning rituals</span>
-                  <small>Draft</small>
-                </>
-              </div>
-              <div>
-                <>
-                  <span>Notes from the coast</span>
-                  <small>Review</small>
-                </>
-              </div>
-              <div>
-                <>
-                  <span>Making room to create</span>
-                  <small>Published</small>
-                </>
-              </div>
-            </>
-          </div>
-        </div>
-      )
-    }
-    {
-      variant === "market" && (
-        <div class="preview-shop">
+    {variant === 'harbor' && (
+      <div class="preview-harbor-layout">
+        <div class="preview-harbor-scene">
           <>
-            <strong>Good things, made slowly.</strong>
-            <div class="preview-products">
-              <div>
-                <>
-                  <span class="preview-object object-vase" />
-                  <span>Clay vase</span>
-                </>
-              </div>
-              <div>
-                <>
-                  <span class="preview-object object-book" />
-                  <span>Everyday journal</span>
-                </>
-              </div>
-              <div>
-                <>
-                  <span class="preview-object object-cup" />
-                  <span>Morning cup</span>
-                </>
-              </div>
+            <span class="preview-sun" />
+            <span class="preview-horizon" />
+            <span class="preview-caption">A slower kind of stay.</span>
+          </>
+        </div>
+        <div class="preview-booking">
+          <>
+            <span>YOUR NEXT ESCAPE</span>
+            <strong>Somewhere by the sea</strong>
+            <div>
+              <>
+                <span>
+                  Arrival
+                  <>
+                    <br />
+                    <b>18 Oct</b>
+                  </>
+                </span>
+                <span>
+                  Departure
+                  <>
+                    <br />
+                    <b>21 Oct</b>
+                  </>
+                </span>
+              </>
+            </div>
+            <span class="preview-action">Find your stay</span>
+          </>
+        </div>
+      </div>
+    )}
+    {variant === 'fieldnotes' && (
+      <div class="preview-editor-layout">
+        <div class="preview-sidebar">
+          <>
+            <span>All stories</span>
+            <span>Drafts</span>
+            <span>Published</span>
+          </>
+        </div>
+        <div class="preview-stories">
+          <>
+            <strong>A place for your next idea.</strong>
+            <div>
+              <>
+                <span>Morning rituals</span>
+                <small>Draft</small>
+              </>
+            </div>
+            <div>
+              <>
+                <span>Notes from the coast</span>
+                <small>Review</small>
+              </>
+            </div>
+            <div>
+              <>
+                <span>Making room to create</span>
+                <small>Published</small>
+              </>
             </div>
           </>
         </div>
-      )
-    }
+      </div>
+    )}
+    {variant === 'market' && (
+      <div class="preview-shop">
+        <>
+          <strong>Good things, made slowly.</strong>
+          <div class="preview-products">
+            <div>
+              <>
+                <span class="preview-object object-vase" />
+                <span>Clay vase</span>
+              </>
+            </div>
+            <div>
+              <>
+                <span class="preview-object object-book" />
+                <span>Everyday journal</span>
+              </>
+            </div>
+            <div>
+              <>
+                <span class="preview-object object-cup" />
+                <span>Morning cup</span>
+              </>
+            </div>
+          </div>
+        </>
+      </div>
+    )}
   </div>
   <figcaption>Interface concept</figcaption>
 </figure>

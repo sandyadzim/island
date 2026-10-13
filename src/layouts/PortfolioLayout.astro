@@ -6,28 +6,42 @@ import '../styles/hero-ui.css';
 import '../styles/portfolio.css';
 import '../styles/island-explorer.css';
 ---
+
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
     <FontPreloads />
     <SeoHead page="home" />
   </head>
   <body>
-    <a class="skip-link" href="#main">Skip to main content</a>
+    <a class="skip-link" href="#main">
+      Skip to main content
+    </a>
     <div id="home" class="portfolio-shell" data-explore-mode="intro">
       <header class="layout-header" data-layout-slot="header">
-        <div class="layout-identity"><slot name="identity" /></div>
-        <div class="layout-controls"><slot name="header-controls" /></div>
+        <div class="layout-identity">
+          <slot name="identity" />
+        </div>
+        <div class="layout-controls">
+          <slot name="header-controls" />
+        </div>
       </header>
       <main id="main" tabindex="-1" class="layout-main">
         <div class="layout-stage">
           <slot />
           <div class="layout-stack">
-            <div class="layout-card" data-layout-slot="card"><slot name="card" /></div>
+            <div class="layout-card" data-layout-slot="card">
+              <slot name="card" />
+            </div>
           </div>
-          <div class="layout-menu" data-layout-slot="menu"><slot name="menu" /></div>
+          <div class="layout-menu" data-layout-slot="menu">
+            <slot name="menu" />
+          </div>
         </div>
       </main>
     </div>

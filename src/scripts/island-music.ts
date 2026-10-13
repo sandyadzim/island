@@ -1,8 +1,8 @@
 /** User-started, lazily downloaded music with a decoded, seamless audio loop. */
 export function initIslandMusic(root: HTMLElement): () => void {
-  const button = root.querySelector<HTMLButtonElement>("[data-music-toggle]");
-  const status = root.querySelector<HTMLElement>("[data-music-status]");
-  if (!button || typeof AudioContext === "undefined") return () => {};
+  const button = root.querySelector<HTMLButtonElement>('[data-music-toggle]');
+  const status = root.querySelector<HTMLElement>('[data-music-status]');
+  if (!button || typeof AudioContext === 'undefined') return () => {};
 
   const events = new AbortController();
   let context: AudioContext | undefined;
@@ -15,21 +15,21 @@ export function initIslandMusic(root: HTMLElement): () => void {
   let revision = 0;
 
   function label() {
-    const text = enabled ? "Mute background music" : "Play background music";
-    button!.setAttribute("aria-pressed", String(enabled));
-    button!.setAttribute("aria-label", text);
+    const text = enabled ? 'Mute background music' : 'Play background music';
+    button!.setAttribute('aria-pressed', String(enabled));
+    button!.setAttribute('aria-label', text);
     button!.title = text;
   }
 
   function ready(): Promise<void> {
     if (source) return Promise.resolve();
     if (loading) return loading;
-    button!.setAttribute("aria-busy", "true");
+    button!.setAttribute('aria-busy', 'true');
     loading = (async () => {
-      const response = await fetch("/audio/rainy-cafe.mp3", {
+      const response = await fetch('/audio/rainy-cafe.mp3', {
         signal: events.signal,
       });
-      if (!response.ok) throw new Error("Music could not be downloaded");
+      if (!response.ok) throw new Error('Music could not be downloaded');
       const buffer = await context!.decodeAudioData(
         await response.arrayBuffer(),
       );
@@ -41,7 +41,7 @@ export function initIslandMusic(root: HTMLElement): () => void {
       source.start();
     })().finally(() => {
       loading = undefined;
-      button!.removeAttribute("aria-busy");
+      button!.removeAttribute('aria-busy');
     });
     return loading;
   }
@@ -77,17 +77,17 @@ export function initIslandMusic(root: HTMLElement): () => void {
       label();
       if (status)
         status.textContent =
-          "Music could not play. Tap the sound button to try again.";
+          'Music could not play. Tap the sound button to try again.';
       void context?.suspend().catch(() => {});
     }
   }
 
   button.disabled = false;
   button.addEventListener(
-    "click",
+    'click',
     () => {
       enabled = !enabled;
-      if (status) status.textContent = "";
+      if (status) status.textContent = '';
       label();
       void sync();
     },

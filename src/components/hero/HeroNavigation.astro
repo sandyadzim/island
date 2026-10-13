@@ -1,6 +1,6 @@
 ---
-import { DESTINATIONS } from "./destinations";
-import HeroIcon from "./HeroIcon.astro";
+import { DESTINATIONS } from './destinations';
+import HeroIcon from './HeroIcon.astro';
 ---
 
 <nav
@@ -11,20 +11,18 @@ import HeroIcon from "./HeroIcon.astro";
   aria-hidden="true"
 >
   <ul>
-    {
-      DESTINATIONS.map((destination) => (
-        <li>
-          <a
-            href={`/portfolio/#${destination.id}`}
-            data-explore-destination={destination.id}
-            aria-label={destination.label}
-            title={destination.label}
-          >
-            <HeroIcon name={destination.icon} />
-            <span>{destination.label}</span>
-          </a>
-        </li>
-      ))
-    }
+    {DESTINATIONS.map((destination) => (
+      <li>
+        <a
+          href={`/portfolio/#${destination.id}`}
+          data-explore-destination={destination.id}
+          aria-label={destination.label}
+          title={destination.label}
+        >
+          <HeroIcon name={destination.icon} />
+          <span>{destination.label}</span>
+        </a>
+      </li>
+    ))}
   </ul>
 </nav>

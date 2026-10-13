@@ -1,6 +1,6 @@
-@import "tailwindcss";
-@import "@fontsource-variable/space-grotesk";
-@import "@fontsource-variable/manrope";
+@import 'tailwindcss';
+@import '@fontsource-variable/space-grotesk';
+@import '@fontsource-variable/manrope';
 
 :root {
   color-scheme: dark;
@@ -12,9 +12,9 @@
   --color-teal: #173e43;
   --color-teal-muted: #526467;
   --color-gold: #b58235;
-  --ease-out: cubic-bezier(.23, 1, .32, 1);
-  --font-display: "Space Grotesk Variable", Arial, sans-serif;
-  --font-body: "Manrope Variable", Arial, sans-serif;
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --font-display: 'Space Grotesk Variable', Arial, sans-serif;
+  --font-body: 'Manrope Variable', Arial, sans-serif;
   font-family: var(--font-body);
   background: var(--color-page);
   color: var(--color-text);
@@ -36,7 +36,12 @@ a {
 button {
   font: inherit;
 }
-h1, h2, h3, h4 { font-family: var(--font-display); }
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+}
 [hidden] {
   display: none !important;
 }

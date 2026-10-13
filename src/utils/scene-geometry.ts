@@ -1,4 +1,9 @@
-import { STAGE, SCENE_HEADROOM, type Point, type Registration } from '../components/island/scene-config.ts';
+import {
+  STAGE,
+  SCENE_HEADROOM,
+  type Point,
+  type Registration,
+} from '../components/island/scene-config.ts';
 
 export function registerPoint(point: Point, registration: Registration): Point {
   return {
@@ -17,16 +22,25 @@ export function controlPoint(point: Point, registration: Registration): Point {
   return { x: registered.x, y: registered.y + SCENE_HEADROOM };
 }
 
-export function controlPolygon(points: readonly Point[], registration: Registration): string {
-  return points.map((point) => {
-    const projected = controlPoint(point, registration);
-    return `${Number(projected.x.toFixed(3))},${Number(projected.y.toFixed(3))}`;
-  }).join(' ');
+export function controlPolygon(
+  points: readonly Point[],
+  registration: Registration,
+): string {
+  return points
+    .map((point) => {
+      const projected = controlPoint(point, registration);
+      return `${Number(projected.x.toFixed(3))},${Number(projected.y.toFixed(3))}`;
+    })
+    .join(' ');
 }
 
 /** Percentages keep registration identical in the CSS-only proportional stage. */
-export function registrationStyle(registration: Registration, pivot: Point): string {
-  const percent = (value: number, extent: number) => `${Number((value / extent * 100).toFixed(10))}%`;
+export function registrationStyle(
+  registration: Registration,
+  pivot: Point,
+): string {
+  const percent = (value: number, extent: number) =>
+    `${Number(((value / extent) * 100).toFixed(10))}%`;
   return [
     `--registration-x:${percent(registration.x, STAGE.width)}`,
     `--registration-y:${percent(registration.y, STAGE.height)}`,

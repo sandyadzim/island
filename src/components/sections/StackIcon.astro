@@ -1,18 +1,52 @@
 ---
-interface Props { name: string; }
+interface Props {
+  name: string;
+}
 const { name } = Astro.props;
 const files: Record<string, string> = {
-  Vue: 'vue', 'Vue.js': 'vue', Nuxt: 'nuxt', React: 'react', Next: 'next-js',
-  JavaScript: 'javascript', TypeScript: 'typescript', HTML: 'html5', CSS: 'css-new', PHP: 'php',
+  Vue: 'vue',
+  'Vue.js': 'vue',
+  Nuxt: 'nuxt',
+  React: 'react',
+  Next: 'next-js',
+  JavaScript: 'javascript',
+  TypeScript: 'typescript',
+  HTML: 'html5',
+  CSS: 'css-new',
+  PHP: 'php',
   Tailwind: 'tailwind-css',
-  'Element Plus': 'element-plus', 'shadcn/ui': 'shadcn-ui', Vuetify: 'vuetify', Bootstrap: 'bootstrap',
-  Vitest: 'vitest', Jest: 'jest',
-  'Node.js': 'node-js', Express: 'express-js', Nest: 'nestjs', NestJS: 'nestjs', Laravel: 'laravel',
-  Angular: 'angular', Astro: 'astro',
-  PostgreSQL: 'postgresql', MongoDB: 'mongodb', MySQL: 'mysql', Prisma: 'prisma', Drizzle: 'drizzle',
-  'React Native': 'react', Flutter: 'flutter',
+  'Element Plus': 'element-plus',
+  'shadcn/ui': 'shadcn-ui',
+  Vuetify: 'vuetify',
+  Bootstrap: 'bootstrap',
+  Vitest: 'vitest',
+  Jest: 'jest',
+  'Node.js': 'node-js',
+  Express: 'express-js',
+  Nest: 'nestjs',
+  NestJS: 'nestjs',
+  Laravel: 'laravel',
+  Angular: 'angular',
+  Astro: 'astro',
+  PostgreSQL: 'postgresql',
+  MongoDB: 'mongodb',
+  MySQL: 'mysql',
+  Prisma: 'prisma',
+  Drizzle: 'drizzle',
+  'React Native': 'react',
+  Flutter: 'flutter',
 };
 const file = files[name];
 if (!file) throw new Error(`Missing stack icon for ${name}`);
 ---
-<img class="stack-icon" src={`/assets/stack-icons/${file}.svg`} width="32" height="32" alt="" aria-hidden="true" loading="lazy" decoding="async" />
+
+<img
+  class="stack-icon"
+  src={`/assets/stack-icons/${file}.svg`}
+  width="32"
+  height="32"
+  alt=""
+  aria-hidden="true"
+  loading="lazy"
+  decoding="async"
+/>

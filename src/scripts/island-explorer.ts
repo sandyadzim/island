@@ -1,4 +1,7 @@
-import { cameraFromTransform, exploreCameraPose } from '../utils/camera-transition';
+import {
+  cameraFromTransform,
+  exploreCameraPose,
+} from '../utils/camera-transition';
 import type { Destination } from '../components/island/scene-config';
 import { initDestinationDialogs } from './island-dialog';
 
@@ -12,25 +15,51 @@ export function initIslandExplorer(root: HTMLElement): () => void {
   const back = root.querySelector<HTMLButtonElement>('[data-back-to-intro]');
   const stack = root.querySelector<HTMLElement>('.layout-stack');
   const frame = root.querySelector<HTMLElement>('.island-frame');
-  const navigation = root.querySelector<HTMLElement>('[data-explore-navigation]');
+  const navigation = root.querySelector<HTMLElement>(
+    '[data-explore-navigation]',
+  );
   const dock = root.querySelector<HTMLElement>('.layout-menu');
   const header = root.querySelector<HTMLElement>('.layout-header');
   const controls = root.querySelector<HTMLElement>('[data-island-controls]');
-  if (!start || !back || !stack || !frame || !navigation || !controls || !dock || !header) return () => {};
+  if (
+    !start ||
+    !back ||
+    !stack ||
+    !frame ||
+    !navigation ||
+    !controls ||
+    !dock ||
+    !header
+  )
+    return () => {};
 
   const events = new AbortController();
   const reduce = matchMedia('(prefers-reduced-motion: reduce)');
   const fine = matchMedia('(hover: hover) and (pointer: fine)');
-  const motion = root.querySelector<HTMLButtonElement>('[data-water-motion-toggle]');
-  const links = Array.from(root.querySelectorAll<HTMLAnchorElement>('[data-explore-destination]'));
+  const motion = root.querySelector<HTMLButtonElement>(
+    '[data-water-motion-toggle]',
+  );
+  const links = Array.from(
+    root.querySelectorAll<HTMLAnchorElement>('[data-explore-destination]'),
+  );
   const dialogs = initDestinationDialogs(root);
-  const originalLinkAttributes = links.map(link => [link, link.getAttribute('aria-haspopup'), link.getAttribute('aria-controls')] as const);
-  if (dialogs) links.forEach(link => {
-    link.setAttribute('aria-haspopup', 'dialog');
-    link.setAttribute('aria-controls', 'island-destination-dialog');
-  });
-  const landmarks = links.filter(link => link.hasAttribute('data-landmark'));
-  const layers = Array.from(root.querySelectorAll<HTMLElement>('.island-layer[data-destination]'));
+  const originalLinkAttributes = links.map(
+    (link) =>
+      [
+        link,
+        link.getAttribute('aria-haspopup'),
+        link.getAttribute('aria-controls'),
+      ] as const,
+  );
+  if (dialogs)
+    links.forEach((link) => {
+      link.setAttribute('aria-haspopup', 'dialog');
+      link.setAttribute('aria-controls', 'island-destination-dialog');
+    });
+  const landmarks = links.filter((link) => link.hasAttribute('data-landmark'));
+  const layers = Array.from(
+    root.querySelectorAll<HTMLElement>('.island-layer[data-destination]'),
+  );
   const originalStackStyle = stack.getAttribute('style');
   let exploring = false;
   let introScroll = { left: 0, top: 0 };
@@ -44,29 +73,53 @@ export function initIslandExplorer(root: HTMLElement): () => void {
     animation = undefined;
     root.removeAttribute('data-camera-transition');
   }
-  function motionOff() { return reduce.matches || motion?.dataset.motionPreference === 'off'; }
+  function motionOff() {
+    return reduce.matches || motion?.dataset.motionPreference === 'off';
+  }
   function syncMotion() {
     root.toggleAttribute('data-ui-motion-off', motionOff());
     if (motionOff()) clearCamera();
   }
   const preference = new MutationObserver(syncMotion);
-  const layout = new ResizeObserver(() => { if (exploring && measureCamera()) clearCamera(); });
+  const layout = new ResizeObserver(() => {
+    if (exploring && measureCamera()) clearCamera();
+  });
   function measureCamera(): boolean {
-    const dockTop = window.innerHeight - parseFloat(getComputedStyle(dock!).bottom) - dock!.offsetHeight;
-    const pose = exploreCameraPose(window.innerWidth, header!.getBoundingClientRect().bottom, dockTop);
+    const dockTop =
+      window.innerHeight -
+      parseFloat(getComputedStyle(dock!).bottom) -
+      dock!.offsetHeight;
+    const pose = exploreCameraPose(
+      window.innerWidth,
+      header!.getBoundingClientRect().bottom,
+      dockTop,
+    );
     const width = `${pose.width.toFixed(3)}px`;
     const top = `${pose.centerY.toFixed(3)}px`;
-    const changed = frame!.style.getPropertyValue('--explore-width') !== width || frame!.style.getPropertyValue('--explore-y') !== top;
+    const changed =
+      frame!.style.getPropertyValue('--explore-width') !== width ||
+      frame!.style.getPropertyValue('--explore-y') !== top;
     frame!.style.setProperty('--explore-width', width);
     frame!.style.setProperty('--explore-y', top);
     return changed;
   }
   function feedback() {
-    const label = exploring ? focused ?? hovered : null;
-    landmarks.forEach(link => link.toggleAttribute('data-label-visible', link.dataset.landmark === label));
-    layers.forEach(layer => {
-      layer.toggleAttribute('data-landmark-hover', exploring && layer.dataset.destination === hovered);
-      layer.toggleAttribute('data-landmark-focus', exploring && layer.dataset.destination === focused);
+    const label = exploring ? (focused ?? hovered) : null;
+    landmarks.forEach((link) =>
+      link.toggleAttribute(
+        'data-label-visible',
+        link.dataset.landmark === label,
+      ),
+    );
+    layers.forEach((layer) => {
+      layer.toggleAttribute(
+        'data-landmark-hover',
+        exploring && layer.dataset.destination === hovered,
+      );
+      layer.toggleAttribute(
+        'data-landmark-focus',
+        exploring && layer.dataset.destination === focused,
+      );
     });
   }
   function restoreStack() {
@@ -81,7 +134,14 @@ export function initIslandExplorer(root: HTMLElement): () => void {
       introScroll = { left: window.scrollX, top: window.scrollY };
       // Keep the exiting card at its visible position when normal flow changes.
       const rect = stack!.getBoundingClientRect();
-      Object.assign(stack!.style, { position: 'fixed', left: `${rect.left}px`, top: `${rect.top}px`, width: `${rect.width}px`, height: `${rect.height}px`, margin: '0' });
+      Object.assign(stack!.style, {
+        position: 'fixed',
+        left: `${rect.left}px`,
+        top: `${rect.top}px`,
+        width: `${rect.width}px`,
+        height: `${rect.height}px`,
+        margin: '0',
+      });
     } else restoreStack();
     exploring = next;
     hovered = null;
@@ -111,15 +171,34 @@ export function initIslandExplorer(root: HTMLElement): () => void {
       // Intro restores the stacked scene's smaller clipping box immediately.
       // Keep the moving artwork visible until it reaches that box.
       root.setAttribute('data-camera-transition', '');
-      const camera = frame!.animate([
-        { transform: cameraFromTransform(previous, target, { x: matrix.e, y: matrix.f }) },
-        { transform: base },
-      ], { duration: 650, easing: 'cubic-bezier(.77, 0, .175, 1)' });
+      const camera = frame!.animate(
+        [
+          {
+            transform: cameraFromTransform(previous, target, {
+              x: matrix.e,
+              y: matrix.f,
+            }),
+          },
+          { transform: base },
+        ],
+        { duration: 650, easing: 'cubic-bezier(.77, 0, .175, 1)' },
+      );
       animation = camera;
-      camera.finished.then(() => { if (animation === camera) clearCamera(); }, () => {});
+      camera.finished.then(
+        () => {
+          if (animation === camera) clearCamera();
+        },
+        () => {},
+      );
     }
   }
-  const ordinaryClick = (event: MouseEvent) => !event.defaultPrevented && event.button === 0 && !event.metaKey && !event.ctrlKey && !event.altKey && !event.shiftKey;
+  const ordinaryClick = (event: MouseEvent) =>
+    !event.defaultPrevented &&
+    event.button === 0 &&
+    !event.metaKey &&
+    !event.ctrlKey &&
+    !event.altKey &&
+    !event.shiftKey;
   function dispose() {
     if (disposed) return;
     disposed = true;
@@ -129,8 +208,10 @@ export function initIslandExplorer(root: HTMLElement): () => void {
     clearCamera();
     dialogs?.dispose();
     originalLinkAttributes.forEach(([link, popup, controlsId]) => {
-      if (popup === null) link.removeAttribute('aria-haspopup'); else link.setAttribute('aria-haspopup', popup);
-      if (controlsId === null) link.removeAttribute('aria-controls'); else link.setAttribute('aria-controls', controlsId);
+      if (popup === null) link.removeAttribute('aria-haspopup');
+      else link.setAttribute('aria-haspopup', popup);
+      if (controlsId === null) link.removeAttribute('aria-controls');
+      else link.setAttribute('aria-controls', controlsId);
     });
     restoreStack();
     frame!.style.removeProperty('--explore-width');
@@ -140,7 +221,10 @@ export function initIslandExplorer(root: HTMLElement): () => void {
     feedback();
     stack!.inert = false;
     stack!.removeAttribute('aria-hidden');
-    [navigation!, controls!].forEach(element => { element.inert = true; element.setAttribute('aria-hidden', 'true'); });
+    [navigation!, controls!].forEach((element) => {
+      element.inert = true;
+      element.setAttribute('aria-hidden', 'true');
+    });
     back!.hidden = true;
     back!.inert = true;
     start!.removeAttribute('role');
@@ -151,39 +235,157 @@ export function initIslandExplorer(root: HTMLElement): () => void {
     explorers.delete(root);
   }
   try {
-    start.addEventListener('click', event => { if (ordinaryClick(event)) { event.preventDefault(); changeMode(true, event.detail === 0); } }, { signal: events.signal });
-    start.addEventListener('keydown', event => { if (event.key === ' ') { event.preventDefault(); changeMode(true, true); } }, { signal: events.signal });
-    back.addEventListener('click', event => changeMode(false, event.detail === 0), { signal: events.signal });
-    root.querySelector<HTMLAnchorElement>('[data-intro-link]')?.addEventListener('click', event => {
-      if (ordinaryClick(event)) { event.preventDefault(); changeMode(false, event.detail === 0); }
-    }, { signal: events.signal });
-    links.forEach(link => link.addEventListener('click', event => {
-      if (!ordinaryClick(event)) return;
-      if (exploring && !dialogs) return;
-      event.preventDefault();
-      if (!exploring) return;
-      hovered = focused = null;
-      feedback();
-      dialogs?.open(link.dataset.exploreDestination as Exclude<Destination, 'home'>, link);
-    }, { signal: events.signal }));
-    landmarks.forEach(link => {
-      link.addEventListener('pointerenter', () => { if (exploring && fine.matches) { hovered = link.dataset.landmark!; feedback(); } }, { signal: events.signal });
-      link.addEventListener('pointerleave', () => { hovered = null; feedback(); }, { signal: events.signal });
-      link.addEventListener('pointercancel', () => { hovered = null; feedback(); }, { signal: events.signal });
-      link.addEventListener('focus', () => { focused = link.dataset.landmark!; feedback(); }, { signal: events.signal });
-      link.addEventListener('blur', () => { focused = null; feedback(); }, { signal: events.signal });
+    start.addEventListener(
+      'click',
+      (event) => {
+        if (ordinaryClick(event)) {
+          event.preventDefault();
+          changeMode(true, event.detail === 0);
+        }
+      },
+      { signal: events.signal },
+    );
+    start.addEventListener(
+      'keydown',
+      (event) => {
+        if (event.key === ' ') {
+          event.preventDefault();
+          changeMode(true, true);
+        }
+      },
+      { signal: events.signal },
+    );
+    back.addEventListener(
+      'click',
+      (event) => changeMode(false, event.detail === 0),
+      { signal: events.signal },
+    );
+    root
+      .querySelector<HTMLAnchorElement>('[data-intro-link]')
+      ?.addEventListener(
+        'click',
+        (event) => {
+          if (ordinaryClick(event)) {
+            event.preventDefault();
+            changeMode(false, event.detail === 0);
+          }
+        },
+        { signal: events.signal },
+      );
+    links.forEach((link) =>
+      link.addEventListener(
+        'click',
+        (event) => {
+          if (!ordinaryClick(event)) return;
+          if (exploring && !dialogs) return;
+          event.preventDefault();
+          if (!exploring) return;
+          hovered = focused = null;
+          feedback();
+          dialogs?.open(
+            link.dataset.exploreDestination as Exclude<Destination, 'home'>,
+            link,
+          );
+        },
+        { signal: events.signal },
+      ),
+    );
+    landmarks.forEach((link) => {
+      link.addEventListener(
+        'pointerenter',
+        () => {
+          if (exploring && fine.matches) {
+            hovered = link.dataset.landmark!;
+            feedback();
+          }
+        },
+        { signal: events.signal },
+      );
+      link.addEventListener(
+        'pointerleave',
+        () => {
+          hovered = null;
+          feedback();
+        },
+        { signal: events.signal },
+      );
+      link.addEventListener(
+        'pointercancel',
+        () => {
+          hovered = null;
+          feedback();
+        },
+        { signal: events.signal },
+      );
+      link.addEventListener(
+        'focus',
+        () => {
+          focused = link.dataset.landmark!;
+          feedback();
+        },
+        { signal: events.signal },
+      );
+      link.addEventListener(
+        'blur',
+        () => {
+          focused = null;
+          feedback();
+        },
+        { signal: events.signal },
+      );
     });
-    fine.addEventListener('change', () => { hovered = null; feedback(); }, { signal: events.signal });
+    fine.addEventListener(
+      'change',
+      () => {
+        hovered = null;
+        feedback();
+      },
+      { signal: events.signal },
+    );
     reduce.addEventListener('change', syncMotion, { signal: events.signal });
-    window.addEventListener('resize', () => { clearCamera(); if (exploring) measureCamera(); }, { signal: events.signal });
-    window.addEventListener('blur', () => { hovered = null; feedback(); }, { signal: events.signal });
-    document.addEventListener('keydown', event => {
-      if (!exploring || dialogs?.isOpen || event.key !== 'Escape' || event.defaultPrevented) return;
-      if (event.target instanceof Element && event.target.closest('input, textarea, select, [contenteditable]:not([contenteditable="false"])')) return;
-      event.preventDefault();
-      changeMode(false, true);
-    }, { signal: events.signal });
-    if (motion) preference.observe(motion, { attributes: true, attributeFilter: ['data-motion-preference'] });
+    window.addEventListener(
+      'resize',
+      () => {
+        clearCamera();
+        if (exploring) measureCamera();
+      },
+      { signal: events.signal },
+    );
+    window.addEventListener(
+      'blur',
+      () => {
+        hovered = null;
+        feedback();
+      },
+      { signal: events.signal },
+    );
+    document.addEventListener(
+      'keydown',
+      (event) => {
+        if (
+          !exploring ||
+          dialogs?.isOpen ||
+          event.key !== 'Escape' ||
+          event.defaultPrevented
+        )
+          return;
+        if (
+          event.target instanceof Element &&
+          event.target.closest(
+            'input, textarea, select, [contenteditable]:not([contenteditable="false"])',
+          )
+        )
+          return;
+        event.preventDefault();
+        changeMode(false, true);
+      },
+      { signal: events.signal },
+    );
+    if (motion)
+      preference.observe(motion, {
+        attributes: true,
+        attributeFilter: ['data-motion-preference'],
+      });
     layout.observe(header);
     layout.observe(dock);
     syncMotion();
@@ -194,5 +396,8 @@ export function initIslandExplorer(root: HTMLElement): () => void {
     back.setAttribute('aria-hidden', 'true');
     explorers.set(root, dispose);
     return dispose;
-  } catch { dispose(); return () => {}; }
+  } catch {
+    dispose();
+    return () => {};
+  }
 }

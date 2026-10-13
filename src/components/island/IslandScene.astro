@@ -7,15 +7,18 @@ import IslandControls from './IslandControls.astro';
 import { SCENE_ASSETS, SCENE_HEADROOM, STAGE } from './scene-config';
 import '../../styles/island-scene.css';
 ---
+
 <figure
   class="island-scene"
   data-island-scene
   data-scene-state="static"
-  style={`--viewport-ratio:${STAGE.width} / ${STAGE.height + SCENE_HEADROOM};--stage-top:${SCENE_HEADROOM / (STAGE.height + SCENE_HEADROOM) * 100}%;--stage-height:${STAGE.height / (STAGE.height + SCENE_HEADROOM) * 100}%`}
+  style={`--viewport-ratio:${STAGE.width} / ${STAGE.height + SCENE_HEADROOM};--stage-top:${(SCENE_HEADROOM / (STAGE.height + SCENE_HEADROOM)) * 100}%;--stage-height:${(STAGE.height / (STAGE.height + SCENE_HEADROOM)) * 100}%`}
 >
   <div class="island-viewport">
     <div class="island-environment" aria-hidden="true">
-      {SCENE_ASSETS.filter((asset) => asset.id === 'ASSET-00').map((asset) => <IslandLayer asset={asset} />)}
+      {SCENE_ASSETS.filter((asset) => asset.id === 'ASSET-00').map((asset) => (
+        <IslandLayer asset={asset} />
+      ))}
       <canvas class="ocean-water" data-ocean-water></canvas>
     </div>
     <div class="island-frame" data-scene-viewport>
@@ -23,7 +26,11 @@ import '../../styles/island-scene.css';
         <div class="island-responsive-scale">
           <div class="island-camera">
             <LighthouseBeam />
-            {SCENE_ASSETS.filter((asset) => asset.id !== 'ASSET-00').map((asset) => <IslandLayer asset={asset} />)}
+            {SCENE_ASSETS.filter((asset) => asset.id !== 'ASSET-00').map(
+              (asset) => (
+                <IslandLayer asset={asset} />
+              ),
+            )}
             <IslandClouds />
             <IslandBirds />
           </div>
@@ -34,7 +41,13 @@ import '../../styles/island-scene.css';
   </div>
   <figcaption class="scene-caption">
     <p class="sr-only">An island at dusk.</p>
-    <p class="scene-status" data-scene-status role="status" aria-live="polite" aria-atomic="true"></p>
+    <p
+      class="scene-status"
+      data-scene-status
+      role="status"
+      aria-live="polite"
+      aria-atomic="true"
+    ></p>
   </figcaption>
 </figure>
 
@@ -43,8 +56,13 @@ import '../../styles/island-scene.css';
 
   let disposers: Array<() => void> = [];
   function initialize() {
-    const motionToggle = document.querySelector<HTMLButtonElement>('[data-water-motion-toggle]');
-    disposers = Array.from(document.querySelectorAll<HTMLElement>('[data-island-scene]'), (root) => initIslandScene(root, motionToggle));
+    const motionToggle = document.querySelector<HTMLButtonElement>(
+      '[data-water-motion-toggle]',
+    );
+    disposers = Array.from(
+      document.querySelectorAll<HTMLElement>('[data-island-scene]'),
+      (root) => initIslandScene(root, motionToggle),
+    );
   }
   initialize();
   window.addEventListener('pagehide', () => {

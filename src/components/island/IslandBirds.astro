@@ -8,8 +8,17 @@ const birds = [
 
 <div class="island-birds" aria-hidden="true">
   {birds.map((bird, index) => (
-    <div class="island-bird-flight" style={`left:${bird.x}px;top:${bird.y}px;--bird-delay:${bird.delay}s`}>
-      <svg class="island-bird" viewBox="0 0 40 24" width={bird.size} height={bird.size * 0.6} style={`--wing-duration:${bird.flap}s;--wing-delay:${-index * 0.43}s`}>
+    <div
+      class="island-bird-flight"
+      style={`left:${bird.x}px;top:${bird.y}px;--bird-delay:${bird.delay}s`}
+    >
+      <svg
+        class="island-bird"
+        viewBox="0 0 40 24"
+        width={bird.size}
+        height={bird.size * 0.6}
+        style={`--wing-duration:${bird.flap}s;--wing-delay:${-index * 0.43}s`}
+      >
         <g class="island-bird-wings">
           <path d="M20 15 L13 6 L0 3 L9 12 Z" fill="#ddd1b9" />
           <path d="M20 15 L13 6 L9 12 Z" fill="#9aabb4" />

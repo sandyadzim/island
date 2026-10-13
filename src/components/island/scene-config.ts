@@ -1,12 +1,13 @@
 export const STAGE = { width: 1536, height: 1024 } as const;
 /** Requested only if the primary terrain fails; same canvas ratio and registration. */
-export const ISLAND_BASE_FALLBACK_URL = '/assets/island/island-base-fallback.webp';
+export const ISLAND_BASE_FALLBACK_URL =
+  '/assets/island/island-base-fallback.webp';
 /** Extra logical sky above the original stage keeps the raised house unclipped. */
 export const SCENE_HEADROOM = 32;
 
 export type AssetId = `ASSET-0${0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 9}`;
 export type Destination =
-  "home" | "about" | "projects" | "skills" | "experience" | "contact";
+  'home' | 'about' | 'projects' | 'skills' | 'experience' | 'contact';
 export interface Point {
   readonly x: number;
   readonly y: number;
@@ -27,7 +28,7 @@ export interface SceneAsset {
   readonly destination?: Destination;
   readonly opacity: number;
   readonly validation: {
-    readonly staticComposition: "assessed-with-limitations" | "disabled";
+    readonly staticComposition: 'assessed-with-limitations' | 'disabled';
     readonly parallax: false;
     readonly interaction: false;
     readonly ambient: false;
@@ -52,7 +53,7 @@ function asset(
     ...(destination ? { destination } : {}),
     opacity: 1,
     validation: {
-      staticComposition: "assessed-with-limitations",
+      staticComposition: 'assessed-with-limitations',
       parallax: false,
       interaction: false,
       ambient: false,
@@ -63,62 +64,62 @@ function asset(
 /** Registration is a static measurement, not permission to enable motion. */
 export const SCENE_ASSETS: readonly SceneAsset[] = [
   asset(
-    "ASSET-00",
-    "asset-00-environment-background.webp",
+    'ASSET-00',
+    'asset-00-environment-background.webp',
     0,
     { x: -24, y: -SCENE_HEADROOM, scale: 1.03125 },
     { x: 768, y: 512 },
   ),
   asset(
-    "ASSET-01",
-    "asset-01-clean-island-base.webp",
+    'ASSET-01',
+    'asset-01-clean-island-base.webp',
     10,
     { x: 0, y: 0, scale: 1 },
     { x: 768, y: 512 },
   ),
   asset(
-    "ASSET-02",
-    "asset-02-creators-house-about.webp",
+    'ASSET-02',
+    'asset-02-creators-house-about.webp',
     20,
     { x: 552.96, y: -30.72, scale: 0.33 },
     { x: 795, y: 884 },
-    "projects",
+    'projects',
   ),
   asset(
-    "ASSET-03",
-    "asset-03-workshop-projects.webp",
+    'ASSET-03',
+    'asset-03-workshop-projects.webp',
     30,
     { x: 138.24, y: 163.84, scale: 0.5 },
     { x: 642, y: 662 },
-    "experience",
+    'experience',
   ),
   asset(
-    "ASSET-04",
-    "asset-04-greenhouse-skills.webp",
+    'ASSET-04',
+    'asset-04-greenhouse-skills.webp',
     40,
     { x: 752.64, y: 148.48, scale: 0.42 },
     { x: 1135, y: 570 },
-    "skills",
+    'skills',
   ),
   asset(
-    "ASSET-05",
-    "asset-05-sr-monument-home.webp",
+    'ASSET-05',
+    'asset-05-sr-monument-home.webp',
     50,
     { x: 522.24, y: 296.96, scale: 0.34 },
     { x: 865, y: 722 },
-    "about",
+    'about',
   ),
   asset(
-    "ASSET-06",
-    "asset-06-lighthouse-contact-v2.webp",
+    'ASSET-06',
+    'asset-06-lighthouse-contact-v2.webp',
     60,
     { x: 861.8, y: 410, scale: 0.36 },
     { x: 1120, y: 900 },
-    "contact",
+    'contact',
   ),
   asset(
-    "ASSET-07",
-    "asset-07-sailboat-experience.webp",
+    'ASSET-07',
+    'asset-07-sailboat-experience.webp',
     70,
     { x: 983.04, y: 645.12, scale: 0.28 },
     { x: 1120, y: 806 },

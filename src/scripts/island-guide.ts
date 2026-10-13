@@ -4,25 +4,25 @@ const guides = new WeakMap<HTMLElement, () => void>();
 export function initIslandGuide(root: HTMLElement): () => void {
   const existing = guides.get(root);
   if (existing) return existing;
-  const content = root.querySelector<HTMLElement>("[data-guide-content]");
-  const dialog = root.querySelector<HTMLDialogElement>("[data-guide-dialog]");
-  const container = root.querySelector<HTMLElement>("[data-guide-container]");
-  const close = root.querySelector<HTMLButtonElement>("[data-guide-close]");
+  const content = root.querySelector<HTMLElement>('[data-guide-content]');
+  const dialog = root.querySelector<HTMLDialogElement>('[data-guide-dialog]');
+  const container = root.querySelector<HTMLElement>('[data-guide-container]');
+  const close = root.querySelector<HTMLButtonElement>('[data-guide-close]');
   if (
     !content ||
     !dialog ||
     !container ||
     !close ||
-    typeof dialog.showModal !== "function"
+    typeof dialog.showModal !== 'function'
   )
     return () => {};
 
   const events = new AbortController();
   const links = Array.from(
-    document.querySelectorAll<HTMLAnchorElement>("[data-guide-link]"),
+    document.querySelectorAll<HTMLAnchorElement>('[data-guide-link]'),
   );
   const targets = new Map<string, HTMLElement>();
-  targets.set("#island-guide", content.querySelector<HTMLElement>("h2")!);
+  targets.set('#island-guide', content.querySelector<HTMLElement>('h2')!);
   let opener: HTMLAnchorElement | undefined;
   let disposed = false;
 
@@ -37,18 +37,18 @@ export function initIslandGuide(root: HTMLElement): () => void {
     events.abort();
     if (dialog!.open) dialog!.close();
     root.insertBefore(content!, dialog);
-    root.removeAttribute("data-guide-enhanced");
+    root.removeAttribute('data-guide-enhanced');
     guides.delete(root);
   }
 
   try {
-    close.addEventListener("click", () => dialog.close(), {
+    close.addEventListener('click', () => dialog.close(), {
       signal: events.signal,
     });
-    dialog.addEventListener("close", restoreFocus, { signal: events.signal });
+    dialog.addEventListener('close', restoreFocus, { signal: events.signal });
     links.forEach((link) =>
       link.addEventListener(
-        "click",
+        'click',
         (event) => {
           if (
             event.defaultPrevented ||
@@ -67,7 +67,7 @@ export function initIslandGuide(root: HTMLElement): () => void {
             event.preventDefault();
             dialog.scrollTop = 0;
             target.focus({ preventScroll: true });
-            target.scrollIntoView({ block: "nearest" });
+            target.scrollIntoView({ block: 'nearest' });
           } catch {
             // Restore fragment navigation if native dialog enhancement ever fails.
             dispose();
@@ -83,11 +83,11 @@ export function initIslandGuide(root: HTMLElement): () => void {
       container.append(content);
       dialog.showModal();
       initialTarget.focus({ preventScroll: true });
-      initialTarget.scrollIntoView({ block: "nearest" });
+      initialTarget.scrollIntoView({ block: 'nearest' });
     } else {
       container.append(content);
     }
-    root.dataset.guideEnhanced = "";
+    root.dataset.guideEnhanced = '';
     guides.set(root, dispose);
     return dispose;
   } catch {

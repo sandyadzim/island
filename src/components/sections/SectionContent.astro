@@ -1,40 +1,40 @@
 ---
-import type { Destination } from "../island/scene-config";
-import { EXPERIENCE } from "./portfolio-content";
-import ProjectsContent from "./ProjectsContent.astro";
-import AboutContent from "./AboutContent.astro";
-import SkillsContent from "./SkillsContent.astro";
-import ContactContent from "./ContactContent.astro";
-import "../../styles/portfolio-content.css";
+import type { Destination } from '../island/scene-config';
+import { EXPERIENCE } from './portfolio-content';
+import ProjectsContent from './ProjectsContent.astro';
+import AboutContent from './AboutContent.astro';
+import SkillsContent from './SkillsContent.astro';
+import ContactContent from './ContactContent.astro';
+import '../../styles/portfolio-content.css';
 interface Props {
-  destination: Exclude<Destination, "home">;
+  destination: Exclude<Destination, 'home'>;
   deferImages?: boolean;
 }
 const { destination, deferImages = false } = Astro.props;
 ---
 
-<div class:list={["destination-content", `content-${destination}`]}>
-  {destination === "about" && <AboutContent loading={deferImages ? 'lazy' : 'eager'} />}
-  {destination === "projects" && <ProjectsContent />}
-  {destination === "skills" && <SkillsContent />}
-  {
-    destination === "experience" && (
-      <>
-        <p class="content-lead">
-          A journey through products, teams, and frontend work.
-        </p>
-        <ol class="experience-list">
-          {EXPERIENCE.map((job) => (
-            <li>
-              <p class="experience-date">{job.dates}</p>
-              <h3>{job.organization}</h3>
-              <p class="experience-role">{job.role}</p>
-              <p>{job.detail}</p>
-            </li>
-          ))}
-        </ol>
-      </>
-    )
-  }
-  {destination === "contact" && <ContactContent />}
+<div class:list={['destination-content', `content-${destination}`]}>
+  {destination === 'about' && (
+    <AboutContent loading={deferImages ? 'lazy' : 'eager'} />
+  )}
+  {destination === 'projects' && <ProjectsContent />}
+  {destination === 'skills' && <SkillsContent />}
+  {destination === 'experience' && (
+    <>
+      <p class="content-lead">
+        A journey through products, teams, and frontend work.
+      </p>
+      <ol class="experience-list">
+        {EXPERIENCE.map((job) => (
+          <li>
+            <p class="experience-date">{job.dates}</p>
+            <h3>{job.organization}</h3>
+            <p class="experience-role">{job.role}</p>
+            <p>{job.detail}</p>
+          </li>
+        ))}
+      </ol>
+    </>
+  )}
+  {destination === 'contact' && <ContactContent />}
 </div>

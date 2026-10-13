@@ -7,8 +7,15 @@ class TestImage extends EventTarget {
   naturalWidth = 0;
   decodeCalls = 0;
   decodeResult = Promise.resolve();
-  decode = () => { this.decodeCalls++; return this.decodeResult; };
-  load() { this.complete = true; this.naturalWidth = 1536; this.dispatchEvent(new Event('load')); }
+  decode = () => {
+    this.decodeCalls++;
+    return this.decodeResult;
+  };
+  load() {
+    this.complete = true;
+    this.naturalWidth = 1536;
+    this.dispatchEvent(new Event('load'));
+  }
 }
 
 test('cached images still decode exactly once', async () => {
@@ -21,9 +28,13 @@ test('cached images still decode exactly once', async () => {
 test('readiness waits for both delayed load and decode', async () => {
   const image = new TestImage();
   let resolveDecode!: () => void;
-  image.decodeResult = new Promise((resolve) => { resolveDecode = resolve; });
+  image.decodeResult = new Promise((resolve) => {
+    resolveDecode = resolve;
+  });
   let ready = false;
-  const pending = waitForImage(image, new AbortController().signal).then(() => { ready = true; });
+  const pending = waitForImage(image, new AbortController().signal).then(() => {
+    ready = true;
+  });
   await Promise.resolve();
   assert.equal(ready, false);
   assert.equal(image.decodeCalls, 0);
@@ -38,7 +49,10 @@ test('readiness waits for both delayed load and decode', async () => {
 test('a cached failed image is rejected', async () => {
   const image = new TestImage();
   image.complete = true;
-  await assert.rejects(waitForImage(image, new AbortController().signal), /no decoded pixels/);
+  await assert.rejects(
+    waitForImage(image, new AbortController().signal),
+    /no decoded pixels/,
+  );
   assert.equal(image.decodeCalls, 0);
 });
 
@@ -52,8 +66,13 @@ test('a network failure is rejected', async () => {
 test('decode rejection is a failure even after a successful load', async () => {
   const image = new TestImage();
   image.load();
-  image.decode = async () => { throw new Error('decode failed'); };
-  await assert.rejects(waitForImage(image, new AbortController().signal), /decode failed/);
+  image.decode = async () => {
+    throw new Error('decode failed');
+  };
+  await assert.rejects(
+    waitForImage(image, new AbortController().signal),
+    /decode failed/,
+  );
 });
 
 test('disposal cancels a pending image load', async () => {
@@ -78,7 +97,10 @@ test('disposal also cancels an unresolved decode', async () => {
 });
 
 test('older browsers can use load completion when decode is unavailable', async () => {
-  const image = new EventTarget() as EventTarget & { complete: boolean; naturalWidth: number };
+  const image = new EventTarget() as EventTarget & {
+    complete: boolean;
+    naturalWidth: number;
+  };
   image.complete = true;
   image.naturalWidth = 1536;
   await waitForImage(image, new AbortController().signal);

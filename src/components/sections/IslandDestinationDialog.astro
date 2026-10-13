@@ -4,12 +4,36 @@ import HeroIcon from '../hero/HeroIcon.astro';
 import SectionContent from './SectionContent.astro';
 import '../../styles/island-dialog.css';
 ---
-<dialog id="island-destination-dialog" class="island-dialog" aria-labelledby="island-dialog-title" data-destination-dialog>
+
+<dialog
+  id="island-destination-dialog"
+  class="island-dialog"
+  aria-labelledby="island-dialog-title"
+  data-destination-dialog
+>
   <header class="island-dialog-header">
-    <h2 id="island-dialog-title" tabindex="-1" data-dialog-title>About</h2>
-    <button class="island-dialog-close" type="button" data-dialog-close aria-label="Close dialog" title="Close dialog"><HeroIcon name="close" /></button>
+    <h2 id="island-dialog-title" tabindex="-1" data-dialog-title>
+      About
+    </h2>
+    <button
+      class="island-dialog-close"
+      type="button"
+      data-dialog-close
+      aria-label="Close dialog"
+      title="Close dialog"
+    >
+      <HeroIcon name="close" />
+    </button>
   </header>
   <div class="island-dialog-body" data-dialog-body>
-    {DESTINATIONS.map(destination => <section data-dialog-section={destination.id} aria-label={destination.label} hidden><SectionContent destination={destination.id} deferImages /></section>)}
+    {DESTINATIONS.map((destination) => (
+      <section
+        data-dialog-section={destination.id}
+        aria-label={destination.label}
+        hidden
+      >
+        <SectionContent destination={destination.id} deferImages />
+      </section>
+    ))}
   </div>
 </dialog>

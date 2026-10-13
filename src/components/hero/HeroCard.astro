@@ -1,17 +1,17 @@
 ---
-import HeroIcon from "./HeroIcon.astro";
+import HeroIcon from './HeroIcon.astro';
 
 const socialProfiles = [
   {
-    name: "LinkedIn",
-    icon: "linkedin",
-    url: "https://www.linkedin.com/in/sandy-rahmansyah/",
+    name: 'LinkedIn',
+    icon: 'linkedin',
+    url: 'https://www.linkedin.com/in/sandy-rahmansyah/',
   },
-  { name: "GitHub", icon: "github", url: "https://github.com/sandyadzim" },
+  { name: 'GitHub', icon: 'github', url: 'https://github.com/sandyadzim' },
   {
-    name: "Instagram",
-    icon: "instagram-monochrome",
-    url: "https://www.instagram.com/rahmansyah_sandy",
+    name: 'Instagram',
+    icon: 'instagram-monochrome',
+    url: 'https://www.instagram.com/rahmansyah_sandy',
   },
 ];
 ---
@@ -21,17 +21,25 @@ const socialProfiles = [
     (() => {
       let paused = false;
       try {
-        paused = localStorage.getItem("island-water-motion") === "off";
-      } catch { /* Storage is optional. */ }
+        paused = localStorage.getItem('island-water-motion') === 'off';
+      } catch {
+        /* Storage is optional. */
+      }
       if (!paused && !document.hidden) {
-        document.currentScript?.parentElement?.setAttribute("data-hero-reveal", "");
+        document.currentScript?.parentElement?.setAttribute(
+          'data-hero-reveal',
+          '',
+        );
       }
     })();
   </script>
   <p class="hero-status" data-hero-reveal-group="0">
     <span aria-hidden="true"></span>Frontend developer · 6+ years
   </p>
-  <h1 id="hero-title" data-hero-reveal-group="1">Hello!<br /> I'm Sandy.</h1>
+  <h1 id="hero-title" data-hero-reveal-group="1">
+    Hello!
+    <br /> I'm Sandy.
+  </h1>
   <p class="hero-introduction" data-hero-reveal-group="2">
     Frontend developer who loves pixel-perfect details and smooth interactions,
     building polished websites where design and function work together.
@@ -51,25 +59,28 @@ const socialProfiles = [
       <HeroIcon name="download" />
     </a>
   </div>
-  <div class="hero-socials" role="group" aria-label="Social profiles" data-hero-reveal-group="4">
-    {
-      socialProfiles.map(({ name, icon, url }) => (
-        <a
-          class="hero-social"
-          href={url}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label={`${name} (opens in a new tab)`}
-          title={name}
-        >
-          <span
-            class="hero-social-icon"
-            style={`--social-icon: url('/assets/social-icons/${icon}.svg')`}
-            aria-hidden="true"
-          />
-          <span>{name}</span>
-        </a>
-      ))
-    }
+  <div
+    class="hero-socials"
+    role="group"
+    aria-label="Social profiles"
+    data-hero-reveal-group="4"
+  >
+    {socialProfiles.map(({ name, icon, url }) => (
+      <a
+        class="hero-social"
+        href={url}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={`${name} (opens in a new tab)`}
+        title={name}
+      >
+        <span
+          class="hero-social-icon"
+          style={`--social-icon: url('/assets/social-icons/${icon}.svg')`}
+          aria-hidden="true"
+        />
+        <span>{name}</span>
+      </a>
+    ))}
   </div>
 </section>

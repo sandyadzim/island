@@ -18,15 +18,26 @@ export const SITE = {
     'https://github.com/sandyadzim',
     'https://www.instagram.com/rahmansyah_sandy',
   ],
-  skills: ['JavaScript', 'TypeScript', 'Vue.js', 'Nuxt.js', 'React', 'Next.js', 'Responsive web design', 'Frontend development'],
+  skills: [
+    'JavaScript',
+    'TypeScript',
+    'Vue.js',
+    'Nuxt.js',
+    'React',
+    'Next.js',
+    'Responsive web design',
+    'Frontend development',
+  ],
   pages: {
     home: {
       title: 'Sandy Rahmansyah — Frontend Developer',
-      description: 'Sandy Rahmansyah is a frontend developer in Jakarta, Indonesia, with 6+ years of experience building polished websites and web apps with Vue, Nuxt, React, and Next.js.',
+      description:
+        'Sandy Rahmansyah is a frontend developer in Jakarta, Indonesia, with 6+ years of experience building polished websites and web apps with Vue, Nuxt, React, and Next.js.',
     },
     portfolio: {
       title: 'Projects & Experience — Sandy Rahmansyah',
-      description: 'Explore Sandy Rahmansyah’s frontend projects, including Solva, Solva Reservation, and Mitra Gramedia, plus skills, work experience, and contact details.',
+      description:
+        'Explore Sandy Rahmansyah’s frontend projects, including Solva, Solva Reservation, and Mitra Gramedia, plus skills, work experience, and contact details.',
     },
   },
 } as const;

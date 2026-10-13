@@ -14,7 +14,10 @@ import '../styles/not-found.css';
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <FontPreloads />
     <title>404 — Page not found · {SITE.name}</title>
-    <meta name="description" content="This page could not be found. Head back to Sandy’s island or read the portfolio." />
+    <meta
+      name="description"
+      content="This page could not be found. Head back to Sandy’s island or read the portfolio."
+    />
     <meta name="robots" content="noindex, follow" />
     <meta name="theme-color" content="#081426" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -23,10 +26,18 @@ import '../styles/not-found.css';
   <body class="not-found-page">
     <!-- A recovery stop within the existing island world: static ocean artwork,
          ivory and teal, a stranded sailboat, and two direct routes home. -->
-    <a class="skip-link" href="#main">Skip to main content</a>
+    <a class="skip-link" href="#main">
+      Skip to main content
+    </a>
     <header class="not-found-header">
-      <a class="hero-identity" href="/" aria-label={`${SITE.name} — Back to island`}>
-        <span class="hero-monogram" aria-hidden="true">SR</span>
+      <a
+        class="hero-identity"
+        href="/"
+        aria-label={`${SITE.name} — Back to island`}
+      >
+        <span class="hero-monogram" aria-hidden="true">
+          SR
+        </span>
         <span class="hero-identity-copy">
           <span class="hero-identity-name">{SITE.name}</span>
           <span class="hero-identity-subtitle">{SITE.role}</span>
@@ -38,18 +49,28 @@ import '../styles/not-found.css';
         <div class="not-found-art" aria-hidden="true">
           <span class="not-found-code">404</span>
           <div class="not-found-boat">
-            <img src="/assets/island/asset-07-sailboat-experience.webp" width="1536" height="1024" alt="" />
+            <img
+              src="/assets/island/asset-07-sailboat-experience.webp"
+              width="1536"
+              height="1024"
+              alt=""
+            />
           </div>
         </div>
         <div class="not-found-content">
           <h1 id="not-found-title">A little off course.</h1>
-          <p class="not-found-description">This page seems to have drifted out to sea. It may have moved, or the address might be a little off.</p>
+          <p class="not-found-description">
+            This page seems to have drifted out to sea. It may have moved, or
+            the address might be a little off.
+          </p>
           <div class="not-found-actions">
             <a class="hero-primary-action" href="/">
               <span>Back to the island</span>
               <HeroIcon name="arrow" />
             </a>
-            <a class="not-found-portfolio" href="/portfolio/">Read the portfolio <HeroIcon name="arrow" /></a>
+            <a class="not-found-portfolio" href="/portfolio/">
+              Read the portfolio <HeroIcon name="arrow" />
+            </a>
           </div>
           <p class="not-found-detail">404 · Page not found</p>
         </div>

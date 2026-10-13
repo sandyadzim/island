@@ -23,22 +23,22 @@ page at `/portfolio/` with the same portfolio content.
 
 ## Tech stack
 
-| Technology | Purpose |
-| --- | --- |
-| Astro 7 | Components, routing, and static site generation |
-| TypeScript 6 | Interaction logic and typed configuration |
-| Tailwind CSS 4 + custom CSS | Styling, responsive layouts, and animation |
-| Web Animations API | Interruptible island camera transitions |
-| WebGL | Animated ocean rendering with a static-image fallback |
-| Web Audio API | Background music playback and fades |
-| WebP + SVG | Island artwork, portraits, project previews, and icons |
-| Fontsource | Self-hosted Manrope and Space Grotesk fonts |
-| `@astrojs/sitemap` | Sitemap generation during production builds |
-| Astro Check + Node.js test runner | Type checking and unit tests |
+| Technology                        | Purpose                                                |
+| --------------------------------- | ------------------------------------------------------ |
+| Astro 7                           | Components, routing, and static site generation        |
+| TypeScript 6                      | Interaction logic and typed configuration              |
+| Tailwind CSS 4 + custom CSS       | Styling, responsive layouts, and animation             |
+| Web Animations API                | Interruptible island camera transitions                |
+| WebGL                             | Animated ocean rendering with a static-image fallback  |
+| Web Audio API                     | Background music playback and fades                    |
+| WebP + SVG                        | Island artwork, portraits, project previews, and icons |
+| Fontsource                        | Self-hosted Manrope and Space Grotesk fonts            |
+| `@astrojs/sitemap`                | Sitemap generation during production builds            |
+| Astro Check + Node.js test runner | Type checking and unit tests                           |
 
 ## Getting started
 
-Use **Node.js 24 or newer** and **npm 9.6.5 or newer**.
+Use **Node.js 24.16+ (24.x) or 26.3+** and **npm 9.6.5 or newer**.
 
 ```sh
 npm ci
@@ -49,14 +49,25 @@ Open the local URL printed by Astro in your terminal.
 
 ## Commands
 
-| Command | Description |
-| --- | --- |
-| `npm run dev` | Start the development server |
-| `npm run check` | Check Astro and TypeScript files |
-| `npm test` | Run unit tests |
-| `npm run verify:assets` | Validate island asset files and dimensions |
-| `npm run build` | Generate the production site in `dist/` |
-| `npm run preview` | Preview the production build locally |
+| Command                 | Description                                            |
+| ----------------------- | ------------------------------------------------------ |
+| `npm run dev`           | Start the development server                           |
+| `npm run check`         | Check Astro and TypeScript files                       |
+| `npm run lint`          | Lint JavaScript, TypeScript, and Astro files           |
+| `npm run lint:fix`      | Apply automatic ESLint fixes                           |
+| `npm run format`        | Format files with Prettier, including Astro components |
+| `npm run format:check`  | Check formatting without modifying files               |
+| `npm test`              | Run unit tests                                         |
+| `npm run verify:assets` | Validate island asset files and dimensions             |
+| `npm run build`         | Generate the production site in `dist/`                |
+| `npm run preview`       | Preview the production build locally                   |
+
+ESLint uses recommended JavaScript, TypeScript, and Astro rules. Prettier handles
+formatting separately with the official Astro plugin. Generated output and public
+assets are excluded. In VS Code, install the recommended Astro, ESLint, and Prettier
+extensions to enable formatting and lint fixes on save.
+
+Setup follows the [Astro editor guide](https://docs.astro.build/en/editor-setup/).
 
 ## Project structure
 

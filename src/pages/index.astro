@@ -1,11 +1,11 @@
 ---
-import PortfolioLayout from "../layouts/PortfolioLayout.astro";
-import IslandScene from "../components/island/IslandScene.astro";
-import HeroIdentity from "../components/hero/HeroIdentity.astro";
-import HeaderControls from "../components/hero/HeaderControls.astro";
-import HeroCard from "../components/hero/HeroCard.astro";
-import HeroNavigation from "../components/hero/HeroNavigation.astro";
-import IslandDestinationDialog from "../components/sections/IslandDestinationDialog.astro";
+import PortfolioLayout from '../layouts/PortfolioLayout.astro';
+import IslandScene from '../components/island/IslandScene.astro';
+import HeroIdentity from '../components/hero/HeroIdentity.astro';
+import HeaderControls from '../components/hero/HeaderControls.astro';
+import HeroCard from '../components/hero/HeroCard.astro';
+import HeroNavigation from '../components/hero/HeroNavigation.astro';
+import IslandDestinationDialog from '../components/sections/IslandDestinationDialog.astro';
 ---
 
 <PortfolioLayout>
@@ -28,10 +28,19 @@ import IslandDestinationDialog from "../components/sections/IslandDestinationDia
       const disposeHero = initHeroReveal(root);
       const disposeExplorer = initIslandExplorer(root);
       const disposeMusic = initIslandMusic(root);
-      dispose = () => { disposeHero(); disposeExplorer(); disposeMusic(); };
+      dispose = () => {
+        disposeHero();
+        disposeExplorer();
+        disposeMusic();
+      };
     }
   }
   initialize();
-  window.addEventListener('pagehide', () => { dispose?.(); dispose = undefined; });
-  window.addEventListener('pageshow', (event) => { if (event.persisted) initialize(); });
+  window.addEventListener('pagehide', () => {
+    dispose?.();
+    dispose = undefined;
+  });
+  window.addEventListener('pageshow', (event) => {
+    if (event.persisted) initialize();
+  });
 </script>

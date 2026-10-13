@@ -1,9 +1,9 @@
 ---
-import { SELECTED_PROJECTS } from "./portfolio-content";
-import ProjectPreview from "./ProjectPreview.astro";
-import HeroIcon from "../hero/HeroIcon.astro";
-import "../../styles/projects-content.css";
-import "../../styles/selected-projects.css";
+import { SELECTED_PROJECTS } from './portfolio-content';
+import ProjectPreview from './ProjectPreview.astro';
+import HeroIcon from '../hero/HeroIcon.astro';
+import '../../styles/projects-content.css';
+import '../../styles/selected-projects.css';
 ---
 
 <div class="selected-projects">
@@ -11,20 +11,42 @@ import "../../styles/selected-projects.css";
   <p>A selection of projects I’ve worked on with different teams.</p>
   <div class="selected-projects-list">
     {SELECTED_PROJECTS.map((project) => (
-      <article class="selected-project" aria-labelledby={`selected-project-${project.id}`}>
+      <article
+        class="selected-project"
+        aria-labelledby={`selected-project-${project.id}`}
+      >
         {project.image ? (
-          <figure class:list={["selected-project-image", `selected-project-image-${project.id}`]}>
-            <img src={project.image.src} alt={project.image.alt}
-              width={project.image.width} height={project.image.height}
-              loading="lazy" decoding="async" />
+          <figure
+            class:list={[
+              'selected-project-image',
+              `selected-project-image-${project.id}`,
+            ]}
+          >
+            <img
+              src={project.image.src}
+              alt={project.image.alt}
+              width={project.image.width}
+              height={project.image.height}
+              loading="lazy"
+              decoding="async"
+            />
           </figure>
         ) : project.preview ? (
           <ProjectPreview variant={project.preview} name={project.name} />
         ) : (
           <div class="selected-project-placeholder" aria-hidden="true">
-            <div class:list={["projects-title-cover", `projects-cover-${project.id}`]}>
-              <strong>{project.id === "solva" ? "Solva" : project.name}</strong>
-              <span class="projects-cover-lines"><i /><i /><i /></span>
+            <div
+              class:list={[
+                'projects-title-cover',
+                `projects-cover-${project.id}`,
+              ]}
+            >
+              <strong>{project.id === 'solva' ? 'Solva' : project.name}</strong>
+              <span class="projects-cover-lines">
+                <i />
+                <i />
+                <i />
+              </span>
               <small>{project.context}</small>
             </div>
           </div>
@@ -34,8 +56,13 @@ import "../../styles/selected-projects.css";
             <div class="selected-project-title-row">
               <h3 id={`selected-project-${project.id}`}>{project.name}</h3>
               {project.url && (
-                <a class="selected-project-link" href={project.url} target="_blank" rel="noopener noreferrer"
-                  aria-label={`Visit ${project.name} (opens in a new tab)`}>
+                <a
+                  class="selected-project-link"
+                  href={project.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`Visit ${project.name} (opens in a new tab)`}
+                >
                   <HeroIcon name="arrow-up-right" />
                 </a>
               )}
@@ -44,8 +71,13 @@ import "../../styles/selected-projects.css";
           </div>
           <div class="selected-project-detail">
             <p>{project.description}</p>
-            <ul class="selected-project-stack" aria-label={`${project.name} tech stack`}>
-              {project.stack.map((item) => <li>{item}</li>)}
+            <ul
+              class="selected-project-stack"
+              aria-label={`${project.name} tech stack`}
+            >
+              {project.stack.map((item) => (
+                <li>{item}</li>
+              ))}
             </ul>
           </div>
         </div>

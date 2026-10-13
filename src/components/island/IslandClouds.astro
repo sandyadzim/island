@@ -1,5 +1,5 @@
 ---
-import { STAGE } from "./scene-config";
+import { STAGE } from './scene-config';
 
 // Island-local positions; share the stage's uniform responsive scale.
 const clouds = [
@@ -37,25 +37,23 @@ const clouds = [
 ---
 
 <div class="island-clouds" aria-hidden="true">
-  {
-    clouds.map((cloud) => (
-      <div
-        class="island-cloud"
-        style={`left:${(cloud.x / STAGE.width) * 100}%;top:${(cloud.y / STAGE.height) * 100}%;width:${(cloud.width / STAGE.width) * 100}%;--cloud-duration:${cloud.duration}s;--cloud-delay:${cloud.delay}s;--cloud-drift:${cloud.drift}px;--cloud-rise:${cloud.rise}px`}
-      >
-        <img
-          class:list={[
-            "island-cloud-art",
-            { "island-cloud-art-mirrored": cloud.flip },
-          ]}
-          src="/assets/island/workshop-smoke-puff.webp"
-          width="512"
-          height="384"
-          alt=""
-          decoding="async"
-          draggable="false"
-        />
-      </div>
-    ))
-  }
+  {clouds.map((cloud) => (
+    <div
+      class="island-cloud"
+      style={`left:${(cloud.x / STAGE.width) * 100}%;top:${(cloud.y / STAGE.height) * 100}%;width:${(cloud.width / STAGE.width) * 100}%;--cloud-duration:${cloud.duration}s;--cloud-delay:${cloud.delay}s;--cloud-drift:${cloud.drift}px;--cloud-rise:${cloud.rise}px`}
+    >
+      <img
+        class:list={[
+          'island-cloud-art',
+          { 'island-cloud-art-mirrored': cloud.flip },
+        ]}
+        src="/assets/island/workshop-smoke-puff.webp"
+        width="512"
+        height="384"
+        alt=""
+        decoding="async"
+        draggable="false"
+      />
+    </div>
+  ))}
 </div>

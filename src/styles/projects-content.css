@@ -43,7 +43,7 @@
   cursor: pointer;
   transition: color 150ms ease-out;
 }
-.projects-tab[aria-selected="true"] {
+.projects-tab[aria-selected='true'] {
   color: var(--color-ivory);
 }
 .projects-tab:focus-visible {
@@ -246,7 +246,7 @@
   line-height: 1.6;
 }
 @media (hover: hover) and (pointer: fine) {
-  .projects-tab:not([aria-selected="true"]):hover {
+  .projects-tab:not([aria-selected='true']):hover {
     color: var(--color-teal);
   }
 }

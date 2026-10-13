@@ -1,7 +1,7 @@
 ---
-import { PROJECT_GROUPS } from "./portfolio-content";
-import ProjectPreview from "./ProjectPreview.astro";
-import "../../styles/projects-content.css";
+import { PROJECT_GROUPS } from './portfolio-content';
+import ProjectPreview from './ProjectPreview.astro';
+import '../../styles/projects-content.css';
 ---
 
 <div class="projects-gallery" data-project-gallery>
@@ -15,104 +15,97 @@ import "../../styles/projects-content.css";
     hidden
   >
     <span class="projects-tabs-highlight" aria-hidden="true"></span>
-    {
-      PROJECT_GROUPS.map((group, i) => (
-        <button
-          type="button"
-          id={`projects-tab-${group.id}`}
-          class="projects-tab"
-          role="tab"
-          aria-selected={i === 0 ? "true" : "false"}
-          aria-controls={`projects-panel-${group.id}`}
-          tabindex={i === 0 ? 0 : -1}
-        >
-          {group.title}
-        </button>
-      ))
-    }
-  </div>
-  {
-    PROJECT_GROUPS.map((group) => (
-      <section
-        class="projects-panel"
-        id={`projects-panel-${group.id}`}
-        aria-labelledby={`projects-group-${group.id}`}
-        data-project-panel
+    {PROJECT_GROUPS.map((group, i) => (
+      <button
+        type="button"
+        id={`projects-tab-${group.id}`}
+        class="projects-tab"
+        role="tab"
+        aria-selected={i === 0 ? 'true' : 'false'}
+        aria-controls={`projects-panel-${group.id}`}
+        tabindex={i === 0 ? 0 : -1}
       >
-        <h3 class="projects-fallback-heading" id={`projects-group-${group.id}`}>
-          {group.title}
-        </h3>
-        <p class="projects-group-description">{group.description}</p>
-        <div class="projects-grid">
-          {group.projects.map((project) => (
-            <article class="projects-card">
-              <div class="projects-image-frame">
-                {project.image ? (
-                  <img
-                    src={project.image.src}
-                    alt={project.image.alt}
-                    width={project.image.width}
-                    height={project.image.height}
-                    loading="lazy"
-                    decoding="async"
-                  />
-                ) : project.preview ? (
-                  <ProjectPreview
-                    variant={project.preview}
-                    name={project.name}
-                  />
-                ) : (
-                  <div
-                    class:list={[
-                      "projects-title-cover",
-                      `projects-cover-${project.id}`,
-                    ]}
-                  >
-                    <strong>
-                      {project.id === "solva" ? "Solva" : project.name}
-                    </strong>
-                    <span class="projects-cover-lines" aria-hidden="true">
-                      <i />
-                      <i />
-                      <i />
-                    </span>
-                    <small>{project.context}</small>
-                  </div>
-                )}
-              </div>
-              <div class="projects-card-copy">
-                <p class="projects-context">{project.context}</p>
-                <h3>{project.name}</h3>
-                <p class="projects-description">{project.description}</p>
-                <ul
-                  class="projects-stack"
-                  aria-label={`${project.name} tech stack`}
+        {group.title}
+      </button>
+    ))}
+  </div>
+  {PROJECT_GROUPS.map((group) => (
+    <section
+      class="projects-panel"
+      id={`projects-panel-${group.id}`}
+      aria-labelledby={`projects-group-${group.id}`}
+      data-project-panel
+    >
+      <h3 class="projects-fallback-heading" id={`projects-group-${group.id}`}>
+        {group.title}
+      </h3>
+      <p class="projects-group-description">{group.description}</p>
+      <div class="projects-grid">
+        {group.projects.map((project) => (
+          <article class="projects-card">
+            <div class="projects-image-frame">
+              {project.image ? (
+                <img
+                  src={project.image.src}
+                  alt={project.image.alt}
+                  width={project.image.width}
+                  height={project.image.height}
+                  loading="lazy"
+                  decoding="async"
+                />
+              ) : project.preview ? (
+                <ProjectPreview variant={project.preview} name={project.name} />
+              ) : (
+                <div
+                  class:list={[
+                    'projects-title-cover',
+                    `projects-cover-${project.id}`,
+                  ]}
                 >
-                  {project.stack.map((item) => (
-                    <li>{item}</li>
-                  ))}
-                </ul>
-              </div>
-            </article>
-          ))}
-        </div>
-      </section>
-    ))
-  }
+                  <strong>
+                    {project.id === 'solva' ? 'Solva' : project.name}
+                  </strong>
+                  <span class="projects-cover-lines" aria-hidden="true">
+                    <i />
+                    <i />
+                    <i />
+                  </span>
+                  <small>{project.context}</small>
+                </div>
+              )}
+            </div>
+            <div class="projects-card-copy">
+              <p class="projects-context">{project.context}</p>
+              <h3>{project.name}</h3>
+              <p class="projects-description">{project.description}</p>
+              <ul
+                class="projects-stack"
+                aria-label={`${project.name} tech stack`}
+              >
+                {project.stack.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+  ))}
 </div>
 <script>
-  import { initProjectGalleries } from "../../scripts/projects-gallery";
+  import { initProjectGalleries } from '../../scripts/projects-gallery';
   let dispose: (() => void) | undefined;
   function initialize() {
     dispose?.();
     dispose = initProjectGalleries();
   }
   initialize();
-  window.addEventListener("pagehide", () => {
+  window.addEventListener('pagehide', () => {
     dispose?.();
     dispose = undefined;
   });
-  window.addEventListener("pageshow", (event) => {
+  window.addEventListener('pageshow', (event) => {
     if (event.persisted) initialize();
   });
 </script>

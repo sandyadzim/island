@@ -1,19 +1,22 @@
 ---
-import HeroIcon from "./HeroIcon.astro";
+import HeroIcon from './HeroIcon.astro';
 ---
 
 <div class="hero-header-controls">
-  <a class="hero-read-control" href="/portfolio/"
-    >Read Portfolio <HeroIcon name="arrow" /></a
-  >
+  <a class="hero-read-control" href="/portfolio/">
+    Read Portfolio <HeroIcon name="arrow" />
+  </a>
   <button
     class="hero-back-control"
     data-back-to-intro
     type="button"
     aria-label="Back to intro"
     title="Back to intro"
-    hidden><HeroIcon name="arrow" /><span>Back to intro</span></button
+    hidden
   >
+    <HeroIcon name="arrow" />
+    <span>Back to intro</span>
+  </button>
   <button
     class="hero-sound-control"
     data-music-toggle
@@ -37,6 +40,8 @@ import HeroIcon from "./HeroIcon.astro";
   >
     <HeroIcon name="pause" class="motion-icon-pause" />
     <HeroIcon name="play" class="motion-icon-play" />
-    <span class="sr-only" data-motion-label>Pause motion</span>
+    <span class="sr-only" data-motion-label>
+      Pause motion
+    </span>
   </button>
 </div>
