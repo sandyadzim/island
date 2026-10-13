@@ -1,0 +1,170 @@
+.not-found-page {
+  --not-found-gutter: clamp(1.25rem, 3.5vw, 3.5rem);
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-page) url('/assets/island/asset-00-environment-background.webp') center top / cover no-repeat;
+}
+
+.not-found-header {
+  padding: max(1.5rem, env(safe-area-inset-top)) var(--not-found-gutter) 1.5rem;
+}
+
+.not-found-main {
+  display: grid;
+  flex: 1;
+  place-items: center;
+  padding: 2rem var(--not-found-gutter) max(6rem, env(safe-area-inset-bottom));
+}
+
+.not-found-card {
+  --color-focus: var(--color-teal);
+  color-scheme: light;
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr);
+  align-items: center;
+  gap: 2.5rem;
+  width: min(100%, 800px);
+  padding: clamp(1.75rem, 4vw, 3rem);
+  border-radius: 24px;
+  background: var(--color-ivory);
+  color: var(--color-teal);
+  box-shadow: 0 16px 48px rgb(4 16 32 / 20%);
+}
+
+.not-found-art {
+  position: relative;
+  height: 340px;
+}
+
+.not-found-code {
+  position: absolute;
+  inset: 0 0 auto;
+  color: rgb(23 62 67 / 16%);
+  font: 500 96px/1 var(--font-display);
+  letter-spacing: -0.04em;
+  text-align: center;
+}
+
+/* The original scene asset includes transparent space for island registration. */
+.not-found-boat {
+  position: absolute;
+  inset: 40px 0 auto;
+  height: 300px;
+  overflow: hidden;
+}
+
+.not-found-boat img {
+  position: absolute;
+  width: 768px;
+  height: 512px;
+  max-width: none;
+  left: -440px;
+  top: -145px;
+}
+
+.not-found-content h1 {
+  margin: 0;
+  font: 400 clamp(2rem, 3.5vw, 2.75rem)/1.12 var(--font-display);
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+
+.not-found-description {
+  margin: 1.25rem 0 1.75rem;
+  color: var(--color-teal-muted);
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.not-found-actions {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.not-found-portfolio {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 48px;
+  border-radius: 999px;
+  color: var(--color-teal);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.not-found-portfolio .hero-icon {
+  width: 18px;
+  height: 18px;
+}
+
+.not-found-detail {
+  margin: 1.5rem 0 0;
+  color: var(--color-teal-muted);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+
+@media (hover: hover) {
+  .not-found-actions .hero-primary-action:hover {
+    background: #24565a;
+  }
+
+  .not-found-portfolio:hover {
+    background: rgb(23 62 67 / 6%);
+  }
+}
+
+@media (max-width: 700px) {
+  .not-found-main {
+    padding-block: 1rem max(2rem, env(safe-area-inset-bottom));
+  }
+
+  .not-found-card {
+    max-width: 440px;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.5rem;
+    text-align: center;
+  }
+
+  .not-found-art {
+    justify-self: center;
+    width: 260px;
+    height: 220px;
+  }
+
+  .not-found-boat {
+    inset: 28px 0 auto;
+    height: 192px;
+  }
+
+  .not-found-boat img {
+    width: 512px;
+    height: auto;
+    left: -244px;
+    top: -100px;
+  }
+
+  .not-found-description {
+    margin-block: 1rem 1.5rem;
+  }
+
+  .not-found-detail {
+    margin-top: 1rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .not-found-header .hero-identity-copy {
+    display: none;
+  }
+}
+
+@media (max-width: 359px) {
+  .not-found-art {
+    width: 100%;
+  }
+}
