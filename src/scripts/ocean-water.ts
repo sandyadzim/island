@@ -90,11 +90,17 @@ export function initOceanWater(
   let elapsed = 0;
   let lastTime = 0;
   let lastDraw = 0;
+  let bufferAllocated = false;
+  let measuredWidth = 0;
+  let measuredHeight = 0;
+  let interacting = false;
+  let interactionTimer: ReturnType<typeof setTimeout> | undefined;
 
   function cleanup() {
     if (disposed) return;
     disposed = true;
     if (frame !== undefined) cancelAnimationFrame(frame);
+    clearTimeout(interactionTimer);
     events.abort();
     resize?.disconnect();
     intersection?.disconnect();
@@ -161,16 +167,19 @@ export function initOceanWater(
     if (disposed) return;
     const { width, height } = canvas!.getBoundingClientRect();
     if (!width || !height) return;
-    // Limit the drawing buffer to 960 × 640 at most, keeping its CSS size unchanged.
-    const scale = Math.min(
-      devicePixelRatio || 1,
-      1,
-      960 / width,
-      640 / height,
-    );
-    canvas!.width = Math.max(1, Math.round(width * scale));
-    canvas!.height = Math.max(1, Math.round(height * scale));
-    gl!.viewport(0, 0, canvas!.width, canvas!.height);
+    if (width === measuredWidth && height === measuredHeight) return;
+    measuredWidth = width;
+    measuredHeight = height;
+    // Allocate once for this renderer's lifetime. Safari toolbar/gesture changes
+    // must not repeatedly replace GPU surfaces. CSS still fills the viewport;
+    // u_cover below preserves the painting's proportions, including rotation.
+    if (!bufferAllocated) {
+      const scale = Math.min(devicePixelRatio || 1, 1, 960 / width, 640 / height);
+      canvas!.width = Math.max(1, Math.round(width * scale));
+      canvas!.height = Math.max(1, Math.round(height * scale));
+      gl!.viewport(0, 0, canvas!.width, canvas!.height);
+      bufferAllocated = true;
+    }
     const fitted = Math.max(
       width / image!.naturalWidth,
       height / image!.naturalHeight,
@@ -196,7 +205,7 @@ export function initOceanWater(
 
   function sync() {
     if (disposed) return;
-    const running = enabled && !reduce.matches && !document.hidden && onScreen && !dialog?.open;
+    const running = enabled && !reduce.matches && !document.hidden && onScreen && !dialog?.open && !interacting;
     toggle!.disabled = reduce.matches;
     toggleLabel.textContent = reduce.matches
       ? "Motion off"
@@ -222,6 +231,24 @@ export function initOceanWater(
       lastTime = performance.now();
       frame = requestAnimationFrame(tick);
     }
+  }
+
+  function pauseInteraction() {
+    clearTimeout(interactionTimer);
+    if (!interacting) {
+      interacting = true;
+      sync();
+    }
+  }
+
+  function settleInteraction() {
+    pauseInteraction();
+    // Scroll and visual-viewport events keep extending this through momentum
+    // and toolbar animation. Native scrolling and pinch zoom remain available.
+    interactionTimer = setTimeout(() => {
+      interacting = false;
+      sync();
+    }, 200);
   }
 
   try {
@@ -296,6 +323,11 @@ export function initOceanWater(
     document.addEventListener("visibilitychange", sync, {
       signal: events.signal,
     });
+    window.addEventListener('touchstart', pauseInteraction, { passive: true, signal: events.signal });
+    window.addEventListener('touchend', settleInteraction, { passive: true, signal: events.signal });
+    window.addEventListener('touchcancel', settleInteraction, { passive: true, signal: events.signal });
+    window.addEventListener('scroll', settleInteraction, { passive: true, signal: events.signal });
+    window.visualViewport?.addEventListener('resize', settleInteraction, { passive: true, signal: events.signal });
     reduce.addEventListener("change", sync);
     canvas.addEventListener("webglcontextlost", cleanup, {
       signal: events.signal,

@@ -95,3 +95,50 @@
   [data-explore-mode="intro"] .layout-stack { order: -1; flex: none; margin: .75rem auto 1.25rem; }
   [data-explore-mode="intro"] .island-scene { flex: none; }
 }
+
+/* Keep the ocean surface stable while mobile browser chrome expands/collapses. */
+@media (max-width: 1099px) {
+  .island-environment { position: fixed; inset: 0; height: 100lvh; pointer-events: none; }
+}
+
+/* Fit the complete island into the space below the card on portrait phones.
+   A minimum art height retains readable content and natural scrolling on very
+   short screens or with enlarged text instead of clipping either surface. */
+@media (max-width: 600px) {
+  .portfolio-shell[data-explore-mode="intro"] {
+    display: flex;
+    flex-direction: column;
+  }
+  [data-explore-mode="intro"] .layout-main {
+    display: flex;
+    flex: 1;
+  }
+  [data-explore-mode="intro"] .layout-stage { flex: 1; min-width: 0; }
+  [data-explore-mode="intro"] .layout-stack { margin-block: .75rem 1rem; }
+  .hero-card { padding: 24px; gap: .875rem; }
+  .hero-introduction { line-height: 1.6; text-align: start; }
+  [data-explore-mode="intro"] .island-scene {
+    flex: 1 0 176px;
+    min-height: 176px;
+    width: 100%;
+    aspect-ratio: auto;
+    margin-block: 0 max(1rem, env(safe-area-inset-bottom));
+    container-type: size;
+  }
+  [data-explore-mode="intro"] .island-frame {
+    left: 47.5%;
+    right: auto;
+    top: 50%;
+    width: min(95%, calc(100cqh * 1536 / 1056));
+    transform: translate(-50%, -50%);
+  }
+}
+
+@media (max-width: 359px) {
+  .layout-header { gap: .5rem; }
+  .hero-header-controls { gap: .375rem; }
+  .hero-read-control { padding-inline: .625rem; gap: .375rem; font-size: .75rem; }
+  .hero-read-control .hero-icon { width: 16px; height: 16px; }
+  .hero-card { padding: 20px; }
+  .hero-card h1 { font-size: 1.875rem; }
+}
