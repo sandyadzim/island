@@ -1,4 +1,6 @@
 export const STAGE = { width: 1536, height: 1024 } as const;
+/** Requested only if the primary terrain fails; same canvas ratio and registration. */
+export const ISLAND_BASE_FALLBACK_URL = '/assets/island/island-base-fallback.webp';
 /** Extra logical sky above the original stage keeps the raised house unclipped. */
 export const SCENE_HEADROOM = 32;
 

@@ -15,4 +15,4 @@ const files: Record<string, string> = {
 const file = files[name];
 if (!file) throw new Error(`Missing stack icon for ${name}`);
 ---
-<img class="stack-icon" src={`/assets/stack-icons/${file}.svg`} width="32" height="32" alt="" aria-hidden="true" decoding="async" />
+<img class="stack-icon" src={`/assets/stack-icons/${file}.svg`} width="32" height="32" alt="" aria-hidden="true" loading="lazy" decoding="async" />

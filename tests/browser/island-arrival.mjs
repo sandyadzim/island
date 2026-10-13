@@ -42,7 +42,10 @@ function installProbe(config) {
       await decode.call(this);
       if (!this.matches('.island-interaction > img')) return;
       if (config.failDecode) throw new Error('Simulated core image failure');
-      await new Promise(resolve => probe.gates.push(resolve));
+      await new Promise(resolve => {
+        resolve.assetId = this.closest('[data-asset-id]').dataset.assetId;
+        probe.gates.push(resolve);
+      });
     };
   }
   probe.setHidden = hidden => {
@@ -197,13 +200,35 @@ export async function verifyIslandArrival(page, baseURL = 'http://localhost:4321
       await page.evaluate(() => window.__arrivalProbe.records.forEach(record => record.animation.finish()));
       await assertFinal();
     }, { width: 390, height: 300 });
-    await scenario('slow decoding waits for all core images', { delayDecode: true, freeze: true }, async () => {
+    await scenario('foundation reveals before delayed landmarks, which activate independently', { delayDecode: true, freeze: true }, async () => {
       await page.waitForFunction(() => window.__arrivalProbe.gates.length === 8);
       assert.equal(await page.evaluate(() => document.querySelector('[data-island-scene]').dataset.sceneState), 'loading');
       assert.equal((await records()).length, 0);
-      await page.evaluate(() => window.__arrivalProbe.gates.splice(0).forEach(resolve => resolve()));
+      await page.evaluate(() => {
+        const gates = window.__arrivalProbe.gates;
+        for (let index = gates.length - 1; index >= 0; index--) {
+          if (['ASSET-00', 'ASSET-01'].includes(gates[index].assetId)) gates.splice(index, 1)[0]();
+        }
+      });
       await ready();
       assert.equal((await records()).length, 2);
+      const foundation = await page.evaluate(() => ({
+        pending: window.__arrivalProbe.gates.length,
+        stage: getComputedStyle(document.querySelector('.island-responsive-scale')).visibility,
+        house: document.querySelector('[data-asset-id="ASSET-02"]').dataset.assetState,
+        landmarkHidden: document.querySelector('[data-landmark="projects"]').hidden,
+        beam: getComputedStyle(document.querySelector('.lighthouse-beam-origin')).visibility,
+      }));
+      assert.deepEqual(foundation, { pending: 6, stage: 'visible', house: 'pending', landmarkHidden: true, beam: 'hidden' });
+      await page.evaluate(() => {
+        const gates = window.__arrivalProbe.gates;
+        const index = gates.findIndex(resolve => resolve.assetId === 'ASSET-02');
+        gates.splice(index, 1)[0]();
+      });
+      await page.waitForFunction(() => !document.querySelector('[data-landmark="projects"]').hidden);
+      assert.equal(await page.evaluate(() => document.querySelector('[data-landmark="about"]').hidden), true);
+      await page.evaluate(() => window.__arrivalProbe.gates.splice(0).forEach(resolve => resolve()));
+      await page.waitForFunction(() => [...document.querySelectorAll('[data-asset-state]')].every(e => e.dataset.assetState === 'ready'));
     });
     await scenario('Explore before readiness skips entrance', { delayDecode: true }, async () => {
       await page.waitForFunction(() => window.__arrivalProbe.gates.length === 8);

@@ -8,12 +8,13 @@ import ContactContent from "./ContactContent.astro";
 import "../../styles/portfolio-content.css";
 interface Props {
   destination: Exclude<Destination, "home">;
+  deferImages?: boolean;
 }
-const { destination } = Astro.props;
+const { destination, deferImages = false } = Astro.props;
 ---
 
 <div class:list={["destination-content", `content-${destination}`]}>
-  {destination === "about" && <AboutContent />}
+  {destination === "about" && <AboutContent loading={deferImages ? 'lazy' : 'eager'} />}
   {destination === "projects" && <ProjectsContent />}
   {destination === "skills" && <SkillsContent />}
   {

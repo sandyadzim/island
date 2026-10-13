@@ -444,8 +444,12 @@
 
 [data-scene-state="loading"] .island-responsive-scale,
 [data-scene-state="error"] .island-responsive-scale,
-[data-scene-state="loading"] .island-environment,
-[data-scene-state="error"] .island-environment {
+[data-scene-state="loading"] .island-environment {
+  visibility: hidden;
+}
+
+[data-scene-enhanced] .island-layer:not([data-asset-state="ready"]),
+[data-scene-enhanced]:not([data-lighthouse-ready]) .lighthouse-beam-origin {
   visibility: hidden;
 }
 

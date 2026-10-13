@@ -64,6 +64,8 @@ export function initOceanWater(
   if (!canvas || !image || !toggle) return () => {};
   const toggleLabel =
     toggle.querySelector<HTMLElement>("[data-motion-label]") ?? toggle;
+  const dialog = root.closest<HTMLElement>('[data-explore-mode]')
+    ?.querySelector<HTMLDialogElement>('[data-destination-dialog]');
   const gl = canvas.getContext("webgl", {
     alpha: false,
     antialias: false,
@@ -80,6 +82,7 @@ export function initOceanWater(
   const reduce = matchMedia("(prefers-reduced-motion: reduce)");
   let resize: ResizeObserver | undefined;
   let intersection: IntersectionObserver | undefined;
+  let dialogObserver: MutationObserver | undefined;
   let frame: number | undefined;
   let disposed = false;
   let onScreen = true;
@@ -95,6 +98,7 @@ export function initOceanWater(
     events.abort();
     resize?.disconnect();
     intersection?.disconnect();
+    dialogObserver?.disconnect();
     reduce.removeEventListener("change", sync);
     canvas!.removeAttribute("data-water-visible");
     canvas!.removeAttribute("data-water-state");
@@ -157,12 +161,12 @@ export function initOceanWater(
     if (disposed) return;
     const { width, height } = canvas!.getBoundingClientRect();
     if (!width || !height) return;
-    // Cap fill rate on Retina displays and render at most 30 frames per second.
+    // Limit the drawing buffer to 960 × 640 at most, keeping its CSS size unchanged.
     const scale = Math.min(
       devicePixelRatio || 1,
-      1.5,
-      1600 / width,
-      1200 / height,
+      1,
+      960 / width,
+      640 / height,
     );
     canvas!.width = Math.max(1, Math.round(width * scale));
     canvas!.height = Math.max(1, Math.round(height * scale));
@@ -192,7 +196,7 @@ export function initOceanWater(
 
   function sync() {
     if (disposed) return;
-    const running = enabled && !reduce.matches && !document.hidden && onScreen;
+    const running = enabled && !reduce.matches && !document.hidden && onScreen && !dialog?.open;
     toggle!.disabled = reduce.matches;
     toggleLabel.textContent = reduce.matches
       ? "Motion off"
@@ -263,6 +267,12 @@ export function initOceanWater(
     measure();
     resize = new ResizeObserver(measure);
     resize.observe(canvas);
+    // Native open state also covers external close and rapid close/reopen.
+    // Keep this reading pause separate from the visitor's saved preference.
+    if (dialog) {
+      dialogObserver = new MutationObserver(sync);
+      dialogObserver.observe(dialog, { attributes: true, attributeFilter: ['open'] });
+    }
     if (typeof IntersectionObserver !== "undefined") {
       intersection = new IntersectionObserver(([entry]) => {
         onScreen = entry?.isIntersecting ?? false;

@@ -10,6 +10,6 @@ import '../../styles/island-dialog.css';
     <button class="island-dialog-close" type="button" data-dialog-close aria-label="Close dialog" title="Close dialog"><HeroIcon name="close" /></button>
   </header>
   <div class="island-dialog-body" data-dialog-body>
-    {DESTINATIONS.map(destination => <section data-dialog-section={destination.id} aria-label={destination.label} hidden><SectionContent destination={destination.id} /></section>)}
+    {DESTINATIONS.map(destination => <section data-dialog-section={destination.id} aria-label={destination.label} hidden><SectionContent destination={destination.id} deferImages /></section>)}
   </div>
 </dialog>

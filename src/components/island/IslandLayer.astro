@@ -35,6 +35,7 @@ const smokeSource =
             height={STAGE.height}
             alt=""
             loading="eager"
+            fetchpriority={asset.id === 'ASSET-00' || asset.id === 'ASSET-01' ? 'high' : 'low'}
             decoding="async"
             draggable="false"
           />
@@ -80,8 +81,8 @@ const smokeSource =
                       class="workshop-smoke-art"
                       src="/assets/island/workshop-smoke-puff.webp"
                       alt=""
-                      width="1448"
-                      height="1086"
+                      width="512"
+                      height="384"
                       decoding="async"
                       draggable="false"
                     />

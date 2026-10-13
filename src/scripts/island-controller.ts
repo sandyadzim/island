@@ -1,4 +1,4 @@
-import { SCENE_ASSETS } from "../components/island/scene-config";
+import { SCENE_ASSETS, ISLAND_BASE_FALLBACK_URL } from "../components/island/scene-config";
 import { sceneScale } from "../utils/scene-geometry";
 import { waitForImage } from "../utils/image-readiness";
 import { initOceanWater } from "./ocean-water";
@@ -23,6 +23,20 @@ export function initIslandScene(
   const images = Array.from(
     root.querySelectorAll<HTMLImageElement>(".island-interaction > img"),
   );
+  const layers = images.flatMap(image => {
+    const layer = image.closest<HTMLElement>('[data-asset-id]');
+    if (!layer) return [];
+    const landmark = layer.dataset.destination
+      ? root.querySelector<HTMLAnchorElement>(`[data-landmark="${layer.dataset.destination}"]`)
+      : null;
+    return [{ image, layer, landmark, state: 'pending' as 'pending' | 'ready' | 'error',
+      usingFallback: false, previousSrc: image.getAttribute('src'),
+      previousState: layer.getAttribute('data-asset-state'),
+      previousHidden: landmark?.hidden ?? false, previousInert: landmark?.inert ?? false }];
+  });
+  const background = layers.find(item => item.layer.dataset.assetId === 'ASSET-00');
+  const base = layers.find(item => item.layer.dataset.assetId === 'ASSET-01');
+  const lighthouse = layers.find(item => item.layer.dataset.assetId === 'ASSET-06');
   const abort = new AbortController();
   let disposed = false;
   let resizeObserver: ResizeObserver | undefined;
@@ -30,6 +44,7 @@ export function initIslandScene(
   let deadline: ReturnType<typeof setTimeout> | undefined;
   let disposeWater: (() => void) | undefined;
   let arrival: ReturnType<typeof initArrivalReveal> | undefined;
+  let foundationSettled = false;
   const oldScale = root.style.getPropertyValue("--scene-scale");
   const oldScalePriority = root.style.getPropertyPriority("--scene-scale");
   const oldStatus = status?.textContent ?? "";
@@ -68,6 +83,17 @@ export function initIslandScene(
     disposeWater?.();
     window.removeEventListener("resize", scheduleMeasure);
     root.removeAttribute("data-scene-enhanced");
+    root.removeAttribute('data-lighthouse-ready');
+    layers.forEach(item => {
+      if (item.previousSrc === null) item.image.removeAttribute('src');
+      else if (item.image.getAttribute('src') !== item.previousSrc) item.image.setAttribute('src', item.previousSrc);
+      if (item.previousState === null) item.layer.removeAttribute('data-asset-state');
+      else item.layer.setAttribute('data-asset-state', item.previousState);
+      if (item.landmark) {
+        item.landmark.hidden = item.previousHidden;
+        item.landmark.inert = item.previousInert;
+      }
+    });
     if (oldScale)
       root.style.setProperty("--scene-scale", oldScale, oldScalePriority);
     else root.style.removeProperty("--scene-scale");
@@ -75,17 +101,49 @@ export function initIslandScene(
     controllers.delete(root);
   }
 
-  function fail(message: string) {
-    if (disposed || abort.signal.aborted) return;
-    clearTimeout(deadline);
-    arrival?.dispose();
-    state("error", message);
-    abort.abort();
+  function updateDetails() {
+    if (disposed) return;
+    layers.forEach(item => {
+      if (!item.landmark) return;
+      const active = foundationSettled && base?.state === 'ready' && item.state === 'ready';
+      item.landmark.hidden = !active || item.previousHidden;
+      item.landmark.inert = !active || item.previousInert;
+    });
+    root.toggleAttribute('data-lighthouse-ready', lighthouse?.state === 'ready');
+    const pending = layers.some(item => item.state === 'pending');
+    if (!pending) clearTimeout(deadline);
+    if (!foundationSettled || !status) return;
+    const message = base?.state !== 'ready'
+      ? 'The island base could not load. The portfolio navigation is still available.'
+      : layers.some(item => item.state === 'error' || item.usingFallback)
+        ? 'Some island details could not load. The portfolio navigation is still available.'
+        : pending ? 'Loading island details…' : '';
+    if (status.textContent !== message) status.textContent = message;
+  }
+
+  function complete(item: typeof layers[number], value: 'ready' | 'error') {
+    if (disposed || item.state !== 'pending') return;
+    item.state = value;
+    item.layer.dataset.assetState = value;
+    updateDetails();
+  }
+
+  async function load(item: typeof layers[number]) {
+    try {
+      await waitForImage(item.image, abort.signal);
+    } catch (error) {
+      if (item !== base || disposed || abort.signal.aborted) throw error;
+      // Reuse the terrain layer so every source-space transform stays registered.
+      // The backup is not referenced by markup and adds no request to normal loads.
+      item.image.src = ISLAND_BASE_FALLBACK_URL;
+      await waitForImage(item.image, abort.signal);
+      item.usingFallback = true;
+    }
   }
 
   controllers.set(root, dispose);
   try {
-    if (!viewport || !status || images.length !== SCENE_ASSETS.length) {
+    if (!viewport || !status || !background || !base || layers.length !== SCENE_ASSETS.length) {
       throw new Error("Incomplete scene markup.");
     }
     measure();
@@ -96,29 +154,34 @@ export function initIslandScene(
     }
     // Also catches viewport changes in browsers without ResizeObserver.
     window.addEventListener("resize", scheduleMeasure, { passive: true });
+    layers.forEach(item => { item.layer.dataset.assetState = 'pending'; });
+    updateDetails();
     root.dataset.sceneEnhanced = "";
     state("loading", "Loading the island…");
     if (firstArrival) arrival = initArrivalReveal(root, motionToggle);
     deadline = setTimeout(() => {
-      fail(
-        "The island is taking too long to load. Reload the page to try again.",
-      );
+      layers.forEach(item => complete(item, 'error'));
+      abort.abort();
     }, LOAD_TIMEOUT_MS);
 
-    void Promise.all(
-      images.map((image) => waitForImage(image, abort.signal)),
-    ).then(
-      () => {
-        if (disposed || abort.signal.aborted) return;
-        clearTimeout(deadline);
-        // Install both starting poses while loading still hides the scene.
+    const readiness = new Map(layers.map(item => [item, load(item).then(
+      () => complete(item, 'ready'),
+      () => complete(item, 'error'),
+    )]));
+    // Only the background and terrain gate arrival. Other layers reveal independently.
+    void Promise.all([readiness.get(background), readiness.get(base)]).then(() => {
+      if (disposed) return;
+      foundationSettled = true;
+      if (base.state === 'ready') {
         arrival?.ready();
         state("ready");
-        disposeWater = initOceanWater(root, motionToggle);
-      },
-      () =>
-        fail("The island could not be loaded. Reload the page to try again."),
-    );
+        if (background.state === 'ready') disposeWater = initOceanWater(root, motionToggle);
+      } else {
+        arrival?.dispose();
+        state('error');
+      }
+      updateDetails();
+    });
   } catch {
     // Never leave CSS content hidden after a setup failure.
     dispose();

@@ -1,6 +1,10 @@
 ---
 import HeroIcon from "../hero/HeroIcon.astro";
 import "../../styles/about-content.css";
+interface Props {
+  loading?: 'eager' | 'lazy';
+}
+const { loading = 'eager' } = Astro.props;
 ---
 
 <div class="about-layout about-profile">
@@ -11,6 +15,8 @@ import "../../styles/about-content.css";
       alt="Portrait of Sandy Rahmansyah"
       width="640"
       height="640"
+      loading={loading}
+      decoding="async"
     />
     <div class="about-identity-details">
       <h3>Sandy Rahmansyah</h3>
