@@ -1,0 +1,100 @@
+name: Deploy to Server
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Cegah dua deploy jalan bersamaan
+concurrency:
+  group: deploy-island
+  cancel-in-progress: true
+
+jobs:
+  # ---------- CI: gerbang kualitas, jalan di runner GitHub (gratis, server tidak terbebani) ----------
+  ci:
+    name: CI — check, test, build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Astro + TypeScript check
+        run: npm run check
+
+      - name: Unit tests
+        run: npm test
+
+      - name: Verify delivery assets
+        run: npm run verify:assets
+
+      - name: Production build
+        run: npm run build
+
+  # ---------- CD: hanya jalan kalau CI hijau ----------
+  deploy:
+    name: CD — deploy ke VPS
+    needs: ci
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script_stop: true
+          script: |
+            set -euo pipefail
+
+            cd ~/repos/island
+            git fetch --quiet origin main
+            git reset --hard origin/main
+            echo "==> Deploy commit: $(git rev-parse --short HEAD)"
+
+            # Simpan image yang sedang jalan sebagai titik rollback
+            sudo docker tag island:latest island:previous 2>/dev/null || true
+
+            echo "==> Build image"
+            sudo docker build -t island:latest .
+
+            # ---- Smoke test di port 3002 (localhost saja) sebelum menyentuh production ----
+            echo "==> Smoke test"
+            sudo docker rm -f island-check 2>/dev/null || true
+            sudo docker run -d --name island-check -p 127.0.0.1:3002:80 island:latest
+            ok=""
+            for i in $(seq 1 15); do
+              sleep 1
+              if curl -fsS -o /dev/null http://localhost:3002/; then ok="yes"; break; fi
+            done
+            if [ -z "$ok" ]; then
+              echo "!! Smoke test GAGAL — production tidak disentuh"
+              sudo docker rm -f island-check
+              exit 1
+            fi
+            curl -fsS -o /dev/null http://localhost:3002/portfolio/
+            curl -fsS -o /dev/null http://localhost:3002/sitemap-index.xml
+            sudo docker rm -f island-check
+
+            # ---- Swap container production ----
+            echo "==> Swap container"
+            sudo docker rm -f island 2>/dev/null || true
+            sudo docker run -d --name island --restart unless-stopped -p 3001:80 island:latest
+
+            for i in $(seq 1 15); do
+              sleep 1
+              if curl -fsS -o /dev/null http://localhost:3001/; then echo "==> Deploy sukses"; exit 0; fi
+            done
+
+            # ---- Health check gagal: balikkan ke image sebelumnya ----
+            echo "!! Health check GAGAL — rollback ke island:previous"
+            sudo docker rm -f island 2>/dev/null || true
+            sudo docker run -d --name island --restart unless-stopped -p 3001:80 island:previous
+            exit 1
