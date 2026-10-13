@@ -24,9 +24,33 @@ import { ANALYTICS } from '../config/analytics';
       allow_ad_personalization_signals: false,
     });
 
-    const script = document.createElement('script');
-    script.async = true;
-    script.src = `https://www.googletagmanager.com/gtag/js?id=${measurementId}`;
-    document.head.appendChild(script);
+    let loaded = false;
+    function loadAnalytics() {
+      if (loaded) return;
+      loaded = true;
+      document.removeEventListener('visibilitychange', onVisibilityChange);
+      const script = document.createElement('script');
+      script.async = true;
+      script.src = `https://www.googletagmanager.com/gtag/js?id=${measurementId}`;
+      document.head.appendChild(script);
+    }
+
+    function scheduleAnalytics() {
+      // Let first-party images and rendering finish before optional analytics.
+      // The original timestamp and page-view config remain queued above.
+      if ('requestIdleCallback' in window) {
+        window.requestIdleCallback(loadAnalytics, { timeout: 1000 });
+      } else {
+        setTimeout(loadAnalytics, 0);
+      }
+    }
+
+    function onVisibilityChange() {
+      // Do not leave a short visit queued while the page is being backgrounded.
+      if (document.visibilityState === 'hidden') loadAnalytics();
+    }
+    document.addEventListener('visibilitychange', onVisibilityChange);
+    if (document.readyState === 'complete') scheduleAnalytics();
+    else window.addEventListener('load', scheduleAnalytics, { once: true });
   })();
 </script>}
