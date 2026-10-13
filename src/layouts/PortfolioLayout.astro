@@ -1,5 +1,6 @@
 ---
 import SeoHead from '../components/SeoHead.astro';
+import GoogleAnalyticsLayout from './GoogleAnalyticsLayout.astro';
 import FontPreloads from '../components/FontPreloads.astro';
 import '../styles/global.css';
 import '../styles/hero-ui.css';
@@ -7,43 +8,35 @@ import '../styles/portfolio.css';
 import '../styles/island-explorer.css';
 ---
 
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, viewport-fit=cover"
-    />
+<GoogleAnalyticsLayout viewport="width=device-width, initial-scale=1, viewport-fit=cover">
+  <Fragment slot="head">
     <FontPreloads />
     <SeoHead page="home" />
-  </head>
-  <body>
-    <a class="skip-link" href="#main">
-      Skip to main content
-    </a>
-    <div id="home" class="portfolio-shell" data-explore-mode="intro">
-      <header class="layout-header" data-layout-slot="header">
-        <div class="layout-identity">
-          <slot name="identity" />
-        </div>
-        <div class="layout-controls">
-          <slot name="header-controls" />
-        </div>
-      </header>
-      <main id="main" tabindex="-1" class="layout-main">
-        <div class="layout-stage">
-          <slot />
-          <div class="layout-stack">
-            <div class="layout-card" data-layout-slot="card">
-              <slot name="card" />
-            </div>
-          </div>
-          <div class="layout-menu" data-layout-slot="menu">
-            <slot name="menu" />
+  </Fragment>
+  <a class="skip-link" href="#main">
+    Skip to main content
+  </a>
+  <div id="home" class="portfolio-shell" data-explore-mode="intro">
+    <header class="layout-header" data-layout-slot="header">
+      <div class="layout-identity">
+        <slot name="identity" />
+      </div>
+      <div class="layout-controls">
+        <slot name="header-controls" />
+      </div>
+    </header>
+    <main id="main" tabindex="-1" class="layout-main">
+      <div class="layout-stage">
+        <slot />
+        <div class="layout-stack">
+          <div class="layout-card" data-layout-slot="card">
+            <slot name="card" />
           </div>
         </div>
-      </main>
-    </div>
-  </body>
-</html>
+        <div class="layout-menu" data-layout-slot="menu">
+          <slot name="menu" />
+        </div>
+      </div>
+    </main>
+  </div>
+</GoogleAnalyticsLayout>

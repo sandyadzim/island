@@ -6,64 +6,60 @@ import { DESTINATIONS } from '../components/hero/destinations';
 import PortfolioSections from '../components/sections/PortfolioSections.astro';
 import HeroIcon from '../components/hero/HeroIcon.astro';
 import SeoHead from '../components/SeoHead.astro';
+import GoogleAnalyticsLayout from '../layouts/GoogleAnalyticsLayout.astro';
 import FontPreloads from '../components/FontPreloads.astro';
 ---
 
-<!doctype html>
-<html lang="en" class="reading-page">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+<GoogleAnalyticsLayout htmlClass="reading-page" bodyClass="portfolio-reader">
+  <Fragment slot="head">
     <FontPreloads />
     <SeoHead page="portfolio" />
-  </head>
-  <body class="portfolio-reader">
-    <a class="skip-link" href="#reading-main">
-      Skip to portfolio content
+  </Fragment>
+  <a class="skip-link" href="#reading-main">
+    Skip to portfolio content
+  </a>
+  <header id="page-top" tabindex="-1" class="reader-header">
+    <a
+      class="reader-brand"
+      href="/#home"
+      aria-label="Sandy Rahmansyah — Back to island"
+    >
+      <span class="hero-monogram" aria-hidden="true">
+        SR
+      </span>
     </a>
-    <header id="page-top" tabindex="-1" class="reader-header">
-      <a
-        class="reader-brand"
-        href="/#home"
-        aria-label="Sandy Rahmansyah — Back to island"
-      >
-        <span class="hero-monogram" aria-hidden="true">
-          SR
-        </span>
-      </a>
-      <a class="reader-return" href="/#home">
-        <HeroIcon name="arrow" />
-        Back to island
-      </a>
-    </header>
-    <main id="reading-main" tabindex="-1" class="reader-main">
-      <h1>A glimpse into my world.</h1>
-      <p class="reader-introduction">
-        The work I’ve helped create, what I’ve learned, and the journey along
-        the way.
-      </p>
-      <nav class="reader-index" aria-label="Portfolio sections">
-        <ul>
-          {DESTINATIONS.map((destination) => (
-            <li>
-              <a href={`#${destination.id}`}>{destination.label}</a>
-            </li>
-          ))}
-        </ul>
-      </nav>
-      <PortfolioSections reading />
-    </main>
-    <footer class="reader-footer">
-      <a href="/#home">
-        Back to the island <HeroIcon name="arrow" />
-      </a>
-    </footer>
-    <button class="reader-back-to-top" type="button" inert>
+    <a class="reader-return" href="/#home">
       <HeroIcon name="arrow" />
-      <span>Back to top</span>
-    </button>
-  </body>
-</html>
+      Back to island
+    </a>
+  </header>
+  <main id="reading-main" tabindex="-1" class="reader-main">
+    <h1>A glimpse into my world.</h1>
+    <p class="reader-introduction">
+      The work I’ve helped create, what I’ve learned, and the journey along the
+      way.
+    </p>
+    <nav class="reader-index" aria-label="Portfolio sections">
+      <ul>
+        {DESTINATIONS.map((destination) => (
+          <li>
+            <a href={`#${destination.id}`}>{destination.label}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+    <PortfolioSections reading />
+  </main>
+  <footer class="reader-footer">
+    <a href="/#home">
+      Back to the island <HeroIcon name="arrow" />
+    </a>
+  </footer>
+  <button class="reader-back-to-top" type="button" inert>
+    <HeroIcon name="arrow" />
+    <span>Back to top</span>
+  </button>
+</GoogleAnalyticsLayout>
 <script>
   const backToTop = document.querySelector<HTMLButtonElement>(
     '.reader-back-to-top',

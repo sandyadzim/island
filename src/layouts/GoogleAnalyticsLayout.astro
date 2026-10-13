@@ -1,0 +1,30 @@
+---
+import GoogleAnalytics from '../components/GoogleAnalytics.astro';
+
+interface Props {
+  lang?: string;
+  htmlClass?: string;
+  bodyClass?: string;
+  viewport?: string;
+}
+
+const {
+  lang = 'en',
+  htmlClass,
+  bodyClass,
+  viewport = 'width=device-width, initial-scale=1',
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang={lang} class={htmlClass}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content={viewport} />
+    <GoogleAnalytics />
+    <slot name="head" />
+  </head>
+  <body class={bodyClass}>
+    <slot />
+  </body>
+</html>

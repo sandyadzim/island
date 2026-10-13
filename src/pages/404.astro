@@ -1,5 +1,6 @@
 ---
 import FontPreloads from '../components/FontPreloads.astro';
+import GoogleAnalyticsLayout from '../layouts/GoogleAnalyticsLayout.astro';
 import HeroIcon from '../components/hero/HeroIcon.astro';
 import { SITE } from '../config/site';
 import '../styles/global.css';
@@ -7,11 +8,8 @@ import '../styles/hero-ui.css';
 import '../styles/not-found.css';
 ---
 
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+<GoogleAnalyticsLayout bodyClass="not-found-page">
+  <Fragment slot="head">
     <FontPreloads />
     <title>404 — Page not found · {SITE.name}</title>
     <meta
@@ -22,59 +20,57 @@ import '../styles/not-found.css';
     <meta name="theme-color" content="#081426" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-  </head>
-  <body class="not-found-page">
-    <!-- A recovery stop within the existing island world: static ocean artwork,
+  </Fragment>
+  <!-- A recovery stop within the existing island world: static ocean artwork,
          ivory and teal, a stranded sailboat, and two direct routes home. -->
-    <a class="skip-link" href="#main">
-      Skip to main content
+  <a class="skip-link" href="#main">
+    Skip to main content
+  </a>
+  <header class="not-found-header">
+    <a
+      class="hero-identity"
+      href="/"
+      aria-label={`${SITE.name} — Back to island`}
+    >
+      <span class="hero-monogram" aria-hidden="true">
+        SR
+      </span>
+      <span class="hero-identity-copy">
+        <span class="hero-identity-name">{SITE.name}</span>
+        <span class="hero-identity-subtitle">{SITE.role}</span>
+      </span>
     </a>
-    <header class="not-found-header">
-      <a
-        class="hero-identity"
-        href="/"
-        aria-label={`${SITE.name} — Back to island`}
-      >
-        <span class="hero-monogram" aria-hidden="true">
-          SR
-        </span>
-        <span class="hero-identity-copy">
-          <span class="hero-identity-name">{SITE.name}</span>
-          <span class="hero-identity-subtitle">{SITE.role}</span>
-        </span>
-      </a>
-    </header>
-    <main id="main" tabindex="-1" class="not-found-main">
-      <section class="not-found-card" aria-labelledby="not-found-title">
-        <div class="not-found-art" aria-hidden="true">
-          <span class="not-found-code">404</span>
-          <div class="not-found-boat">
-            <img
-              src="/assets/island/asset-07-sailboat-experience.webp"
-              width="1536"
-              height="1024"
-              alt=""
-            />
-          </div>
+  </header>
+  <main id="main" tabindex="-1" class="not-found-main">
+    <section class="not-found-card" aria-labelledby="not-found-title">
+      <div class="not-found-art" aria-hidden="true">
+        <span class="not-found-code">404</span>
+        <div class="not-found-boat">
+          <img
+            src="/assets/island/asset-07-sailboat-experience.webp"
+            width="1536"
+            height="1024"
+            alt=""
+          />
         </div>
-        <div class="not-found-content">
-          <h1 id="not-found-title">A little off course.</h1>
-          <p class="not-found-description">
-            This page seems to have drifted out to sea. It may have moved, or
-            the address might be a little off.
-          </p>
-          <div class="not-found-actions">
-            <a class="hero-primary-action" href="/">
-              <span>Back to the island</span>
-              <HeroIcon name="arrow" />
-            </a>
-            <a class="not-found-portfolio" href="/portfolio/">
-              Read the portfolio <HeroIcon name="arrow" />
-            </a>
-          </div>
-          <p class="not-found-detail">404 · Page not found</p>
+      </div>
+      <div class="not-found-content">
+        <h1 id="not-found-title">A little off course.</h1>
+        <p class="not-found-description">
+          This page seems to have drifted out to sea. It may have moved, or the
+          address might be a little off.
+        </p>
+        <div class="not-found-actions">
+          <a class="hero-primary-action" href="/">
+            <span>Back to the island</span>
+            <HeroIcon name="arrow" />
+          </a>
+          <a class="not-found-portfolio" href="/portfolio/">
+            Read the portfolio <HeroIcon name="arrow" />
+          </a>
         </div>
-      </section>
-    </main>
-  </body>
-</html>
+        <p class="not-found-detail">404 · Page not found</p>
+      </div>
+    </section>
+  </main>
+</GoogleAnalyticsLayout>
