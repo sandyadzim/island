@@ -1,3 +1,4 @@
+import { initDialogMotion } from './dialog-motion';
 import { DESTINATIONS } from '../components/hero/destinations';
 import type { Destination } from '../components/island/scene-config';
 
@@ -34,18 +35,17 @@ export function initDestinationDialogs(
   const reduce = matchMedia('(prefers-reduced-motion: reduce)');
   const motion = root.querySelector<HTMLElement>('[data-water-motion-toggle]');
   let trigger: HTMLElement | undefined;
-  let animation: Animation | undefined;
+  const animation = initDialogMotion(dialog, true);
   let closing = false;
   let disposed = false;
   let outsidePointer: number | undefined;
   let restoreScroll: (() => void) | undefined;
 
   function motionOff() {
-    return reduce.matches || motion?.dataset.motionPreference === 'off';
+    return motion?.dataset.motionPreference === 'off';
   }
   function cancelAnimation() {
-    animation?.cancel();
-    animation = undefined;
+    animation.cancel();
   }
   function lockScroll() {
     if (restoreScroll) return;
@@ -95,26 +95,14 @@ export function initDestinationDialogs(
   }
   function close() {
     if (!dialog!.open || closing || disposed) return;
-    cancelAnimation();
     if (motionOff()) {
       finishClose();
       return;
     }
     closing = true;
-    const exit = dialog!.animate(
-      [
-        { opacity: 1, transform: 'translateY(0)' },
-        { opacity: 0, transform: 'translateY(12px)' },
-      ],
-      { duration: 160, easing: 'cubic-bezier(.4,0,1,1)', fill: 'forwards' },
-    );
-    animation = exit;
-    void exit.finished.then(
-      () => {
-        if (animation === exit) finishClose();
-      },
-      () => {},
-    );
+    void animation.play(false).then((finished) => {
+      if (finished && closing) finishClose();
+    });
   }
   function outside(event: PointerEvent) {
     const rect = dialog!.getBoundingClientRect();
@@ -198,7 +186,7 @@ export function initDestinationDialogs(
     { signal: events.signal },
   );
   function syncMotion() {
-    if (!motionOff()) return;
+    if (!motionOff() && !reduce.matches) return;
     if (closing) finishClose();
     else cancelAnimation();
   }
@@ -221,7 +209,8 @@ export function initDestinationDialogs(
         (section) => section.dataset.dialogSection === destination,
       );
       if (!entry || !selected) return;
-      cancelAnimation();
+      const wasOpen = dialog.open;
+      const wasClosing = closing;
       closing = false;
       outsidePointer = undefined;
       trigger = opener;
@@ -239,23 +228,7 @@ export function initDestinationDialogs(
       if (body) body.scrollTop = 0;
       title.focus({ preventScroll: true });
       if (!motionOff()) {
-        const enter = dialog.animate(
-          [
-            {
-              opacity: 0,
-              transform: `translateY(${matchMedia('(max-width: 600px)').matches ? 24 : 12}px)`,
-            },
-            { opacity: 1, transform: 'translateY(0)' },
-          ],
-          { duration: 220, easing: 'cubic-bezier(.23,1,.32,1)' },
-        );
-        animation = enter;
-        void enter.finished.then(
-          () => {
-            if (animation === enter) animation = undefined;
-          },
-          () => {},
-        );
+        if (!wasOpen || wasClosing) void animation.play(true);
       }
     },
     close,
