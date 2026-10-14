@@ -4,11 +4,19 @@ import {
 } from '../utils/camera-transition';
 import type { Destination } from '../components/island/scene-config';
 import { initDestinationDialogs } from './island-dialog';
+import {
+  readExperienceProfile,
+  uiMotionOff,
+  type ExperienceProfile,
+} from '../utils/experience-profile';
 
 const explorers = new WeakMap<HTMLElement, () => void>();
 
 /** Intro gates every landmark; Explore opens shared destination dialogs. */
-export function initIslandExplorer(root: HTMLElement): () => void {
+export function initIslandExplorer(
+  root: HTMLElement,
+  profile: ExperienceProfile = readExperienceProfile(),
+): () => void {
   const existing = explorers.get(root);
   if (existing) return existing;
   const start = root.querySelector<HTMLButtonElement>('[data-start-exploring]');
@@ -42,7 +50,7 @@ export function initIslandExplorer(root: HTMLElement): () => void {
   const links = Array.from(
     root.querySelectorAll<HTMLAnchorElement>('[data-explore-destination]'),
   );
-  const dialogs = initDestinationDialogs(root);
+  const dialogs = initDestinationDialogs(root, profile);
   const originalLinkAttributes = links.map(
     (link) =>
       [
@@ -74,7 +82,11 @@ export function initIslandExplorer(root: HTMLElement): () => void {
     root.removeAttribute('data-camera-transition');
   }
   function motionOff() {
-    return reduce.matches || motion?.dataset.motionPreference === 'off';
+    return uiMotionOff(
+      profile,
+      reduce.matches,
+      motion?.dataset.motionPreference === 'off',
+    );
   }
   function syncMotion() {
     root.toggleAttribute('data-ui-motion-off', motionOff());

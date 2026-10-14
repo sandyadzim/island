@@ -4,6 +4,7 @@ import LighthouseBeam from './LighthouseBeam.astro';
 import IslandClouds from './IslandClouds.astro';
 import IslandBirds from './IslandBirds.astro';
 import IslandControls from './IslandControls.astro';
+import mobileIsland from '../../generated/island/island-mobile.webp?url';
 import { SCENE_ASSETS, SCENE_HEADROOM, STAGE } from './scene-config';
 import '../../styles/island-scene.css';
 ---
@@ -14,31 +15,106 @@ import '../../styles/island-scene.css';
   data-scene-state="static"
   style={`--viewport-ratio:${STAGE.width} / ${STAGE.height + SCENE_HEADROOM};--stage-top:${(SCENE_HEADROOM / (STAGE.height + SCENE_HEADROOM)) * 100}%;--stage-height:${(STAGE.height / (STAGE.height + SCENE_HEADROOM)) * 100}%`}
 >
-  <div class="island-viewport">
-    <div class="island-environment" aria-hidden="true">
-      {SCENE_ASSETS.filter((asset) => asset.id === 'ASSET-00').map((asset) => (
-        <IslandLayer asset={asset} />
-      ))}
-      <canvas class="ocean-water" data-ocean-water></canvas>
-    </div>
-    <div class="island-frame" data-scene-viewport>
-      <div class="island-reveal" aria-hidden="true">
-        <div class="island-responsive-scale">
-          <div class="island-camera">
-            <LighthouseBeam />
-            {SCENE_ASSETS.filter((asset) => asset.id !== 'ASSET-00').map(
-              (asset) => (
-                <IslandLayer asset={asset} />
-              ),
-            )}
-            <IslandClouds />
-            <IslandBirds />
+  <template data-scene-profile="full">
+    <div class="island-viewport">
+      <div class="island-environment" aria-hidden="true">
+        {SCENE_ASSETS.filter((asset) => asset.id === 'ASSET-00').map(
+          (asset) => (
+            <IslandLayer asset={asset} />
+          ),
+        )}
+        <canvas class="ocean-water" data-ocean-water></canvas>
+      </div>
+      <div class="island-frame" data-scene-viewport>
+        <div class="island-reveal" aria-hidden="true">
+          <div class="island-responsive-scale">
+            <div class="island-camera">
+              <LighthouseBeam />
+              {SCENE_ASSETS.filter((asset) => asset.id !== 'ASSET-00').map(
+                (asset) => (
+                  <IslandLayer asset={asset} />
+                ),
+              )}
+              <IslandClouds />
+              <IslandBirds />
+            </div>
           </div>
         </div>
+        <IslandControls />
       </div>
-      <IslandControls />
     </div>
-  </div>
+  </template>
+  <template data-scene-profile="lite">
+    <div class="island-viewport">
+      <div class="island-environment" aria-hidden="true">
+        <img
+          class="island-lite-background"
+          data-lite-background
+          src={SCENE_ASSETS[0].url}
+          width={STAGE.width}
+          height={STAGE.height}
+          alt=""
+          decoding="async"
+          draggable="false"
+        />
+      </div>
+      <div class="island-frame" data-scene-viewport>
+        <img
+          class="island-mobile-art"
+          data-mobile-island
+          src={mobileIsland}
+          width={STAGE.width}
+          height={STAGE.height + SCENE_HEADROOM}
+          alt=""
+          fetchpriority="high"
+          decoding="async"
+          draggable="false"
+        />
+        <IslandControls />
+      </div>
+    </div>
+  </template>
+  <script is:inline>
+    (() => {
+      const root = document.currentScript?.closest('[data-island-scene]');
+      const profile =
+        document.documentElement.dataset.experience === 'full'
+          ? 'full'
+          : 'lite';
+      const template = root?.querySelector(
+        `template[data-scene-profile="${profile}"]`,
+      );
+      if (template) {
+        if (profile === 'lite') root.dataset.sceneState = 'loading';
+        root.prepend(template.content.cloneNode(true));
+        root
+          .querySelectorAll('template[data-scene-profile]')
+          .forEach((node) => node.remove());
+      }
+    })();
+  </script>
+  <noscript>
+    <div class="island-viewport">
+      <div class="island-environment" aria-hidden="true">
+        <img
+          class="island-lite-background"
+          src={SCENE_ASSETS[0].url}
+          width={STAGE.width}
+          height={STAGE.height}
+          alt=""
+        />
+      </div>
+      <div class="island-frame">
+        <img
+          class="island-mobile-art"
+          src={mobileIsland}
+          width={STAGE.width}
+          height={STAGE.height + SCENE_HEADROOM}
+          alt=""
+        />
+      </div>
+    </div>
+  </noscript>
   <figcaption class="scene-caption">
     <p class="sr-only">An island at dusk.</p>
     <p
@@ -50,26 +126,3 @@ import '../../styles/island-scene.css';
     ></p>
   </figcaption>
 </figure>
-
-<script>
-  import { initIslandScene } from '../../scripts/island-controller';
-
-  let disposers: Array<() => void> = [];
-  function initialize() {
-    const motionToggle = document.querySelector<HTMLButtonElement>(
-      '[data-water-motion-toggle]',
-    );
-    disposers = Array.from(
-      document.querySelectorAll<HTMLElement>('[data-island-scene]'),
-      (root) => initIslandScene(root, motionToggle),
-    );
-  }
-  initialize();
-  window.addEventListener('pagehide', () => {
-    disposers.forEach((dispose) => dispose());
-    disposers = [];
-  });
-  window.addEventListener('pageshow', (event) => {
-    if (event.persisted) initialize();
-  });
-</script>

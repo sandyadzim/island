@@ -9,13 +9,15 @@
   inset: 0;
   overflow: hidden;
   isolation: isolate;
-  background: #071a30;
+  background: transparent;
 }
 
 /* The ocean fills the screen independently of the calibrated island stage. */
 .island-environment {
-  position: absolute;
+  position: fixed;
   inset: 0;
+  height: 100lvh;
+  pointer-events: none;
 }
 
 /* Arrival owns CSS-pixel movement outside the source-space scale and camera. */
@@ -499,8 +501,8 @@
     top: calc(
       var(--header-space) + (100% - var(--header-space) - var(--menu-space)) / 2
     );
-    right: 1vw;
-    width: min(65vw, calc(88svh * 1536 / 1056));
+    right: 1%;
+    width: min(65%, calc(88svh * 1536 / 1056));
     max-width: 1536px;
     transform: translateY(-50%);
   }

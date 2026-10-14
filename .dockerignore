@@ -3,6 +3,8 @@
 node_modules
 dist
 .astro
+.qa
+src/generated
 
 # Design/source material not needed to build or serve
 Island.png

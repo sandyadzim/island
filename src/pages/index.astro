@@ -18,29 +18,5 @@ import IslandDestinationDialog from '../components/sections/IslandDestinationDia
 </PortfolioLayout>
 
 <script>
-  import { initHeroReveal } from '../scripts/hero-reveal';
-  import { initIslandExplorer } from '../scripts/island-explorer';
-  import { initIslandMusic } from '../scripts/island-music';
-  let dispose: (() => void) | undefined;
-  function initialize() {
-    const root = document.querySelector<HTMLElement>('.portfolio-shell');
-    if (root) {
-      const disposeHero = initHeroReveal(root);
-      const disposeExplorer = initIslandExplorer(root);
-      const disposeMusic = initIslandMusic(root);
-      dispose = () => {
-        disposeHero();
-        disposeExplorer();
-        disposeMusic();
-      };
-    }
-  }
-  initialize();
-  window.addEventListener('pagehide', () => {
-    dispose?.();
-    dispose = undefined;
-  });
-  window.addEventListener('pageshow', (event) => {
-    if (event.persisted) initialize();
-  });
+  import '../scripts/island-bootstrap';
 </script>

@@ -8,6 +8,10 @@
     "npm": ">=9.6.5"
   },
   "scripts": {
+    "assets:mobile": "node scripts/generate-mobile-island.mjs",
+    "predev": "npm run assets:mobile",
+    "precheck": "npm run assets:mobile",
+    "prebuild": "npm run assets:mobile",
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
@@ -16,8 +20,10 @@
     "lint:fix": "eslint . --fix",
     "format": "prettier . --write",
     "format:check": "prettier . --check",
-    "test": "node --test tests/*.test.ts",
-    "verify:assets": "node tests/verify-assets.mjs"
+    "test": "node --test tests/*.test.ts tests/*.test.mjs",
+    "pretest": "npm run assets:mobile",
+    "preverify:assets": "npm run assets:mobile",
+    "verify:assets": "node tests/verify-assets.mjs && node --test tests/mobile-island.test.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "3.7.4",
@@ -36,6 +42,7 @@
     "globals": "^17.13.0",
     "prettier": "3.9.10",
     "prettier-plugin-astro": "1.1.1",
+    "sharp": "0.35.5",
     "tailwindcss": "4.3.3",
     "typescript": "6.0.3",
     "typescript-eslint": "^8.71.2"

@@ -2,18 +2,17 @@
 import SeoHead from '../components/SeoHead.astro';
 import GoogleAnalyticsLayout from './GoogleAnalyticsLayout.astro';
 import FontPreloads from '../components/FontPreloads.astro';
-import { SCENE_ASSETS } from '../components/island/scene-config';
+import ExperienceGate from '../components/island/ExperienceGate.astro';
 import '../styles/global.css';
 import '../styles/hero-ui.css';
 import '../styles/portfolio.css';
 import '../styles/island-explorer.css';
+import '../styles/island-lite.css';
 ---
 
 <GoogleAnalyticsLayout viewport="width=device-width, initial-scale=1, viewport-fit=cover">
   <Fragment slot="head">
-    {SCENE_ASSETS.filter((asset) => asset.id === 'ASSET-01').map((asset) => (
-      <link rel="preload" href={asset.url} as="image" fetchpriority="high" />
-    ))}
+    <ExperienceGate />
     <FontPreloads />
     <SeoHead page="home" />
   </Fragment>

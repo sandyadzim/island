@@ -1,5 +1,15 @@
+import {
+  readExperienceProfile,
+  uiMotionOff,
+  type ExperienceProfile,
+} from '../utils/experience-profile';
+
 /** Shared, interruptible motion for the homepage's native dialogs. */
-export function initDialogMotion(dialog: HTMLDialogElement, sheet = false) {
+export function initDialogMotion(
+  dialog: HTMLDialogElement,
+  sheet = false,
+  profile: ExperienceProfile = readExperienceProfile(),
+) {
   let animations: Animation[] = [];
 
   function cancel() {
@@ -8,14 +18,14 @@ export function initDialogMotion(dialog: HTMLDialogElement, sheet = false) {
   }
 
   function play(entering: boolean) {
-    if (
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const paused =
       document.querySelector<HTMLElement>('[data-water-motion-toggle]')?.dataset
-        .motionPreference === 'off'
-    ) {
+        .motionPreference === 'off';
+    if (profile === 'lite' ? uiMotionOff(profile, reduced, paused) : paused) {
       cancel();
       return Promise.resolve(true);
     }
-    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
     const mobileSheet = sheet && matchMedia('(max-width: 600px)').matches;
     const styles = getComputedStyle(dialog);
     const backdrop = getComputedStyle(dialog, '::backdrop');

@@ -82,11 +82,12 @@
 }
 [data-explore-mode='explore'] .layout-header {
   position: fixed;
-  inset: 0 0 auto;
+  inset: 0 var(--content-margin) auto;
 }
 @media (min-width: 1100px) and (min-height: 720px) {
   [data-explore-mode='explore'] .layout-header {
-    inset: max(1.5rem, env(safe-area-inset-top)) var(--shell-gutter) auto;
+    inset: max(1.5rem, env(safe-area-inset-top))
+      calc(var(--content-margin) + var(--shell-gutter)) auto;
   }
 }
 [data-explore-mode='explore'] .layout-stage {
@@ -183,8 +184,8 @@
   }
 }
 
-/* Match the stacked layout below the wide desktop composition. */
-@media (max-width: 1099px) {
+/* The stacked layout is the complement of the wide AND tall composition. */
+@media not all and (min-width: 1100px) and (min-height: 720px) {
   .hero-card h1 br {
     display: none;
   }
@@ -215,16 +216,6 @@
   }
   [data-explore-mode='intro'] .island-scene {
     flex: none;
-  }
-}
-
-/* Keep the ocean surface stable while mobile browser chrome expands/collapses. */
-@media (max-width: 1099px) {
-  .island-environment {
-    position: fixed;
-    inset: 0;
-    height: 100lvh;
-    pointer-events: none;
   }
 }
 

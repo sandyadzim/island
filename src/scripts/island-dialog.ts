@@ -1,6 +1,10 @@
 import { initDialogMotion } from './dialog-motion';
 import { DESTINATIONS } from '../components/hero/destinations';
 import type { Destination } from '../components/island/scene-config';
+import {
+  readExperienceProfile,
+  type ExperienceProfile,
+} from '../utils/experience-profile';
 
 type ContentDestination = Exclude<Destination, 'home'>;
 export interface DestinationDialogs {
@@ -13,6 +17,7 @@ export interface DestinationDialogs {
 /** Native focus containment; one modal owns focus, scroll, and its animation. */
 export function initDestinationDialogs(
   root: HTMLElement,
+  profile: ExperienceProfile = readExperienceProfile(),
 ): DestinationDialogs | null {
   const dialog = root.querySelector<HTMLDialogElement>(
     '[data-destination-dialog]',
@@ -35,14 +40,14 @@ export function initDestinationDialogs(
   const reduce = matchMedia('(prefers-reduced-motion: reduce)');
   const motion = root.querySelector<HTMLElement>('[data-water-motion-toggle]');
   let trigger: HTMLElement | undefined;
-  const animation = initDialogMotion(dialog, true);
+  const animation = initDialogMotion(dialog, true, profile);
   let closing = false;
   let disposed = false;
   let outsidePointer: number | undefined;
   let restoreScroll: (() => void) | undefined;
 
   function motionOff() {
-    return motion?.dataset.motionPreference === 'off';
+    return profile === 'full' && motion?.dataset.motionPreference === 'off';
   }
   function cancelAnimation() {
     animation.cancel();
@@ -95,7 +100,7 @@ export function initDestinationDialogs(
   }
   function close() {
     if (!dialog!.open || closing || disposed) return;
-    if (motionOff()) {
+    if (motionOff() || (profile === 'lite' && reduce.matches)) {
       finishClose();
       return;
     }
@@ -227,7 +232,7 @@ export function initDestinationDialogs(
       const body = dialog.querySelector<HTMLElement>('[data-dialog-body]');
       if (body) body.scrollTop = 0;
       title.focus({ preventScroll: true });
-      if (!motionOff()) {
+      if (!motionOff() && !(profile === 'lite' && reduce.matches)) {
         if (!wasOpen || wasClosing) void animation.play(true);
       }
     },

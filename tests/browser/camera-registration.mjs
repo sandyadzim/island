@@ -21,15 +21,13 @@ export async function verifyCameraRegistration(page) {
       };
     };
     const click = (selector) =>
-      document
-        .querySelector(selector)
-        .dispatchEvent(
-          new MouseEvent('click', {
-            bubbles: true,
-            cancelable: true,
-            detail: 1,
-          }),
-        );
+      document.querySelector(selector).dispatchEvent(
+        new MouseEvent('click', {
+          bubbles: true,
+          cancelable: true,
+          detail: 1,
+        }),
+      );
     const settle = async () => {
       await Promise.all(
         frame

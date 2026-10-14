@@ -19,6 +19,7 @@ const socialProfiles = [
 <section class="hero-card" aria-labelledby="hero-title" data-hero-card>
   <script is:inline>
     (() => {
+      if (document.documentElement.dataset.experience !== 'full') return;
       let paused = false;
       try {
         paused = localStorage.getItem('island-water-motion') === 'off';

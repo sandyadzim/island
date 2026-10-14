@@ -344,15 +344,13 @@ export async function verifyHeroReveal(
       { freeze: true },
       async () => {
         await page.evaluate(() =>
-          document
-            .querySelector('[data-start-exploring]')
-            .dispatchEvent(
-              new MouseEvent('click', {
-                bubbles: true,
-                cancelable: true,
-                detail: 1,
-              }),
-            ),
+          document.querySelector('[data-start-exploring]').dispatchEvent(
+            new MouseEvent('click', {
+              bubbles: true,
+              cancelable: true,
+              detail: 1,
+            }),
+          ),
         );
         await final();
         await page.click('[data-back-to-intro]');

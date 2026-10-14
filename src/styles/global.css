@@ -48,10 +48,15 @@ h4 {
 }
 
 .portfolio-shell {
+  --content-max-width: 96rem;
+  --content-margin: max(0px, calc((100vw - var(--content-max-width)) / 2));
   --shell-gutter: clamp(1.25rem, 3.5vw, 3.5rem);
   --header-space: 7rem;
   --menu-space: 9rem;
   position: relative;
+  width: 100%;
+  max-width: var(--content-max-width);
+  margin-inline: auto;
   min-height: 100svh;
   isolation: isolate;
 }
@@ -96,7 +101,7 @@ h4 {
   .layout-stack {
     position: relative;
     z-index: 2;
-    width: min(32vw, 430px);
+    width: min(32%, 430px);
     min-height: 100svh;
     margin: 0 0 0 var(--shell-gutter);
     padding-block: 8rem max(2rem, env(safe-area-inset-bottom));

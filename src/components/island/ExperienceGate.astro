@@ -1,0 +1,23 @@
+---
+import mobileIsland from '../../generated/island/island-mobile.webp?url';
+import { SCENE_ASSETS } from './scene-config';
+import { resolveExperienceProfile } from '../../utils/experience-profile';
+
+const urls = {
+  full: SCENE_ASSETS.find((asset) => asset.id === 'ASSET-01')!.url,
+  lite: mobileIsland,
+};
+const gate = `(() => {
+  const select = ${resolveExperienceProfile.toString()};
+  const profile = select(window.matchMedia?.bind(window));
+  document.documentElement.dataset.experience = profile;
+  const preload = document.createElement('link');
+  preload.rel = 'preload';
+  preload.as = 'image';
+  preload.fetchPriority = 'high';
+  preload.href = ${JSON.stringify(urls)}[profile];
+  document.head.append(preload);
+})();`;
+---
+
+<script is:inline set:html={gate} />

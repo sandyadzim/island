@@ -1,0 +1,35 @@
+/* WAAPI camera/dialog motion is owned explicitly by their controllers. */
+html[data-experience='lite'] .portfolio-shell,
+html[data-experience='lite'] .portfolio-shell *,
+html[data-experience='lite'] .portfolio-shell *::before,
+html[data-experience='lite'] .portfolio-shell *::after {
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto;
+}
+
+html[data-experience='lite'] [data-water-motion-toggle] {
+  display: none !important;
+}
+
+.island-mobile-art {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  user-select: none;
+}
+
+.island-lite-background {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+[data-scene-state='loading'] .island-mobile-art,
+[data-scene-state='error'] .island-mobile-art {
+  visibility: hidden;
+}
